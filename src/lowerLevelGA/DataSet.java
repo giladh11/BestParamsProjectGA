@@ -17,10 +17,15 @@ package lowerLevelGA;
 
 import interpreter.Context;
 import interpreter.Expression;
+import interpreter.Function;
 
 import java.util.LinkedList;
+
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
+
+import static java.util.Collections.list;
 
 
 /**
@@ -28,7 +33,7 @@ import java.util.Map.Entry;
  * will usually be created by SymRegSolverChromosome before hading it out to the SolverGAEngine
  */
 public class DataSet implements ComparableDataSet {
-
+	Random rand = new Random();
 	private List<Point> points = new LinkedList<Point>();
 
 	public DataSet(Point... points) {
@@ -38,11 +43,46 @@ public class DataSet implements ComparableDataSet {
 	}
 
 
-
+	/**
+	 * constuctor that gets a list of points
+	 * @param points
+	 */
 	public DataSet(List<Point> points) {
 		this.points.addAll(points);
 	}
 
+	/**
+	 * constuctor that creates a random data set according to a function and a size
+	 * @param function
+	 * @param size
+     */
+	public DataSet(Expression function, int size) {
+		int numOfPoints = 0;
+		double x, fx;
+		Context context = new Context(DataSet.<Function>list(), list("x"));
+		while(size>0) {
+			x = getRandomValueInRange();//TODO move this from SymregSolver
+			context.setVariable("x", x);
+			fx = function.eval(context);
+			this.addTarget(new Point().when("x", x).setYval(fx));
+			size--;
+		}
+	}
+
+	/**
+	 * See createDataSet
+	 * @return
+	 */
+	public double getRandomValueInRange() {
+		int minimum = -50, maximum = 50;//PARAM
+		double randomNum = minimum + rand.nextInt((maximum - minimum) + 1);
+		return randomNum;
+	}
+
+	/**
+	 * adds a point to the dataset
+	 * @param point
+     */
 	public void addTarget(Point point){
 		this.points.add(point);
 	}
@@ -68,6 +108,14 @@ public class DataSet implements ComparableDataSet {
 
 	private double sqr(double x) {
 		return x * x;
+	}
+
+	private static <T> List<T> list(T... items) {
+		List<T> list = new LinkedList<T>();
+		for (T item : items) {
+			list.add(item);
+		}
+		return list;
 	}
 
 }

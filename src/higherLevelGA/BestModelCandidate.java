@@ -9,6 +9,8 @@ package higherLevelGA;
 
 
 import interpreter.Expression;
+import lowerLevelGA.BlackBoxTree;
+import lowerLevelGA.DistanceMeasurer;
 
 /**
  *
@@ -17,6 +19,8 @@ public class BestModelCandidate {
 
     private Expression bestSyntaxTree;
     private double effort;
+    private double distanceFromBlackBox = -1;
+    private double fitness = -1;
 
     public BestModelCandidate(Expression bestSyntaxTree, double effort) {
         this.bestSyntaxTree = bestSyntaxTree;
@@ -30,10 +34,16 @@ public class BestModelCandidate {
     }
 
 
+    /**
+     * this method will get a blackbox and check its distance from the bestSyntaxTree
+     * PARAM the amount of points is a project parameter
+     * @param blackBox
+     * @return
+     */
+    public double fitnessCalculator(BlackBoxTree blackBox) {
+        distanceFromBlackBox = blackBox.measureDistanceFromCadidate(bestSyntaxTree);
+        return distanceFromBlackBox;
+    }
 
-    //TODO fitness calculator method
-    // - get the black box - checks the distance from it
-    // according to many points and
-    //ADD context to use eval
 
 }

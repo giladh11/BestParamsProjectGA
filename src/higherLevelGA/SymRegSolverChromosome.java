@@ -25,7 +25,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     //Inner parameters
     private SolverGAEngine engine;
     private static  double epsilon = 0.001;
-    Random rand = new Random();
+    Random rand = new Random();//DELETE
 
     public SymRegSolverChromosome(ParamGA paramGA) {
         this.paramGA = paramGA;

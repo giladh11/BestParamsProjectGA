@@ -22,7 +22,7 @@ import interpreter.Expression;
 /**
  * this is a simple class that hold a Dataset and can calcute distance from a given chromosome;
  */
-class DistanceMeasurer implements Fitness<FunctionTreeChromosome, Double> {
+public class DistanceMeasurer implements Fitness<FunctionTreeChromosome, Double> {
 
 	private ComparableDataSet comparableDataSet;
 
@@ -38,6 +38,7 @@ class DistanceMeasurer implements Fitness<FunctionTreeChromosome, Double> {
      */
 	@Override
 	public Double calculate(FunctionTreeChromosome chromosome) {
+		ComparableDataSet comparableDataSet = new DataSet();
 		Expression expression = chromosome.getSyntaxTree();
 		Context context = chromosome.getContext();
 		return this.comparableDataSet.distanceFromExpression(expression, context);
