@@ -52,7 +52,7 @@ public class TestSymRegSolverChromosomesProgram {
 		populationSize=10; initialParentChromosomesSurviveCount=1; pMutation=1; pCrossover=1; dataSetSize=10; maxInitialTreeDepth=1; bloatPenaltyRate=0;
 		paramGA = new ParamGA(populationSize, initialParentChromosomesSurviveCount, pMutation, pCrossover, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);//(int populationSize, int initialParentChromosomesSurviveCount, double pMutation, double pCrossover, int dataSetSize, int maxInitialTreeDepth, int bloatPenaltyRate)
 
-
+		//TODO change idstance to be avarge distance that depends on the amount of points...
 		//*****************************
 		printHelp();
 
@@ -89,9 +89,9 @@ public class TestSymRegSolverChromosomesProgram {
 
 		System.out.println("Options:");
 		System.out.println("Random - create a random black box and run on it");
-		System.out.println("paramGA - will print the current ParamGA used");
-		//System.out.println("setParamGA  - to choose new params for paramGA");//TODO this
-		System.out.println("Rerun - will rerun the last blackBox. when finished will print the results of the pervious runs and the averages");
+		//System.out.println("paramGA - will print the current ParamGA used");//TODO add the other functionality to the program
+		//System.out.println("setParamGA  - to choose new params for paramGA");
+		//System.out.println("Rerun - will rerun the last blackBox. when finished will print the results of the pervious runs and the averages");
 		System.out.println("Help - will print this option menu again");
 		System.out.println("Quit");
 		System.out.println("");
