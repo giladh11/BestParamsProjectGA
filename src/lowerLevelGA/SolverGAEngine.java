@@ -18,6 +18,7 @@ import interpreter.*;
 public class SolverGAEngine {
 
 	private ParamGA paramGA;
+	private double effort = 0;
 
 	private GeneticAlgorithm<FunctionTreeChromosome, Double> environment;
 
@@ -89,7 +90,7 @@ public class SolverGAEngine {
 	 * @param iterationsCount
      */
 	public void evolve(int iterationsCount) {
-		this.environment.evolve(iterationsCount);
+		effort = this.environment.evolve(iterationsCount);
 	}
 
 	/**
@@ -113,8 +114,7 @@ public class SolverGAEngine {
 	 * @return
      */
 	public double getEffortLevelUsedToReachBest() {
-		//TODO getAffortLevelUsedToReachBest
-		return 0;
+		return this.effort;
 	}
 
 	/**
