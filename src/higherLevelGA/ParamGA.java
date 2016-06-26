@@ -1,5 +1,6 @@
 package higherLevelGA;
 
+import evolutionGaTools.Chromosome;
 import interpreter.Functions;
 
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.List;
  * this class represents a GA parameters that will be used by SymRegSolverChromosome and
  * that will develop over time
  */
-public class ParamGA {
+public class ParamGA implements Chromosome<ParamGA> {
     //These are the Chromosome's characteristics parameters
     private double pMutation;
     private double pCrossover;
@@ -113,6 +114,16 @@ public class ParamGA {
             list.add(item);
         }
         return list;
+    }
+
+    @Override
+    public List<ParamGA> crossover(ParamGA anotherChromosome) {
+        return null;
+    }
+
+    @Override
+    public ParamGA mutate() {
+        return null;
     }
 
     //TODO crossover
