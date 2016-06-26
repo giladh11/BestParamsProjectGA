@@ -34,16 +34,12 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     /**
      * Initialize SolverGAEngine for the given dataSet.
      * Assuming fixed genotype for all higher lever GA chromosomes.
-     * TODO make the basic functions a parameter for higher level GA evolution.
      * @param dataSet
      */
     private void setEngine(DataSet dataSet) {
         this.engine = 	new SolverGAEngine(
                 dataSet,
-                // define variables
-                list("x"),
-                // define base functions
-                list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT), paramGA);
+                paramGA);
     }
 
     /**

@@ -48,10 +48,9 @@ public class SolverGAEngine {
 	 * constructor
 	 * @param comparableDataSet
 	 * @param variables
-	 * @param baseFunctions
      */
-	public SolverGAEngine(ComparableDataSet comparableDataSet, Collection<String> variables, List<? extends Function> baseFunctions, ParamGA paramGA) {
-		this.context = new Context(baseFunctions, variables);
+	public SolverGAEngine(ComparableDataSet comparableDataSet, ParamGA paramGA) {
+		this.context = new Context(paramGA.getBaseFunctions(), paramGA.getVariables());
 		this.comparableDataSet = comparableDataSet;
 		this.paramGA = paramGA;
 		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
