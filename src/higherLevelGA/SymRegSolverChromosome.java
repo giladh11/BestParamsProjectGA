@@ -25,10 +25,12 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     //Inner parameters
     private SolverGAEngine engine;
     private static  double epsilon = 0.001;
+    private static List<Functions> baseFunctions;
     Random rand = new Random();
 
-    public SymRegSolverChromosome(ParamGA paramGA) {
+    public SymRegSolverChromosome(ParamGA paramGA, List<Functions> baseFunctions) {
         this.paramGA = paramGA;
+        this.baseFunctions = baseFunctions;
     }
 
     /**
@@ -39,6 +41,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     private void setEngine(DataSet dataSet) {
         this.engine = 	new SolverGAEngine(
                 dataSet,
+                baseFunctions,
                 paramGA);
     }
 
@@ -118,7 +121,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
         SymRegSolverChromosome crossoverSolver;
 
         for(ParamGA paramGA : crossoverParamGA){
-            crossoverSolver = new SymRegSolverChromosome(paramGA);
+            crossoverSolver = new SymRegSolverChromosome(paramGA, baseFunctions);
             crossoverSolvers.add(crossoverSolver);
         }
         return crossoverSolvers;
@@ -133,7 +136,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     @Override
     public SymRegSolverChromosome mutate() {
         ParamGA mutatedParamGA = this.paramGA.mutate();
-        SymRegSolverChromosome mutatedSolver = new SymRegSolverChromosome(mutatedParamGA);
+        SymRegSolverChromosome mutatedSolver = new SymRegSolverChromosome(mutatedParamGA, baseFunctions);
         return mutatedSolver;
     }
 

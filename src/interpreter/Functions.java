@@ -617,16 +617,16 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double arg = childs.get(0).eval(context);
+			List<Expression> children = expression.getChilds();
+			double arg = children.get(0).eval(context);
 			return Math.cos(arg);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
+			List<Expression> children = expression.getChilds();
 
-			String arg = childs.get(0).print();
+			String arg = children.get(0).print();
 
 			return String.format("cos(%s)", arg);
 		}
