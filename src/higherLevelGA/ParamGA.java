@@ -1,7 +1,6 @@
 package higherLevelGA;
 
 import evolutionGaTools.Chromosome;
-import interpreter.Functions;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -34,7 +33,7 @@ public class ParamGA implements Chromosome<ParamGA> {
     private static final List<String> VARIABLES = list("x");
 
 
-    public ParamGA(double pMutation, double pCrossover, int populationSize, int bloatPenaltyRate, int dataSetSize, int initialParentChromosomesSurviveCount, int maxInitialTreeDepth) {
+    public ParamGA(int populationSize, int initialParentChromosomesSurviveCount, double pMutation, double pCrossover, int dataSetSize, int maxInitialTreeDepth, int bloatPenaltyRate) {
         this.pMutation = pMutation;
         this.pCrossover = pCrossover;
         this.populationSize = populationSize;

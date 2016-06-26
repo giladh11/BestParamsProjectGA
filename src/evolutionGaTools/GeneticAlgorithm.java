@@ -106,7 +106,7 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 		}
 
 		for(int i = 0; newPopulation.getSize() < parentPopulationSize ; i++){
-			newPopulation.addChromosome(this.population.getChromosomeByIndex(i));
+			newPopulation.addChromosome(this.population.getChromosomeByIndex(i+this.parentChromosomesSurviveCount));
 			System.out.println("adding old one from parent population");
 		}
 

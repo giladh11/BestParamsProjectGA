@@ -54,7 +54,7 @@ public class HelloSymbolicRegression {
 		List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT);
 
 
-		paramGA = new ParamGA(1,1, 10, 0,10,1,1);//pMutation, pCrossover, populationSize, bloatPenaltyRate, dataSetSize, initialParentChromosomesSurviveCount, maxInitialTreeDepth
+		paramGA = new ParamGA(10, 1, 1,1, 10, 1, 0);//pMutation, pCrossover, populationSize, bloatPenaltyRate, dataSetSize, initialParentChromosomesSurviveCount, maxInitialTreeDepth
 
 		for(int i = 0; i < 15; i++){
 			dataSet.addTarget(new Point().when("x", i).setYval(i*i+10*i));
