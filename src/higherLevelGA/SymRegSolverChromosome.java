@@ -26,6 +26,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     private SolverGAEngine engine;
     private static  double epsilon = 0.001;
     private static List<Functions> baseFunctions;
+    
 
 
     public SymRegSolverChromosome(ParamGA paramGA, List<Functions> baseFunctions) {
