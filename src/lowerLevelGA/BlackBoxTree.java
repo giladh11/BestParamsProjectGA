@@ -2,6 +2,7 @@ package lowerLevelGA;
 
 import interpreter.Context;
 import interpreter.Expression;
+import interpreter.SyntaxTreeUtils;
 
 /**
  * This class represents a black box which encapsulates some function
@@ -18,6 +19,16 @@ public class BlackBoxTree {
 
     /**
      * constructor
+     * @param maxSizeOfRandomTree
+     * @param context
+     */
+    public BlackBoxTree(int maxSizeOfRandomTree, Context context) {
+        this.function =  SyntaxTreeUtils.createTree(maxSizeOfRandomTree, context);
+        this.context = context;
+    }
+
+    /**
+     * constructor
      * @param function
      * @param context
      */
@@ -25,6 +36,8 @@ public class BlackBoxTree {
         this.function = function;
         this.context = context;
     }
+
+
 
     /**
      * simple eval function
