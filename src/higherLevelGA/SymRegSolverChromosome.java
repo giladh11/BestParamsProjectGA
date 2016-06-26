@@ -60,6 +60,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
         addListener(engine);
         engine.evolve(generations);
         BestModelCandidate bestModelCandidate = engine.buildBestModelCandidate();
+        bestModelCandidate.fitnessCalculator(blackBoxTree);
         return bestModelCandidate;
     }
 

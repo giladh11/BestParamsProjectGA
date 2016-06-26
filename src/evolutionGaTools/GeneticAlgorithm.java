@@ -121,8 +121,8 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 	public double evolve(int count) {
 		this.terminate = false;
 		double totalEngineEffort = this.population.getSize();//PARAM EFFORT set the whight for the population in the first generation
-		// IMPROVE GILAD handle tree sizes as well
-
+		// IMPROVE GILAD TODO handle tree sizes as well
+		//IMPROVE TODO handle data set size as well
 		for (int i = 0; i < count; i++) {
 			if (this.terminate) {
 				break;

@@ -245,6 +245,11 @@ public class ParamGA implements Chromosome<ParamGA> {
         return result;
     }
 
+    //TODO ger random paramGA, maybe setter for the paramGA
+
+    //TODO toString
+
+
 
     public static void main(String[] args) {
         ParamGA first = new ParamGA(MIN_POPULATION_SIZE, MIN_ELITISM_SIZE, MIN_MUTATION_PROB, MIN_CROSSOVER_PROB, MIN_DATA_SET_SIZE, MIN_TREE_DEPTH, MIN_BLOAT_PENALTY_RATE);
