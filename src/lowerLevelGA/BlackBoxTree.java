@@ -14,6 +14,7 @@ public class BlackBoxTree {
 
     private Expression function;
     private Context context;
+    private DataSet generalDataSet = null;
 
     /**
      * constructor
@@ -33,6 +34,16 @@ public class BlackBoxTree {
     public double eval(double x){
         context.setVariable("x", x);
         return function.eval(context);
+    }
+
+    /**
+     * this method will mesure the distance from an experssion using the already created general dataset
+     */
+    public double measureDistanceFromCadidate(Expression bestModelExpresion){
+        if(this.generalDataSet == null) { //CHECK this function
+            this.generalDataSet = new DataSet(this.function, 100);//PARAM choose how many points are checked "objectively"
+        }
+        return this.generalDataSet.distanceFromExpression(bestModelExpresion, context);
     }
 
     public void print(){
