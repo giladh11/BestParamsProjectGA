@@ -190,7 +190,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 	/**
 	 * inner class.
 	 * their is an inner GA process happening whole evaluating the FunctionTreeChromosome
-	 * this inner GA is used to find diffrent coefficient
+	 * this inner GA is used to find different coefficient
 	 */
 	private class CoefficientsChromosome implements Chromosome<CoefficientsChromosome>, Cloneable {
 

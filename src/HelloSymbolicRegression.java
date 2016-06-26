@@ -54,7 +54,7 @@ public class HelloSymbolicRegression {
 		List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT);
 
 
-		paramGA = new ParamGA(1,1, 10, 0,10,1,1, baseFunctions);//pMutation, pCrossover, populationSize, bloatPenaltyRate, dataSetSize, initialParentChromosomesSurviveCount, maxInitialTreeDepth
+		paramGA = new ParamGA(1,1, 10, 0,10,1,1);//pMutation, pCrossover, populationSize, bloatPenaltyRate, dataSetSize, initialParentChromosomesSurviveCount, maxInitialTreeDepth
 
 		for(int i = 0; i < 15; i++){
 			dataSet.addTarget(new Point().when("x", i).setYval(i*i+10*i));
@@ -65,7 +65,7 @@ public class HelloSymbolicRegression {
 				new SolverGAEngine(
 						dataSet,
 						// define variables
-						paramGA);
+						baseFunctions, paramGA);
 
 		//addListener(engine);
 
@@ -73,8 +73,8 @@ public class HelloSymbolicRegression {
 		//engine.evolve(200);
 
 		System.out.println("---- Test BlackBox ----");
-		SymRegSolverChromosome symRegSolverChromosome = new SymRegSolverChromosome(paramGA);
-		Context sharedContext = new Context(list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT), list("x"));
+		SymRegSolverChromosome symRegSolverChromosome = new SymRegSolverChromosome(paramGA, baseFunctions);
+		Context sharedContext = new Context(baseFunctions, list("x"));
 		Expression randomTree = SyntaxTreeUtils.createTree(4, sharedContext);
 		BlackBoxTree blackBoxTree = new BlackBoxTree(randomTree, sharedContext);
 

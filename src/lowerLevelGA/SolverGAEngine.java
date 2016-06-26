@@ -1,7 +1,6 @@
 
 package lowerLevelGA;
 
-import java.util.Collection;
 import java.util.List;
 
 import evolutionGaTools.GeneticAlgorithm;
@@ -10,10 +9,7 @@ import evolutionGaTools.IterartionListener;
 import evolutionGaTools.Population;
 import higherLevelGA.BestModelCandidate;
 import higherLevelGA.ParamGA;
-import interpreter.Context;
-import interpreter.Expression;
-import interpreter.Function;
-import interpreter.SyntaxTreeUtils;
+import interpreter.*;
 
 /**
  * this class represents the object that manage the lower level GA
@@ -32,11 +28,12 @@ public class SolverGAEngine {
 
 	/**
 	 * constructor
-	 * @param comparableDataSet
 	 * @param variables
-     */
-	public SolverGAEngine(ComparableDataSet comparableDataSet, ParamGA paramGA) {
-		this.context = new Context(paramGA.getBaseFunctions(), paramGA.getVariables());
+	 * @param comparableDataSet
+	 * @param baseFunctions
+	 */
+	public SolverGAEngine(ComparableDataSet comparableDataSet, List<Functions> baseFunctions, ParamGA paramGA) {
+		this.context = new Context(baseFunctions, paramGA.getVariables());
 		this.comparableDataSet = comparableDataSet;
 		this.paramGA = paramGA;
 		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
