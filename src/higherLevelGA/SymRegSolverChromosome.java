@@ -25,7 +25,6 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     //Inner parameters
     private SolverGAEngine engine;
     private static  double epsilon = 0.001;
-    Random rand = new Random();//DELETE
 
     public SymRegSolverChromosome(ParamGA paramGA) {
         this.paramGA = paramGA;
@@ -42,39 +41,6 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
                 paramGA);
     }
 
-    /**
-     * This method is used by trySolving when setting the engine to some dataset.
-     * @param blackBoxTree
-     * @return DateSet of size this.dataSetSize which contains randomly chosen points
-     *  IMPROVE
-     *     For now, the points are uniformly chosen within a fixed range.
-     *     Better idea is to choose points that best characterize the given black box.
-     */
-    private DataSet createDataSet(BlackBoxTree blackBoxTree){
-        DataSet dataSet = new DataSet();
-        int numOfPoints = 0;
-        double x, fx;
-
-        while(numOfPoints < paramGA.getDataSetSize()){
-            x = getRandomValueInRange();
-            fx = blackBoxTree.eval(x);
-            dataSet.addTarget(new Point().when("x", x).setYval(fx));
-            numOfPoints++;
-        }
-
-        return dataSet;
-
-    }
-
-    /**
-     * See createDataSet
-     * @return
-     */
-    private double getRandomValueInRange() {
-        int minimum = -50, maximum = 50;//PARAM
-        double randomNum = minimum + rand.nextInt((maximum - minimum) + 1);
-        return randomNum;
-    }
 
 
     /**
@@ -84,7 +50,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @return bestModelCandidate
      */
     public BestModelCandidate trySolving(BlackBoxTree blackBoxTree){
-        DataSet dataSet = createDataSet(blackBoxTree);
+        DataSet dataSet = new DataSet(blackBoxTree.getFunction(), paramGA.getDataSetSize());
         setEngine(dataSet);
         addListener(engine);
         engine.evolve(generations);
@@ -109,10 +75,8 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * for crossover operation on its ParamGA.
      * @param symRegSolverChromosome
      * @return List<SymRegSolverChromosome>
-     */
-
-    @Override
-    public List<SymRegSolverChromosome> crossover(SymRegSolverChromosome symRegSolverChromosome) {
+     *///GILADGOOVER
+     public List<SymRegSolverChromosome> crossover(SymRegSolverChromosome symRegSolverChromosome) {
         List<ParamGA> crossoverParamGA = this.paramGA.crossover(symRegSolverChromosome.getParamGA());
         List<SymRegSolverChromosome> crossoverSolvers = new LinkedList<>();
         SymRegSolverChromosome crossoverSolver;
@@ -130,7 +94,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @param
      * @return SymRegSolverChromosome
      */
-    @Override
+    //GILADGOOVER
     public SymRegSolverChromosome mutate() {
         ParamGA mutatedParamGA = this.paramGA.mutate();
         SymRegSolverChromosome mutatedSolver = new SymRegSolverChromosome(mutatedParamGA);

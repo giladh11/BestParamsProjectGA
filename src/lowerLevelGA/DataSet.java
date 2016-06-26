@@ -18,6 +18,7 @@ package lowerLevelGA;
 import interpreter.Context;
 import interpreter.Expression;
 import interpreter.Function;
+import interpreter.Functions;
 
 import java.util.LinkedList;
 
@@ -33,7 +34,7 @@ import static java.util.Collections.list;
  * will usually be created by SymRegSolverChromosome before hading it out to the SolverGAEngine
  */
 public class DataSet implements ComparableDataSet {
-	Random rand = new Random();
+	static Random rand = new Random();
 	private List<Point> points = new LinkedList<Point>();
 
 	public DataSet(Point... points) {
@@ -59,9 +60,9 @@ public class DataSet implements ComparableDataSet {
 	public DataSet(Expression function, int size) {
 		int numOfPoints = 0;
 		double x, fx;
-		Context context = new Context(DataSet.<Function>list(), list("x"));
+		Context context = new Context(list(Functions.CONSTANT), list("x"));
 		while(size>0) {
-			x = getRandomValueInRange();//TODO move this from SymregSolver
+			x = getRandomValueInRange();
 			context.setVariable("x", x);
 			fx = function.eval(context);
 			this.addTarget(new Point().when("x", x).setYval(fx));

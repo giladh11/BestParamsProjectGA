@@ -49,4 +49,12 @@ public class BlackBoxTree {
     public void print(){
         System.out.println(function.print());
     }
+
+    /**
+     * simple getter for the function
+     * @return
+     */
+    public Expression getFunction() {
+        return function;
+    }
 }
