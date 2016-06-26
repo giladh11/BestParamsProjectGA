@@ -16,10 +16,7 @@
 import higherLevelGA.BestModelCandidate;
 import higherLevelGA.ParamGA;
 import higherLevelGA.SymRegSolverChromosome;
-import interpreter.Context;
-import interpreter.Expression;
-import interpreter.Functions;
-import interpreter.SyntaxTreeUtils;
+import interpreter.*;
 import lowerLevelGA.*;
 
 import java.util.LinkedList;
@@ -54,20 +51,21 @@ public class HelloSymbolicRegression {
 		System.out.println("!   !!!          run 1              !!!");
 		dataSet =
 				new DataSet();
+		List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT);
 
-		paramGA = new ParamGA(1,1, 10, 0,10,1,1);//pMutation, pCrossover, populationSize, bloatPenaltyRate, dataSetSize, initialParentChromosomesSurviveCount, maxInitialTreeDepth
+
+		paramGA = new ParamGA(1,1, 10, 0,10,1,1, baseFunctions);//pMutation, pCrossover, populationSize, bloatPenaltyRate, dataSetSize, initialParentChromosomesSurviveCount, maxInitialTreeDepth
 
 		for(int i = 0; i < 15; i++){
 			dataSet.addTarget(new Point().when("x", i).setYval(i*i+10*i));
 		}
 
+
 		engine =
 				new SolverGAEngine(
 						dataSet,
 						// define variables
-						list("x"),
-						// define base functions
-						list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT), paramGA);
+						paramGA);
 
 		//addListener(engine);
 

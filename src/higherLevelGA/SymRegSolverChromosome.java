@@ -34,16 +34,12 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     /**
      * Initialize SolverGAEngine for the given dataSet.
      * Assuming fixed genotype for all higher lever GA chromosomes.
-     * TODO make the basic functions a parameter for higher level GA evolution.
      * @param dataSet
      */
     private void setEngine(DataSet dataSet) {
         this.engine = 	new SolverGAEngine(
                 dataSet,
-                // define variables
-                list("x"),
-                // define base functions
-                list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT), paramGA);
+                paramGA);
     }
 
     /**
@@ -108,14 +104,37 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
         return list;
     }
 
-    @Override
-    public List<SymRegSolverChromosome> crossover(SymRegSolverChromosome symRegSolverChromosome) {
-        return null;
-    }
+    /**
+     * The crossover operation on SymRegSolverChromosome is a wrapper
+     * for crossover operation on its ParamGA.
+     * @param symRegSolverChromosome
+     * @return List<SymRegSolverChromosome>
+     */
 
     @Override
+    public List<SymRegSolverChromosome> crossover(SymRegSolverChromosome symRegSolverChromosome) {
+        List<ParamGA> crossoverParamGA = this.paramGA.crossover(symRegSolverChromosome.getParamGA());
+        List<SymRegSolverChromosome> crossoverSolvers = new LinkedList<>();
+        SymRegSolverChromosome crossoverSolver;
+
+        for(ParamGA paramGA : crossoverParamGA){
+            crossoverSolver = new SymRegSolverChromosome(paramGA);
+            crossoverSolvers.add(crossoverSolver);
+        }
+        return crossoverSolvers;
+    }
+
+    /**
+     * The mutation operation on SymRegSolverChromosome is a wrapper
+     * for mutation operation on its ParamGA.
+     * @param
+     * @return SymRegSolverChromosome
+     */
+    @Override
     public SymRegSolverChromosome mutate() {
-        return null;
+        ParamGA mutatedParamGA = this.paramGA.mutate();
+        SymRegSolverChromosome mutatedSolver = new SymRegSolverChromosome(mutatedParamGA);
+        return mutatedSolver;
     }
 
     public Context getContext() {
@@ -146,6 +165,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     }
 
 
-    //TODO add all the crossover and mutate methods - easy here, will just use the method written in ParamGA
-
+    public ParamGA getParamGA() {
+        return paramGA;
+    }
 }

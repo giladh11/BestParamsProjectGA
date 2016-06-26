@@ -1,18 +1,4 @@
-/*******************************************************************************
- * Copyright 2012 Yuriy Lagodiuk
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+
 package lowerLevelGA;
 
 import java.util.Collection;
@@ -48,10 +34,9 @@ public class SolverGAEngine {
 	 * constructor
 	 * @param comparableDataSet
 	 * @param variables
-	 * @param baseFunctions
      */
-	public SolverGAEngine(ComparableDataSet comparableDataSet, Collection<String> variables, List<? extends Function> baseFunctions, ParamGA paramGA) {
-		this.context = new Context(baseFunctions, variables);
+	public SolverGAEngine(ComparableDataSet comparableDataSet, ParamGA paramGA) {
+		this.context = new Context(paramGA.getBaseFunctions(), paramGA.getVariables());
 		this.comparableDataSet = comparableDataSet;
 		this.paramGA = paramGA;
 		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
