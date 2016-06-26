@@ -43,6 +43,8 @@ public class Expression implements Cloneable {
 		return this.function.print(this);
 	}
 
+	public String toString(){return this.function.print(this);}
+
 	public List<Expression> getChilds() {
 		return this.childs;
 	}

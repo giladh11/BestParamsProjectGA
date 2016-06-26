@@ -46,10 +46,13 @@ public class BlackBoxTree {
         return this.generalDataSet.distanceFromExpression(bestModelExpresion, context);
     }
 
-    public void print(){
-        System.out.println(function.print());
-    }
+//    public void print(){
+//        System.out.println(function.print());
+//    }
 
+    public String toString(){
+        return function.toString();
+    }
     /**
      * simple getter for the function
      * @return

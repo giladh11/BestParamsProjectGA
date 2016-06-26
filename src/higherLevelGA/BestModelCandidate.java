@@ -30,7 +30,7 @@ public class BestModelCandidate {
     //calcs the overall fitness with the effort level
 
     public String toString(){
-        return "Function: " + bestSyntaxTree.print() + "\n" + "Effort: " + effort;
+        return "Function: " + bestSyntaxTree.print() + "\n" +"distance: " + distanceFromBlackBox+ " Effort: " + effort + " fitness: " + fitness;
     }
 
 

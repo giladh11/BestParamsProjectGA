@@ -78,11 +78,10 @@ public class HelloSymbolicRegression {
 		Expression randomTree = SyntaxTreeUtils.createTree(4, sharedContext);
 		BlackBoxTree blackBoxTree = new BlackBoxTree(randomTree, sharedContext);
 
+		System.out.println(" Random function is " + blackBoxTree);
 		BestModelCandidate ans = symRegSolverChromosome.trySolving(blackBoxTree);
-		System.out.println(" Random function is ");
-		blackBoxTree.print();
-		System.out.println(" Best Model ");
-		System.out.println(ans);
+		ans.fitnessCalculator(blackBoxTree);
+		System.out.println("Best Model is "+ans);
 
 //		System.out.println(" Distance: ");
 //
