@@ -76,8 +76,9 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 		this.paramGA = paramGA;
 	}
 
-	public void evolve() {
+	public double evolve() {
 		double x;
+		double effortInThisGeneration = 0;
 		int parentPopulationSize = this.population.getSize();
 
 		Population<C> newPopulation = new Population<C>();
@@ -110,24 +111,29 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 			System.out.println("adding old one from parent population");
 		}
 
+		effortInThisGeneration = newPopulation.getSize();//PARAM EFFORT   IMPROVE handle treesizes as well
 		newPopulation.sortPopulationByFitness(this.chromosomesComparator);
 		newPopulation.trim(parentPopulationSize);
 		this.population = newPopulation;
+		return effortInThisGeneration;
 	}
 
-	public void evolve(int count) {
+	public double evolve(int count) {
 		this.terminate = false;
+		double totalEngineEffort = this.population.getSize();//PARAM EFFORT set the whight for the population in the first generation
+		// IMPROVE GILAD handle tree sizes as well
 
 		for (int i = 0; i < count; i++) {
 			if (this.terminate) {
 				break;
 			}
-			this.evolve();
+			totalEngineEffort += this.evolve();//PARAM EFFORT can set an heavier wieght  for each generation
 			this.iteration = i;
 			for (IterartionListener<C, T> l : this.iterationListeners) {
 				l.update(this);
 			}
 		}
+		return totalEngineEffort;
 	}
 
 	public int getIteration() {
