@@ -40,7 +40,7 @@ public class Population<C extends Chromosome<C>> implements Iterable<C> {
 
 	public C getRandomChromosome() {
 		int numOfChromosomes = this.chromosomes.size();
-		// TODO improve random generator GOOVER
+		// IMPROVE random generator
 		// maybe use pattern strategy ?
 		int indx = this.random.nextInt(numOfChromosomes);
 		return this.chromosomes.get(indx);

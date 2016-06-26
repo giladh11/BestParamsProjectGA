@@ -94,7 +94,7 @@ public class HelloSymbolicRegression {
 //		}
 
 
-//		//*********************************************************   //TODO test the SymRegSolver after Black BOx is implemented
+//		//*********************************************************
 //		System.out.println("!   !!!          run 2              !!!");
 //		//dataSet =
 //				new DataSet();
@@ -102,7 +102,7 @@ public class HelloSymbolicRegression {
 //		//paramGA = new ParamGA(0,0, 5, 0,0,1,1);
 //
 //		SymRegSolverChromosome symRegSolver2 = new SymRegSolverChromosome(paramGA);
-	//	BlackBoxTree blackBoxTree = new BlackBoxTree();//FIXME TAL
+	//	BlackBoxTree blackBoxTree = new BlackBoxTree();
 //		symRegSolver2.trySolving(blackBoxTree);
 //
 ////		//for(int i = 0; i < 15; i++){

@@ -118,22 +118,6 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 		return ret;
 	}
 
-//	@Override DELETE
-//	public double getCrossoverRate() {
-//		return 0;
-//	}
-//
-//	@Override
-//	public double getMutateRate() {
-//		return 0;
-//	}
-//
-//	@Override
-//	public double getBloatPenaltyRate() {
-//		return 0;
-//	}
-
-
 	private Expression getRandomNode(Expression tree) {
 		List<Expression> allNodesOfTree = tree.getAllNodesAsList();
 		int allNodesOfTreeCount = allNodesOfTree.size();
@@ -168,7 +152,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 			population.addChromosome(initialChromosome);
 
 			Fitness<CoefficientsChromosome, Double> fit = new CoefficientsFitness();
-			ParamGA tempParam = new ParamGA(1,1,0,0,0,0,0); //GOOVER optimize tree will use the original setup
+			ParamGA tempParam = new ParamGA(1,1,0,0,0,0,0); //optimize tree will use the original setup
 			GeneticAlgorithm<CoefficientsChromosome, Double> env = new GeneticAlgorithm<FunctionTreeChromosome.CoefficientsChromosome, Double>(population, fit, tempParam );
 
 			env.evolve(iterations);

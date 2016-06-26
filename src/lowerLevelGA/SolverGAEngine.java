@@ -51,7 +51,7 @@ public class SolverGAEngine {
 	 * @param baseFunctions
      */
 	public SolverGAEngine(ComparableDataSet comparableDataSet, Collection<String> variables, List<? extends Function> baseFunctions, ParamGA paramGA) {
-		this.context = new Context(baseFunctions, variables);//TAL could try and put parametrs here
+		this.context = new Context(baseFunctions, variables);
 		this.comparableDataSet = comparableDataSet;
 		this.paramGA = paramGA;
 		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
@@ -60,16 +60,16 @@ public class SolverGAEngine {
 		this.environment.setParentChromosomesSurviveCount(paramGA.getInitialParentChromosomesSurviveCount());
 	}
 
-	//FIXME DELETE lowerLevelGA constructor for problems with example code
-	public SolverGAEngine(ComparableDataSet comparableDataSet, Collection<String> variables, List<? extends Function> baseFunctions) {
-		this.context = new Context(baseFunctions, variables);
-		this.comparableDataSet = comparableDataSet;
-		this.paramGA = null;
-		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
-		Population<FunctionTreeChromosome> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
-		this.environment = new GeneticAlgorithm<FunctionTreeChromosome, Double>(population, distanceMeasurer, paramGA);
-		this.environment.setParentChromosomesSurviveCount(paramGA.getInitialParentChromosomesSurviveCount());
-	}
+	// DELETE lowerLevelGA constructor for problems with example code
+//	public SolverGAEngine(ComparableDataSet comparableDataSet, Collection<String> variables, List<? extends Function> baseFunctions) {
+//		this.context = new Context(baseFunctions, variables);
+//		this.comparableDataSet = comparableDataSet;
+//		this.paramGA = null;
+//		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
+//		Population<FunctionTreeChromosome> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
+//		this.environment = new GeneticAlgorithm<FunctionTreeChromosome, Double>(population, distanceMeasurer, paramGA);
+//		this.environment.setParentChromosomesSurviveCount(paramGA.getInitialParentChromosomesSurviveCount());
+//	}
 
 
 	/**
@@ -108,7 +108,7 @@ public class SolverGAEngine {
      */
 	public void evolve(int iterationsCount) {
 		this.environment.evolve(iterationsCount);
-	}//TODO FIXME make evolve get the parameters for mutate and cross over... the envirment has to get the parametrs, maybe get them using context
+	}
 
 	/**
 	 * return the context

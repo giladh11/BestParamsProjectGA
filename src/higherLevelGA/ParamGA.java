@@ -1,7 +1,8 @@
 package higherLevelGA;
 
 /**
- * //TODO decribe
+ * this class represents a GA parameters that will be used by SymRegSolverChromosome and
+ * that will develop over time
  */
 public class ParamGA {
     //These are the Chromosome's characteristics parameters

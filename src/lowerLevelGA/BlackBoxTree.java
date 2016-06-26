@@ -15,11 +15,21 @@ public class BlackBoxTree {
     private Expression function;
     private Context context;
 
+    /**
+     * constructor
+     * @param function
+     * @param context
+     */
     public BlackBoxTree(Expression function, Context context) {
         this.function = function;
         this.context = context;
     }
 
+    /**
+     * simple eval function
+     * @param x
+     * @return
+     */
     public double eval(double x){
         context.setVariable("x", x);
         return function.eval(context);

@@ -34,7 +34,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     /**
      * Initialize SolverGAEngine for the given dataSet.
      * Assuming fixed genotype for all higher lever GA chromosomes.
-     * IMPROVE make the basic functions a parameter for higher level GA evolution.
+     * TODO make the basic functions a parameter for higher level GA evolution.
      * @param dataSet
      */
     private void setEngine(DataSet dataSet) {
@@ -144,29 +144,6 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
             }
         });
     }
-//    /**FIXME getter here are not correct DELETE
-//     * simple getter for crossover rate
-//     * @return
-//     */
-//    public double getCrossoverRate() {
-//        return paramGA.getCrossoverRate();
-//    }
-//
-//    /**
-//     * simple getter for MutateRate
-//     * @return
-//     */
-//    public double getMutateRate() {
-//        return paramGA.getpMutationRate();
-//    }
-//
-//    /**
-//     * simple getter for BloatPenaltyRate
-//     * @return
-//     */
-//    public double getBloatPenaltyRate() {
-//        return paramGA.getBloatPenaltyRate();
-//    }
 
 
     //TODO add all the crossover and mutate methods - easy here, will just use the method written in ParamGA
