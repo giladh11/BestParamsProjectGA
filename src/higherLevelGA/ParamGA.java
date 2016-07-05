@@ -65,7 +65,7 @@ public class ParamGA implements Chromosome<ParamGA> {
     //Note: this property is static for all instances since only one-variables models are tested.
     private static final List<String> VARIABLES = list("x");
 
-    private Random rand = new Random();
+    private static Random rand = new Random();
 
 
     public ParamGA(int populationSize, int initialParentChromosomesSurviveCount, double pMutation, double pCrossover, int dataSetSize, int maxInitialTreeDepth, double bloatPenaltyRate) {
@@ -144,7 +144,7 @@ public class ParamGA implements Chromosome<ParamGA> {
         ParamGA secondOffspring = null;
 
         try {
-
+            System.out.println("crossover point: " + crossoverPoint);
             firstOffspring = createOffspring(this, anotherChromosome, crossoverPoint);
             secondOffspring = createOffspring(anotherChromosome, this, crossoverPoint);
 
@@ -234,28 +234,71 @@ public class ParamGA implements Chromosome<ParamGA> {
     }
 
 
-    private int getRandomIntegerInRange(int minimum, int maximum) {
+    private static int getRandomIntegerInRange(int minimum, int maximum) {
         int randomNum = minimum + rand.nextInt((maximum - minimum) + 1);
         return randomNum;
     }
 
-    private double getRandomDoubleInRange(double minimum, double maximum) {
+    private static double getRandomDoubleInRange(double minimum, double maximum) {
         double randomNum = rand.nextDouble();
         double result = minimum + (randomNum*(maximum - minimum));
         return result;
     }
 
-    //TODO TAL ger random paramGA, maybe setter for the paramGA
 
-    //TODO toString
+    public static ParamGA getRandomParamGA(){
+        ParamGA randomParamGA = new ParamGA();
+
+        double pMutation = getRandomDoubleInRange(MIN_MUTATION_PROB, MAX_MUTATION_PROB);
+        randomParamGA.pMutation = pMutation;
+
+        double pCrossover = getRandomDoubleInRange(MIN_CROSSOVER_PROB, MAX_CROSSOVER_PROB);
+        randomParamGA.pCrossover = pCrossover;
+
+        int populationSize = getRandomIntegerInRange(MIN_POPULATION_SIZE, MAX_POPULATION_SIZE);
+        randomParamGA.populationSize = populationSize;
+
+        double bloatPenaltyRate = getRandomDoubleInRange(MIN_BLOAT_PENALTY_RATE, MAX_BLOAT_PENALTY_RATE);
+        randomParamGA.bloatPenaltyRate = bloatPenaltyRate;
+
+        int dataSetSize = getRandomIntegerInRange(MIN_DATA_SET_SIZE, MAX_DATA_SET_SIZE);
+        randomParamGA.dataSetSize = dataSetSize;
+
+        int elitism = getRandomIntegerInRange(MIN_ELITISM_SIZE, MAX_ELITISM_SIZE);
+        randomParamGA.initialParentChromosomesSurviveCount = elitism;
+
+        int maxInitialTreeDepth = getRandomIntegerInRange(MIN_TREE_DEPTH, MAX_TREE_DEPTH);
+        randomParamGA.maxInitialTreeDepth = maxInitialTreeDepth;
+
+        return randomParamGA;
+
+    }
+    public String toString(){
+
+        return "ParamGA - pMutation: " +  pMutation + ", "
+                + "pCrossover: " + pCrossover + ", "
+                + "populationSize: " + populationSize + ", "
+                + "bloatPenaltyRate: " + bloatPenaltyRate + ", "
+                + "dateSetSize: " + dataSetSize + ", "
+                + "elitism: " + initialParentChromosomesSurviveCount + "%.";
+
+    }
 
 
 
     public static void main(String[] args) {
-        ParamGA first = new ParamGA(MIN_POPULATION_SIZE, MIN_ELITISM_SIZE, MIN_MUTATION_PROB, MIN_CROSSOVER_PROB, MIN_DATA_SET_SIZE, MIN_TREE_DEPTH, MIN_BLOAT_PENALTY_RATE);
-        ParamGA second = new ParamGA(MAX_POPULATION_SIZE, MAX_ELITISM_SIZE, MAX_MUTATION_PROB, MAX_CROSSOVER_PROB, MAX_DATA_SET_SIZE, MAX_TREE_DEPTH, MAX_BLOAT_PENALTY_RATE);
+//        ParamGA first = new ParamGA(MIN_POPULATION_SIZE, MIN_ELITISM_SIZE, MIN_MUTATION_PROB, MIN_CROSSOVER_PROB, MIN_DATA_SET_SIZE, MIN_TREE_DEPTH, MIN_BLOAT_PENALTY_RATE);
+//        ParamGA second = new ParamGA(MAX_POPULATION_SIZE, MAX_ELITISM_SIZE, MAX_MUTATION_PROB, MAX_CROSSOVER_PROB, MAX_DATA_SET_SIZE, MAX_TREE_DEPTH, MAX_BLOAT_PENALTY_RATE);
+        ParamGA first = getRandomParamGA();
+        ParamGA second = getRandomParamGA();
+        List<ParamGA> offspring = first.crossover(second);
+        System.out.println("Parents: ");
+        System.out.println("Parent1: " + first);
+        System.out.println("Parent2: " + second);
+        System.out.println("offspring:");
+        for (ParamGA off: offspring)
+            System.out.println(off);
 
-        List<ParamGA> offsprings = first.crossover(second);
 
 
 
