@@ -38,6 +38,11 @@ public class Population<C extends Chromosome<C>> implements Iterable<C> {
 		return this.chromosomes.size();
 	}
 
+	/**
+	 * returns a random chromosome for population,
+	 * used by the cross over operator
+	 * @return
+     */
 	public C getRandomChromosome() {
 		int numOfChromosomes = this.chromosomes.size();
 		// IMPROVE random generator
@@ -46,10 +51,19 @@ public class Population<C extends Chromosome<C>> implements Iterable<C> {
 		return this.chromosomes.get(indx);
 	}
 
+	/**
+	 * simple getter
+	 * @param indx
+	 * @return
+     */
 	public C getChromosomeByIndex(int indx) {
 		return this.chromosomes.get(indx);
 	}
 
+	/**
+	 * sorting the collection of chromosomes, used to choose the best candidates for the next generation
+	 * @param chromosomesComparator
+     */
 	public void sortPopulationByFitness(Comparator<C> chromosomesComparator) {
 		Collections.shuffle(this.chromosomes);
 		Collections.sort(this.chromosomes, chromosomesComparator);

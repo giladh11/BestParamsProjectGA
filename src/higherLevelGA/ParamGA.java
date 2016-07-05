@@ -24,7 +24,7 @@ public class ParamGA implements Chromosome<ParamGA> {
     private double bloatPenaltyRate;//IMPROVE too complicated now
     private int dataSetSize;
 
-    private int initialParentChromosomesSurviveCount;//1
+    private int initialParentChromosomesSurviveCount;//1 TODO maybe turn to precentage and join with pmutation and p cross over
 
     private int maxInitialTreeDepth;//1
 
@@ -245,7 +245,7 @@ public class ParamGA implements Chromosome<ParamGA> {
         return result;
     }
 
-    //TODO ger random paramGA, maybe setter for the paramGA
+    //TODO TAL ger random paramGA, maybe setter for the paramGA
 
     //TODO toString
 
