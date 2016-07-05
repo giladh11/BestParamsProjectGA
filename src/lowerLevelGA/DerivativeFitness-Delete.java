@@ -16,7 +16,7 @@
 //package lowerLevelGA;
 //
 //import interpreter.Context;
-//import interpreter.Expression;
+//import interpreter.StringBasedExpression;
 //
 //public abstract class DerivativeFitness implements ComparableDataSet {
 //
@@ -31,7 +31,7 @@
 //	public abstract double f(double x);
 //
 ////DELETE i dont think anybody is using this method:)
-//	public double distanceFromExpression(Expression expression, Context context) {
+//	public double distanceFromExpression(StringBasedExpression expression, Context context) {
 //		double delt = 0;
 //		int d = 3/0;
 //		for (double x = this.left; x <= this.right; x += this.step) {

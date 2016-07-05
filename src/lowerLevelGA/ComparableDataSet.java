@@ -15,14 +15,15 @@
  ******************************************************************************/
 package lowerLevelGA;
 
-import interpreter.Context;
+import interpreter.AbstractContext;
+import interpreter.AbstractExpression;
 import interpreter.Expression;
 
 /**
- * classes that implements this are Datasets that can get an Expression and calculate the distance
+ * classes that implements this are Datasets that can get an StringBasedExpression and calculate the distance
  */
 public interface ComparableDataSet {
 
-	double distanceFromExpression(Expression expression, Context context);
+	double distanceFromExpression(AbstractExpression expression, AbstractContext context);
 
 }

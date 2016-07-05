@@ -1,8 +1,6 @@
 package lowerLevelGA;
 
-import interpreter.Context;
-import interpreter.Expression;
-import interpreter.SyntaxTreeUtils;
+import interpreter.*;
 
 /**
  * This class represents a black box which encapsulates some function
@@ -13,10 +11,16 @@ import interpreter.SyntaxTreeUtils;
  */
 public class BlackBoxTree {
 
-    private Expression function;
-    private Context context;
+    //private Expression function;
+    private AbstractContext context;
     private DataSet generalDataSet = null;
+    private AbstractExpression function;
 
+    public BlackBoxTree(String expression){
+        function = new CustomExpression(expression);
+        context = new CustomContext();
+
+    }
     /**
      * constructor
      * @param maxSizeOfRandomTree
@@ -50,14 +54,14 @@ public class BlackBoxTree {
     }
 
     /**
-     * this is used to determinve the OBJECTIVE distance!!
-     * this method will mesure the distance from an experssion using the already created general dataset.
+     * this is used to determine the OBJECTIVE distance!!
+     * this method will measure the distance from an expression using the already created general dataset.
      */
-    public double measureDistanceFromCadidate(Expression bestModelExpresion){
+    public double measureDistanceFromCandidate(Expression bestModelExpression){
         if(this.generalDataSet == null) { //CHECK this function
             this.generalDataSet = new DataSet(this.function, 100);//PARAM choose how many points are checked "objectively"
         }
-        return this.generalDataSet.distanceFromExpression(bestModelExpresion, context);
+        return this.generalDataSet.distanceFromExpression(bestModelExpression, context);
     }
 
 //    public void print(){
@@ -76,7 +80,7 @@ public class BlackBoxTree {
      * simple getter for the function
      * @return
      */
-    public Expression getFunction() {
+    public AbstractExpression getFunction() {
         return function;
     }
 }

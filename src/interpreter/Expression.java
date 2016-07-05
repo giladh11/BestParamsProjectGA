@@ -26,7 +26,7 @@ import java.util.List;
  * defines the basic structure of the trees used
  *
  */
-public class Expression implements Cloneable {
+public class Expression implements Cloneable, AbstractExpression {
 
 	private List<Expression> childs = new ArrayList<Expression>();
 
@@ -40,8 +40,9 @@ public class Expression implements Cloneable {
 		this.function = function;
 	}
 
-	public double eval(Context context) {
-		return this.function.eval(this, context);
+	@Override
+	public double eval(AbstractContext context) {
+		return this.function.eval(this, (Context)context);
 	}
 
 	public String print() {
