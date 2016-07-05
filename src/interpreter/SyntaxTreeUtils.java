@@ -17,8 +17,17 @@ package interpreter;
 
 import java.util.List;
 
+/**
+ * this class holds method to create and manipulte function trees
+ */
 public class SyntaxTreeUtils {
 
+	/**
+	 * creates a new tree using the context
+	 * @param depth
+	 * @param context
+     * @return
+     */
 	public static Expression createTree(int depth, Context context) {
 		if (depth > 0) {
 
@@ -76,6 +85,11 @@ public class SyntaxTreeUtils {
 		}
 	}
 
+	/**
+	 * make the tree a bit smaller in a random way??
+	 * @param tree
+	 * @param context
+     */
 	public static void simplifyTree(Expression tree, Context context) {
 		if (hasVariableNode(tree)) {
 			for (Expression child : tree.getChilds()) {
@@ -95,6 +109,12 @@ public class SyntaxTreeUtils {
 		}
 	}
 
+	/**
+	 * cut on leaf of the tree
+	 * @param tree
+	 * @param context
+	 * @param depth
+     */
 	public static void cutTree(Expression tree, Context context, int depth) {
 		if (depth > 0) {
 			for (Expression child : tree.getChilds()) {
@@ -113,6 +133,11 @@ public class SyntaxTreeUtils {
 		}
 	}
 
+	/**
+	 * simple checker
+	 * @param tree
+	 * @return
+     */
 	public static boolean hasVariableNode(Expression tree) {
 		boolean ret = false;
 

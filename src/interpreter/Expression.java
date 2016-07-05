@@ -21,6 +21,10 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * defines the basic structure of the trees used
+ * TODO GILAD get what the fuck happens here
+ */
 public class Expression implements Cloneable {
 
 	private List<Expression> childs = new ArrayList<Expression>();

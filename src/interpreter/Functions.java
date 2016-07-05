@@ -19,7 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-
+/**
+ * TODO GILAD get what the fuck happens here
+ */
 public enum Functions implements Function {
 
 	CONSTANT {

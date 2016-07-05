@@ -108,7 +108,8 @@ public class Context {
 	// }
 
 	/**
-	 * what???
+	 * return the next nonterminalfunction
+	 * if it got to the end of the list it mixes them again and resets the index counter
 	 * @return
      */
 	private Function roundRobinFunctionSelection() {
@@ -120,16 +121,28 @@ public class Context {
 		return this.nonTerminalFunctions.get(this.nextRndFunctionIndx++);
 	}
 
+	/**
+	 * returns a random terminal
+	 * @return
+     */
 	public Function getRandomTerminalFunction() {
 		int indx = this.random.nextInt(this.terminalFunctions.size());
 		Function f = this.terminalFunctions.get(indx);
 		return f;
 	}
 
+	/**
+	 * simple gertter for the collection of terminal functions
+	 * @return
+     */
 	public List<Function> getTerminalFunctions() {
 		return this.terminalFunctions;
 	}
 
+	/**
+	 * simpke random getter
+	 * @return
+     */
 	public String getRandomVariableName() {
 		int indx = this.random.nextInt(this.variables.keySet().size());
 		int i = 0;
@@ -143,6 +156,10 @@ public class Context {
 		return this.variables.keySet().iterator().next();
 	}
 
+	/**
+	 * provides a random value between this.maxValue - this.minValue
+	 * @return
+     */
 	public double getRandomValue() {
 		return (this.random.nextDouble() * (this.maxValue - this.minValue)) + this.minValue;
 	}
@@ -151,6 +168,10 @@ public class Context {
 		return (this.random.nextDouble() * (this.maxMutationValue - this.minMutationValue)) + this.minMutationValue;
 	}
 
+	/**
+	 * simple checker
+	 * @return
+     */
 	public boolean hasVariables() {
 		return !this.variables.isEmpty();
 	}

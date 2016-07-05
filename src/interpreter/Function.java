@@ -17,6 +17,9 @@ package interpreter;
 
 import java.util.List;
 
+/**
+ * TODO GILAD get what the fuck happens here
+ */
 public interface Function {
 
 	double eval(Expression expression, Context context);
