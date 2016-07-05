@@ -22,8 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * dont really get this!!
  * defines the basic structure of the trees used
- * TODO GILAD get what the fuck happens here
+ *
  */
 public class Expression implements Cloneable {
 
@@ -53,56 +54,104 @@ public class Expression implements Cloneable {
 		return this.childs;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param childs
+	 * @return
+     */
 	public Expression setChilds(List<Expression> childs) {
 		this.childs = childs;
 		return this;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param child
+     */
 	public void addChild(Expression child) {
 		this.childs.add(child);
 	}
 
+	/**
+	 * dont really get this!!
+	 */
 	public void removeChilds() {
 		this.childs.clear();
 	}
 
+	/**
+	 * dont really get this!!
+	 * @return
+     */
 	public List<Double> getCoefficientsOfNode() {
 		return this.coefficients;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param coefficients
+	 * @return
+     */
 	public Expression setCoefficientsOfNode(List<Double> coefficients) {
 		this.coefficients = coefficients;
 		return this;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param coefficient
+     */
 	public void addCoefficient(double coefficient) {
 		this.coefficients.add(coefficient);
 	}
 
+	/**
+	 * dont really get this!!
+	 */
 	public void removeCoefficients() {
 		if (this.coefficients.size() > 0) {
 			this.coefficients.clear();
 		}
 	}
 
+	/**
+	 * dont really get this!!
+	 * @return
+     */
 	public String getVariable() {
 		return this.variable;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param variable
+	 * @return
+     */
 	public Expression setVariable(String variable) {
 		this.variable = variable;
 		return this;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @return
+     */
 	public Function getFunction() {
 		return this.function;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param function
+     */
 	public void setFunction(Function function) {
 		this.function = function;
 	}
 
-	@Override
+	/**
+	 * dont really get this!!
+	 * @return
+     */
 	public Expression clone() {
 		Expression cloned = new Expression(this.function);
 		if (this.variable != null) {
@@ -117,6 +166,10 @@ public class Expression implements Cloneable {
 		return cloned;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @return
+     */
 	public List<Double> getCoefficientsOfTree() {
 		LinkedList<Double> coefficients = new LinkedList<Double>();
 		this.getCoefficientsOfTree(coefficients);
@@ -124,6 +177,10 @@ public class Expression implements Cloneable {
 		return coefficients;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param coefficients
+     */
 	private void getCoefficientsOfTree(Deque<Double> coefficients) {
 		List<Double> coeffs = this.function.getCoefficients(this);
 		for (Double d : coeffs) {
@@ -134,10 +191,20 @@ public class Expression implements Cloneable {
 		}
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param coefficients
+     */
 	public void setCoefficientsOfTree(List<Double> coefficients) {
 		this.setCoefficientsOfTree(coefficients, 0);
 	}
 
+	/**
+	 * dont really get this!!
+	 * @param coefficients
+	 * @param index
+     * @return
+     */
 	private int setCoefficientsOfTree(List<Double> coefficients, int index) {
 		this.function.setCoefficients(this, coefficients, index);
 		index += this.function.coefficientsCount();
@@ -149,6 +216,10 @@ public class Expression implements Cloneable {
 		return index;
 	}
 
+	/**
+	 * dont really get this!!
+	 * @return
+     */
 	public List<Expression> getAllNodesAsList() {
 		List<Expression> nodes = new LinkedList<Expression>();
 		this.getAllNodesBreadthFirstSearch(nodes);
@@ -156,6 +227,7 @@ public class Expression implements Cloneable {
 	}
 
 	/**
+	 * dont really get this!!
 	 * non-recursive Breadth-first iteration over all node of syntax tree
 	 */
 	private void getAllNodesBreadthFirstSearch(List<Expression> nodesList) {

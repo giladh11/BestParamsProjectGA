@@ -29,10 +29,10 @@ public class SolverGAEngine {
 
 	/**
 	 * constructor
-	 * @param variables
 	 * @param comparableDataSet
 	 * @param baseFunctions
-	 */
+	 * @param paramGA
+     */
 	public SolverGAEngine(ComparableDataSet comparableDataSet, List<Functions> baseFunctions, ParamGA paramGA) {
 		this.context = new Context(baseFunctions, paramGA.getVariables());
 		this.comparableDataSet = comparableDataSet;
@@ -135,9 +135,9 @@ public class SolverGAEngine {
 		return this.environment.getIteration();
 	}
 
-	public void setParentsSurviveCount(int n) {
-		this.environment.setParentChromosomesSurviveCount(n);
-	}
+//	public void setParentsSurviveCount(int n) { // DELETE
+//		this.environment.setParentChromosomesSurviveCount(n);
+//	}
 
 
 	/**

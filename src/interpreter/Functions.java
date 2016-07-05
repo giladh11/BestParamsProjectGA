@@ -20,7 +20,7 @@ import java.util.List;
 
 
 /**
- * TODO GILAD get what the fuck happens here
+ * this class implemments the different basic functions that can be used
  */
 public enum Functions implements Function {
 

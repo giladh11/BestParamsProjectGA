@@ -75,7 +75,7 @@ public class DataSet implements ComparableDataSet {
 	 * @return
 	 */
 	public double getRandomValueInRange() {
-		int minimum = -50, maximum = 50;//PARAM
+		int minimum = -50, maximum = 50;//PARAM getRandomValueInRange() for the chosing of x values of the data sets
 		double randomNum = minimum + rand.nextInt((maximum - minimum) + 1);
 		return randomNum;
 	}
@@ -89,9 +89,15 @@ public class DataSet implements ComparableDataSet {
 	}
 
 
-	@Override
+	/**
+	 * calculate the average distance from expression
+	 * @param expression
+	 * @param context
+     * @return diff/num average distance
+     */
 	public double distanceFromExpression(Expression expression, Context context) {
 		double diff = 0;
+		int num = 0;
 
 		for (Point point : this.points) {
 			for (Entry<String, Double> e : point.getContextState().entrySet()) {
@@ -102,15 +108,25 @@ public class DataSet implements ComparableDataSet {
 			double targetValue = point.getYval();
 			double calculatedValue = expression.eval(context);
 			diff += this.sqr(targetValue - calculatedValue);
+			num++;
 		}
 
-		return diff;
+		return diff/num;//average distance
+	}
+
+	//simple abs math function
+	private double abs(double x) {
+		if (x>0)
+			return x;
+		else
+			return -x;
 	}
 
 	private double sqr(double x) {
 		return x * x;
 	}
 
+	//simple list data structure
 	private static <T> List<T> list(T... items) {
 		List<T> list = new LinkedList<T>();
 		for (T item : items) {

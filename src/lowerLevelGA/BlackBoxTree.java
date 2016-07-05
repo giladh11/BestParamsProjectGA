@@ -6,10 +6,10 @@ import interpreter.SyntaxTreeUtils;
 
 /**
  * This class represents a black box which encapsulates some function
- * using syntax tree.
+ *      using a syntax tree.
  * This function is used as the target function for the lower level GA evolution.
  * Each SymRegSolverChromosome can request the evaluation of the function on a given
- * value of x.
+ *      value of x.
  */
 public class BlackBoxTree {
 
@@ -50,7 +50,8 @@ public class BlackBoxTree {
     }
 
     /**
-     * this method will mesure the distance from an experssion using the already created general dataset
+     * this is used to determinve the OBJECTIVE distance!!
+     * this method will mesure the distance from an experssion using the already created general dataset.
      */
     public double measureDistanceFromCadidate(Expression bestModelExpresion){
         if(this.generalDataSet == null) { //CHECK this function
@@ -63,9 +64,14 @@ public class BlackBoxTree {
 //        System.out.println(function.print());
 //    }
 
+    /**
+     * simple toString
+     * @return
+     */
     public String toString(){
         return function.toString();
     }
+
     /**
      * simple getter for the function
      * @return

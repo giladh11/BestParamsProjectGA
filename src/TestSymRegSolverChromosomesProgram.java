@@ -24,7 +24,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ * a main function that allows to check the implementation of the lower level
+ */
 public class TestSymRegSolverChromosomesProgram {
 
 	private static double epsilon = 0.001;

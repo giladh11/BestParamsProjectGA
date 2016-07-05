@@ -18,7 +18,7 @@ package interpreter;
 import java.util.List;
 
 /**
- * TODO GILAD get what the fuck happens here
+ * dont really get this!!
  */
 public interface Function {
 

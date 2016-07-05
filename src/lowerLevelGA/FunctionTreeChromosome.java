@@ -30,6 +30,10 @@ import interpreter.Expression;
 import interpreter.Function;
 import interpreter.SyntaxTreeUtils;
 
+/**
+ * this class represents a possible solution for a certain blackBox -
+ * 			meaning if every generation of the lower GA there are a lot of these
+ */
 class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 
 	private Expression syntaxTree;
@@ -118,6 +122,11 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 		return ret;
 	}
 
+	/**
+	 * random node used for the cross over
+	 * @param tree
+	 * @return
+     */
 	private Expression getRandomNode(Expression tree) {
 		List<Expression> allNodesOfTree = tree.getAllNodesAsList();
 		int allNodesOfTreeCount = allNodesOfTree.size();
@@ -125,6 +134,11 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 		return allNodesOfTree.get(indx);
 	}
 
+	/**
+	 * swap one node with a different one - for mutattion
+	 * @param oldNode
+	 * @param newNode
+     */
 	private void swapNode(Expression oldNode, Expression newNode) {
 		oldNode.setChilds(newNode.getChilds());
 		oldNode.setFunction(newNode.getFunction());
@@ -132,10 +146,17 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 		oldNode.setVariable(newNode.getVariable());
 	}
 
+	/**
+	 * creates the process of moving the function on the graph using evolution the shift coefficient
+	 */
 	public void optimizeTree() {
 		this.optimizeTree(70);
 	}
 
+	/**
+	 * creates the process of moving the function on the graph using evolution the shift coefficient
+	 * @param iterations
+     */
 	public void optimizeTree(int iterations) {
 
 		SyntaxTreeUtils.cutTree(this.syntaxTree, this.context, 6);

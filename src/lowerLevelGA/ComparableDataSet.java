@@ -19,7 +19,7 @@ import interpreter.Context;
 import interpreter.Expression;
 
 /**
- * classes that implenets this are Datasets that can get an Expression
+ * classes that implements this are Datasets that can get an Expression and calculate the distance
  */
 public interface ComparableDataSet {
 
