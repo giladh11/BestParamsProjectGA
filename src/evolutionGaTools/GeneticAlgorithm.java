@@ -68,9 +68,9 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 
 	private boolean terminate = false;
 
-	// number of parental chromosomes, which survive (and move to new
+	// Percentage of parental chromosomes, which survive (and move to new
 	// population)
-	private int parentChromosomesSurviveCount = ALL_PARENTAL_CHROMOSOMES;
+	private double parentSurviveRate = 1;
 
 	private int iteration = 0;
 
@@ -89,8 +89,12 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 
 		Population<C> newPopulation = new Population<C>();
 
+		//GILAD GOOVER
+		//
+		int parentSurviveCount = (int) Math.floor(this.parentSurviveRate*population.getSize());
+
 		//going for next generation
-		for (int i = 0; (i < parentPopulationSize) && (i < this.parentChromosomesSurviveCount); i++) {
+		for (int i = 0; (i < parentPopulationSize) && (i < parentSurviveCount); i++) {
 			newPopulation.addChromosome(this.population.getChromosomeByIndex(i));
 		}
 
@@ -117,7 +121,7 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 
 		//if next generation is too small adds the best ones from previous gen that warnt chosen before
 		for(int i = 0; newPopulation.getSize() < parentPopulationSize ; i++){
-			newPopulation.addChromosome(this.population.getChromosomeByIndex(i+this.parentChromosomesSurviveCount));
+			newPopulation.addChromosome(this.population.getChromosomeByIndex(i + parentSurviveCount));
 			System.out.println("adding old one from parent population");
 		}
 
@@ -166,12 +170,12 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 		return this.population.getChromosomeByIndex(this.population.getSize() - 1);
 	}
 
-	public void setParentChromosomesSurviveCount(int parentChromosomesCount) {
-		this.parentChromosomesSurviveCount = parentChromosomesCount;
+	public void setParentSurviveRate(double parentChromosomesCount) {
+		this.parentSurviveRate = parentChromosomesCount;
 	}
 
-	public int getParentChromosomesSurviveCount() {
-		return this.parentChromosomesSurviveCount;
+	public double getParentSurviveRate() {
+		return this.parentSurviveRate;
 	}
 
 	public void addIterationListener(IterartionListener<C, T> listener) {
