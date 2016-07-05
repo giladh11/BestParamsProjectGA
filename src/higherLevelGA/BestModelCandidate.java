@@ -10,7 +10,6 @@ package higherLevelGA;
 
 import interpreter.Expression;
 import lowerLevelGA.BlackBoxTree;
-import lowerLevelGA.DistanceMeasurer;
 
 /**
  *
@@ -41,7 +40,7 @@ public class BestModelCandidate {
      * @return
      */
     public double fitnessCalculator(BlackBoxTree blackBox) {
-        distanceFromBlackBox = blackBox.measureDistanceFromCadidate(bestSyntaxTree);
+        distanceFromBlackBox = blackBox.measureDistanceFromCandidate(bestSyntaxTree);
         return distanceFromBlackBox;
     }
 

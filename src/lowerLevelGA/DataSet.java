@@ -15,18 +15,13 @@
  ******************************************************************************/
 package lowerLevelGA;
 
-import interpreter.Context;
-import interpreter.Expression;
-import interpreter.Function;
-import interpreter.Functions;
+import interpreter.*;
 
 import java.util.LinkedList;
 
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
-
-import static java.util.Collections.list;
 
 
 /**
@@ -37,7 +32,7 @@ public class DataSet implements ComparableDataSet {
 	static Random rand = new Random();
 	private List<Point> points = new LinkedList<Point>();
 
-	public DataSet(Point... points) {
+	public DataSet(AbstractExpression function, int i, Point... points) {
 		for (Point point : points) {
 			this.points.add(point);
 		}
@@ -70,6 +65,10 @@ public class DataSet implements ComparableDataSet {
 		}
 	}
 
+	public DataSet() {
+
+	}
+
 	/**
 	 * See createDataSet
 	 * @return
@@ -95,7 +94,7 @@ public class DataSet implements ComparableDataSet {
 	 * @param context
      * @return diff/num average distance
      */
-	public double distanceFromExpression(Expression expression, Context context) {
+	public double distanceFromExpression(AbstractExpression expression, AbstractContext context) {
 		double diff = 0;
 		int num = 0;
 

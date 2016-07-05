@@ -29,7 +29,7 @@ import java.util.Random;
  * it holds the value of the variable (x) in the trees - meaning if you want to evaluate the value of
  * 						a tree function for a specific x you have to set it in the context
  */
-public class Context {
+public class Context implements AbstractContext{
 
 	private Random random = new Random();
 
