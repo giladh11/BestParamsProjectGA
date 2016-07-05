@@ -40,7 +40,7 @@ public class SolverGAEngine {
 		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
 		Population<FunctionTreeChromosome> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
 		this.environment = new GeneticAlgorithm<FunctionTreeChromosome, Double>(population, distanceMeasurer, paramGA);
-		this.environment.setParentSurviveRate(paramGA.getInitialParentSurviveRate());
+		this.environment.setParentSurviveRate(paramGA.getpParentSurviveRate());
 	}
 
 	// DELETE lowerLevelGA constructor for problems with example code
@@ -51,7 +51,7 @@ public class SolverGAEngine {
 //		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
 //		Population<FunctionTreeChromosome> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
 //		this.environment = new GeneticAlgorithm<FunctionTreeChromosome, Double>(population, distanceMeasurer, paramGA);
-//		this.environment.setParentSurviveRate(paramGA.getInitialParentSurviveRate());
+//		this.environment.setParentSurviveRate(paramGA.getpParentSurviveRate());
 //	}
 
 

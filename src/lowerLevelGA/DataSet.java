@@ -107,24 +107,18 @@ public class DataSet implements ComparableDataSet {
 			}
 			double targetValue = point.getYval();
 			double calculatedValue = expression.eval(context);
-			diff += this.sqr(targetValue - calculatedValue);
+			diff += Math.abs(targetValue - calculatedValue);
 			num++;
 		}
 
 		return diff/num;//average distance
 	}
 
-	//simple abs math function
-	private double abs(double x) {
-		if (x>0)
-			return x;
-		else
-			return -x;
-	}
 
-	private double sqr(double x) {
-		return x * x;
-	}
+
+//	private double sqr(double x) {
+//		return x * x;
+//	}
 
 	//simple list data structure
 	private static <T> List<T> list(T... items) {

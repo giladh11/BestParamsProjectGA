@@ -70,10 +70,27 @@ public class Population<C extends Chromosome<C>> implements Iterable<C> {
 	}
 
 	/**
+	 * shuffles the population
+	 */
+	public void shufflePopulation() {
+		Collections.shuffle(this.chromosomes);
+	}
+
+	/**
 	 * shortening population till specific number
 	 */
 	public void trim(int len) {
 		this.chromosomes = this.chromosomes.subList(0, len);
+	}
+
+	/**
+	 * toString
+	 * @return
+     */
+	public String toString() {
+//		StringBuilder s = new StringBuilder();
+//		for (int i = 0; i<)
+		return chromosomes.toString();
 	}
 
 	@Override

@@ -13,9 +13,13 @@ import java.util.Random;
  */
 public class ParamGA implements Chromosome<ParamGA> {
     //These are the Chromosome's characteristics parameters
-    private double pMutation;
-    private double pCrossover;
+
     private int populationSize;
+    //chromosome from the previous population.
+    private double pParentSurviveRate;
+    private double pCrossover;
+    private double pMutation;
+
 
 
     //This parameter defines the measure of fitnessMeasureShouldNotBeUsed deduction
@@ -23,9 +27,7 @@ public class ParamGA implements Chromosome<ParamGA> {
     private double bloatPenaltyRate;//IMPROVE too complicated now
     private int dataSetSize;
 
-    //This parameter defines the percentage of reproduction
-    //chromosome from the previous population.
-    private double initialParentSurviveRate;
+
 
     private int maxInitialTreeDepth;//1
 
@@ -67,24 +69,23 @@ public class ParamGA implements Chromosome<ParamGA> {
 
     private static Random rand = new Random();
 
-    //Constructors
     /**
      * Constructor
      * @param populationSize
-     * @param initialParentChromosomesSurviveCount
-     * @param pMutation
+     * @param pParentSurviveRate
      * @param pCrossover
+     * @param pMutation
      * @param dataSetSize
      * @param maxInitialTreeDepth
      * @param bloatPenaltyRate
      */
-    public ParamGA(int populationSize, double initialParentChromosomesSurviveCount, double pMutation, double pCrossover, int dataSetSize, int maxInitialTreeDepth, double bloatPenaltyRate) {
+    public ParamGA(int populationSize, double pParentSurviveRate, double pCrossover, double pMutation, int dataSetSize, int maxInitialTreeDepth, double bloatPenaltyRate) {
         this.pMutation = pMutation;
         this.pCrossover = pCrossover;
         this.populationSize = populationSize;
         this.bloatPenaltyRate = bloatPenaltyRate;
         this.dataSetSize = dataSetSize;
-        this.initialParentSurviveRate = initialParentChromosomesSurviveCount;
+        this.pParentSurviveRate = pParentSurviveRate;
         this.maxInitialTreeDepth = maxInitialTreeDepth;
     }
 
@@ -98,7 +99,7 @@ public class ParamGA implements Chromosome<ParamGA> {
         this.populationSize = paramGA.populationSize;
         this.bloatPenaltyRate = paramGA.bloatPenaltyRate;
         this.dataSetSize = paramGA.dataSetSize;
-        this.initialParentSurviveRate = paramGA.initialParentSurviveRate;
+        this.pParentSurviveRate = paramGA.pParentSurviveRate; //TODO delete this from everywhere
         this.maxInitialTreeDepth = paramGA.maxInitialTreeDepth;
 
     }
@@ -136,8 +137,8 @@ public class ParamGA implements Chromosome<ParamGA> {
         return dataSetSize;
     }
 
-    public double getInitialParentSurviveRate() {
-        return initialParentSurviveRate;
+    public double getpParentSurviveRate() {
+        return pParentSurviveRate;
     }
 
     public Collection<String> getVariables() {
@@ -164,7 +165,7 @@ public class ParamGA implements Chromosome<ParamGA> {
         randomParamGA.dataSetSize = dataSetSize;
 
         double initialParentSurviveRate = getRandomDoubleInRange(MIN_INITIAL_PARENT_SURVIVE_RATE, MAX_INITIAL_PARENT_SURVIVE_RATE);
-        randomParamGA.initialParentSurviveRate = initialParentSurviveRate;
+        randomParamGA.pParentSurviveRate = initialParentSurviveRate;
 
         int maxInitialTreeDepth = getRandomIntegerInRange(MIN_TREE_DEPTH, MAX_TREE_DEPTH);
         randomParamGA.maxInitialTreeDepth = maxInitialTreeDepth;
@@ -172,7 +173,15 @@ public class ParamGA implements Chromosome<ParamGA> {
         return randomParamGA;
 
     }
-    @Override
+
+
+    /**
+     * ParamGA crossover operator is a classical one-point crossover:
+     * Choosing a random point from 1 to PARAM_GA_COUNT,
+     * and create two offspring.
+     * @param anotherChromosome
+     * @return list of two offspring
+     */
     public List<ParamGA> crossover(ParamGA anotherChromosome) {
         //Selecting the crossover point
         int crossoverPoint = getRandomIntegerInRange(1, PARAM_GA_COUNT);
@@ -265,10 +274,10 @@ public class ParamGA implements Chromosome<ParamGA> {
                 int dataSetSize = getRandomIntegerInRange(MIN_DATA_SET_SIZE, MAX_DATA_SET_SIZE);
                 mutated.dataSetSize = dataSetSize;
                 break;
-            //initialParentSurviveRate
+            //pParentSurviveRate
             case 6:
                 double initialParentSurviveRate = getRandomDoubleInRange(MIN_INITIAL_PARENT_SURVIVE_RATE, MAX_INITIAL_PARENT_SURVIVE_RATE);
-                mutated.initialParentSurviveRate = initialParentSurviveRate;
+                mutated.pParentSurviveRate = initialParentSurviveRate;
                 break;
             //maxInitialTreeDepth
             case 7:
@@ -314,22 +323,20 @@ public class ParamGA implements Chromosome<ParamGA> {
         return list;
     }
 
+
+
     /**
-     * ParamGA crossover operator is a classical one-point crossover:
-     * Choosing a random point from 1 to PARAM_GA_COUNT,
-     * and create two offspring.
-     * @param anotherChromosome
-     * @return list of two offspring
+     * simple to String
+     * @return
      */
-
     public String toString(){
-
-        return "ParamGA - pMutation: " +  pMutation*100 + "%, "
-                + "pCrossover: " + pCrossover*100 + "%, "
-                + "populationSize: " + populationSize + ", "
-                + "bloatPenaltyRate: " + bloatPenaltyRate + ", "
-                + "dateSetSize: " + dataSetSize + ", "
-                + "initialParentSurviveRate: " + initialParentSurviveRate*100 + "%.";
+        return
+                "ParamGA - populationSize: " + populationSize + ", " +
+                        "pCrossover: " + pCrossover*100 + "%, " +
+                        "pMutation: " +  pMutation*100 + "%, " +
+                        "dateSetSize: " + dataSetSize + ", " +
+                        "maxInitialTreeDepth: " + maxInitialTreeDepth + ", " +
+                        "bloatPenaltyRate: " + bloatPenaltyRate;
 
     }
 

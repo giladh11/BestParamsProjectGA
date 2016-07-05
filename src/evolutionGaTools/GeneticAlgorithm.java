@@ -86,46 +86,42 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 		double x;
 		double effortInThisGeneration = 0;
 		int parentPopulationSize = this.population.getSize();
+		C chromosome, mutated , perviuosChromo = null;
+
 
 		Population<C> newPopulation = new Population<C>();
 
-		//GILAD GOOVER
-		//
-		int parentSurviveCount = (int) Math.floor(this.parentSurviveRate*population.getSize());
 
-		//going for next generation
-		for (int i = 0; (i < parentPopulationSize) && (i < parentSurviveCount); i++) {
-			newPopulation.addChromosome(this.population.getChromosomeByIndex(i));
-		}
+		this.population.shufflePopulation();
 
 		for (int i = 0; i < parentPopulationSize; i++) {
-			C chromosome = this.population.getChromosomeByIndex(i);
+			chromosome = this.population.getChromosomeByIndex(i);
+
+			//adding all chromosomes to future generation
+			newPopulation.addChromosome(this.population.getChromosomeByIndex(i));
+
+			if (i%2==1){
+				//getting crossover into the next generation
+				x = Math.random();
+				if (x < paramGA.getCrossoverRate()) {
+					List<C> crossovered = chromosome.crossover(perviuosChromo);
+					for (C c : crossovered) {
+						newPopulation.addChromosome(c);
+					}
+				}
+			}else
+				perviuosChromo = chromosome;
 
 			//getting mutattion in the next generation
 			x = Math.random();
 			if (x < paramGA.getpMutationRate()) {
-				C mutated = chromosome.mutate();
+				mutated = chromosome.mutate();
 				newPopulation.addChromosome(mutated);
 			}
-
-			//getting crossover into the next generation
-			x = Math.random();
-			if (x < paramGA.getCrossoverRate()) {
-				C otherChromosome = this.population.getRandomChromosome();
-				List<C> crossovered = chromosome.crossover(otherChromosome);
-				for (C c : crossovered) {
-					newPopulation.addChromosome(c);
-				}
-			}
 		}
 
-		//if next generation is too small adds the best ones from previous gen that warnt chosen before
-		for(int i = 0; newPopulation.getSize() < parentPopulationSize ; i++){
-			newPopulation.addChromosome(this.population.getChromosomeByIndex(i + parentSurviveCount));
-			System.out.println("adding old one from parent population");
-		}
-
-		effortInThisGeneration = newPopulation.getSize();//PARAM EFFORT   IMPROVE handle treesizes as well
+		//TODO GILAD make the fitness calculation for the parents that survived not to happen
+		effortInThisGeneration = newPopulation.getSize()-parentPopulationSize;//PARAM EFFORT   IMPROVE handle treesizes as well
 		newPopulation.sortPopulationByFitness(this.chromosomesComparator);
 		newPopulation.trim(parentPopulationSize); //choosing the best parentPopulationSize chromosomes in the new generation
 		this.population = newPopulation;
