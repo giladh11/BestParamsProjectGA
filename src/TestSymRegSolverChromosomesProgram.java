@@ -37,15 +37,15 @@ import java.util.Scanner;
 	private static List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT);
 	private static Context sharedContext = new Context(baseFunctions, list("x"));
 
-	private static Setup tempSetup;
-	private static SymRegSolverChromosome symRegSolverChromosome;
-	private static BlackBoxTree blackBoxTree;
-	private static BestModelCandidate bestModelFound;
-	private static List<BestModelCandidate> bestModelFoundList;
-
-	private static List<BlackBoxTree> blackBoxTreeList;
-
+	private static Setup currentSetup;
+	private static BlackBoxTree currentBlackBoxTree;
+	private static BestModelCandidate tempBestModelFound;
 	private static List<Setup> setUpsList;
+	private static int currentSetupIndex;
+
+	private static SymRegSolverChromosome symRegSolverChromosome;
+
+
 
 	public static void main(String[] args) {
 		int populationSize; double pParentSurviveRate; double pCrossover; double pMutation; int dataSetSize; int maxInitialTreeDepth; int bloatPenaltyRate;
@@ -62,31 +62,53 @@ import java.util.Scanner;
 //		}
 		Scanner in;
 		in = new Scanner(System.in);
+		StringBuilder sbuild;
 
-		//setting curent population size
+				//setting curent population size
 		populationSize=10; pParentSurviveRate=0.5; pCrossover=0.4; pMutation=0.1; dataSetSize=10; maxInitialTreeDepth=1; bloatPenaltyRate=0;
-		paramGA = new ParamGA(populationSize, pParentSurviveRate, pCrossover, pMutation, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);//(int populationSize, int pParentSurviveRate, double pMutation, double pCrossover, int dataSetSize, int maxInitialTreeDepth, int bloatPenaltyRate)
+		paramGA = new ParamGA(populationSize, pParentSurviveRate, pCrossover, pMutation, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);
+		symRegSolverChromosome = new SymRegSolverChromosome(paramGA, baseFunctions);//TODO think where this should be
 
-		setBlackBoxTreeList();
+
+		setTheDefaultSetups();
 		//*****************************
 		printHelp();
 
 		while(!exit){
-			System.out.print("$"); s = in.nextLine(); arrS = s.split(" ");
+			System.out.print("$"); s = in.nextLine(); arrS = s.split(" ", 2);
 
 			switch(arrS[0]){
 				case "random":
 					createNewRandomBlackBox();
-					runCurrentBox(1);
+					//runCurrentBox(1);
 					break;
-				case "rerun":
+				case "setNewFunc":
+					createNewFuncFromString(arrS[1]);
+					break;
+				case "run":
 					if (arrS.length==1)
 						runCurrentBox(1);
 					else
 						runCurrentBox(Integer.parseInt(arrS[1]));
 					break;
+				case "printModels":
+					System.out.println(currentSetup);
+					break;
+				case "printSetups":
+					printAllSetups();
+					break;
+				case "chooseSetup":
+					changeToSetup(Integer.parseInt(arrS[1]));
+					break;
 				case "paramGA":
 					System.out.println(paramGA);
+					break;
+				case "currentSetup":
+					sbuild = new StringBuilder();
+					sbuild.append(currentSetupIndex+ ".   !!!   " + "blackBox is : " +currentBlackBoxTree+"\n");
+					currentSetup.appendAverages(sbuild);
+					sbuild.append("\n");
+					System.out.println(sbuild.toString());
 					break;
 				case "help":
 					printHelp();
@@ -102,15 +124,7 @@ import java.util.Scanner;
 
 	}
 
-	/**
-	 * this method sets the BlackBoxTreeList with method we want to run and test
-	 */
-	private static void setBlackBoxTreeList() {
-		blackBoxTreeList = new LinkedList<BlackBoxTree>();
-		//TODO TAL create a few easy trees
-		//x^3+4
-		//x^5 -3x^3 + x^2 + 13
-	}
+
 
 
 	/**
@@ -121,35 +135,109 @@ import java.util.Scanner;
 
 		System.out.println("Options:");
 		System.out.println("random - create a random black box and run on it");
-		System.out.println("rerun x - will rerun the last blackBox x times. when finished will print the results of the pervious runs and the averages");
+		System.out.println("setNewFunc 'FUNCTION_STRING' - will create a new BlackBox according to the requested string");
+		System.out.println("run x - will rerun the last blackBox x times. when finished will print the results of the pervious runs and the averages");
+		System.out.println("printModels - will print all the models found by the runs on the currentBlackBox");
+		System.out.println("printSetups - will print all the setups currently on memory");
+		System.out.println("chooseSetup x - will change to the requested setup index");
 		System.out.println("paramGA - will print the current ParamGA used");
 		//System.out.println("setParamGA  - to choose new params for paramGA");//TODO maybe
+		System.out.println("currentSetup - will printthe current setup index, the blackbox and its averages");
 		System.out.println("help - will print this option menu again");
 		System.out.println("quit - will exit the program");
 		System.out.println("");
 	}
 
 	/**
+	 * this method sets the BlackBoxTreeList with method we want to run and test
+	 */
+	private static void setTheDefaultSetups() {
+		setUpsList = new LinkedList<Setup>();
+		currentSetupIndex = -1;
+		//TODO TAL create a few easy trees
+		//x^3+4
+		//x^5 -3x^3 + x^2 + 13
+	}
+
+	/**
 	 * runs a new random black box
 	 */
 	private static void createNewRandomBlackBox() {
-		symRegSolverChromosome = new SymRegSolverChromosome(paramGA, baseFunctions);//TODO think where this should be
-		blackBoxTree = new BlackBoxTree(4, sharedContext);//PARAM set how big will be the blackBoxTree
-		System.out.println(" Random function is " + blackBoxTree);
-		tempSetup = new Setup(blackBoxTree);
+		currentBlackBoxTree = new BlackBoxTree(4, sharedContext);//PARAM set how big will be the currentBlackBoxTree
+		System.out.println(" Random function is " + currentBlackBoxTree);
+		currentSetup = new Setup(currentBlackBoxTree);
+		setUpsList.add(currentSetup);
+		currentSetupIndex = setUpsList.size();
+	}
+
+	/**
+	 * creates a tree based on the string
+	 */
+	private static void createNewFuncFromString(String funcString) {
+		//currentBlackBoxTree = From TAL TODO
+		System.out.println(" chosenFunc function is " + currentBlackBoxTree);
+		currentSetup = new Setup(currentBlackBoxTree);
+		setUpsList.add(currentSetup);
+		currentSetupIndex = setUpsList.size();
 	}
 
 	/**
 	 * this method reruns the genetic algorithem on the last BlackBox n times
-	 * @param i
+	 * @param n
      */
 	private static void runCurrentBox(int n) {
-		for(int i = 0; i< n; i++){
-			System.out.println("run last box");
-			bestModelFound = symRegSolverChromosome.trySolving(blackBoxTree);
-			tempSetup.addBestModel(bestModelFound);
+		if (n==1){
+			tempBestModelFound = symRegSolverChromosome.trySolving(currentBlackBoxTree, true);//will print the iterations
+			currentSetup.addBestModel(tempBestModelFound);
+			System.out.println("***\n" + tempBestModelFound);
 		}
-		System.out.println(tempSetup);
+		else {
+			for (int i = 0; i < n; i++) {
+				tempBestModelFound = symRegSolverChromosome.trySolving(currentBlackBoxTree, false);//will not print the evolutions iterations
+				currentSetup.addBestModel(tempBestModelFound);
+				System.out.println("***\n" + tempBestModelFound);
+			}
+		}
+		System.out.println("***\n"+"***\n"+"***");
+		System.out.println("currentBlackBoxTree was: "+ currentSetup.getBlackBoxTree());
+		currentSetup.printAverages();
+	}
+
+	/**
+	 * will print all the setups in memory
+	 */
+	private static void printAllSetups(){
+		StringBuilder s = new StringBuilder();
+		Iterator<Setup> iter =  setUpsList.listIterator();
+		int i = 0;
+		Setup set = null;
+
+		while (iter.hasNext()){
+			set = iter.next();
+			s.append(i+ ".   !!!   " + "blackBox is : " + set.getBlackBoxTree()+"\n");
+			set.appendAverages(s);
+			s.append("\n");
+			i++;
+		}
+		System.out.println(s.toString());
+	}
+
+	/**
+	 * switches to the requested setup
+	 * @param n
+     */
+	private static void changeToSetup(int n){
+		if (n>=setUpsList.size() || n<0){
+			System.out.println("!!! "+n+" is not a valid setup index!!!");
+			return;
+		}
+		currentSetup = setUpsList.get(n);
+		currentBlackBoxTree = currentSetup.getBlackBoxTree();
+		tempBestModelFound = null;
+		currentSetupIndex = n;
+
+		System.out.println("switched to setup "+n+"!");
+		currentSetup.printAverages();
 	}
 
 	/**
@@ -186,85 +274,4 @@ import java.util.Scanner;
 	}
 }
 
-/**
- * represents a blackBox tree and all the bestsolutions we got in different runs
- */
-class Setup{
-	BlackBoxTree blackBoxTree;
-	private static List<BestModelCandidate> bestModelFoundList;
 
-	private double minEffort; private double sumEffort; private double maxEffort;
-
-	private double minDistanceFromBlackBox; private double sumDistanceFromBlackBox; private double maxDistanceFromBlackBox;
-
-	private double minFitness; private double sumFitness; private double maxFitness;
-
-	/**
-	 * constuctor of a set up
-	 * @param bt
-     */
-	public Setup(BlackBoxTree bt){
-		this.blackBoxTree = bt;
-		bestModelFoundList = new LinkedList<BestModelCandidate>();
-		minEffort = -1 ; sumEffort = 0; maxEffort = 0;
-		minDistanceFromBlackBox = -1 ; sumDistanceFromBlackBox = 0 ; maxDistanceFromBlackBox = 0;
-		minFitness = -1; sumFitness = 0; maxFitness = 0;
-	}
-
-	/**
-	 * returns the black box this setup represents
-	 * @return
-     */
-	public BlackBoxTree getBlackBoxTree() {
-		return blackBoxTree;
-	}
-
-	/**
-	 * adds a new model the this set up
-	 * new model came from running the genetic algorithem on the black list.
-	 * @param best
-     */
-	public void addBestModel(BestModelCandidate best){
-		sumEffort +=  best.getEffort();
-		sumDistanceFromBlackBox +=  best.getDistanceFromBlackBox();
-		sumFitness+= best.getFitness();
-
-		if (minEffort==-1 || best.getEffort() < minEffort)
-			minEffort = best.getEffort();
-		if (minDistanceFromBlackBox==-1 || best.getDistanceFromBlackBox() < minDistanceFromBlackBox)
-			minDistanceFromBlackBox = best.getDistanceFromBlackBox();
-		if (minFitness==-1 || best.getFitness() < minFitness)
-			minFitness = best.getFitness();
-
-		if (best.getEffort() > maxEffort)
-			maxEffort = best.getEffort();
-		if (best.getDistanceFromBlackBox() > maxDistanceFromBlackBox)
-			maxDistanceFromBlackBox = best.getDistanceFromBlackBox();
-		if (best.getFitness() > maxFitness)
-			maxFitness = best.getFitness();
-
-		bestModelFoundList.add(best);//adds to the end of the list
-	}
-
-	/**
-	 * iterating toString
-	 * @return
-     */
-	public String toString(){
-		StringBuilder s = new StringBuilder();
-		Iterator<BestModelCandidate> iter =  bestModelFoundList.listIterator();
-		int i = 0;
-		BestModelCandidate best = null;
-		while (iter.hasNext()){
-			best = iter.next();
-			s.append(i +". " + best.toString()+"\n");
-			i++;
-		}
-		s.append("  minEffort = "+ minEffort + ", avgEffort = "+sumEffort/bestModelFoundList.size() + ", maxEffort = " + maxEffort + "\n");
-		s.append("  minDistanceFromBlackBox = " + minDistanceFromBlackBox + ", avgDistanceFromBlackBox = "+sumDistanceFromBlackBox/bestModelFoundList.size() + ", maxDistanceFromBlackBox = " + maxDistanceFromBlackBox + "\n");
-		s.append("  minFitness = " + minFitness + ", avgFitness = "+sumFitness/bestModelFoundList.size() + ", maxFitness = " + maxFitness +"\n");
-		return s.toString();
-	}
-
-
-}

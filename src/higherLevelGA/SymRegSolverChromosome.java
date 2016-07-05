@@ -54,10 +54,11 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @param blackBoxTree
      * @return bestModelCandidate
      */
-    public BestModelCandidate trySolving(BlackBoxTree blackBoxTree){
+    public BestModelCandidate trySolving(BlackBoxTree blackBoxTree, boolean printIterations){
         DataSet dataSet = new DataSet(blackBoxTree.getFunction(), paramGA.getDataSetSize());
         setEngine(dataSet);
-        addListener(engine);
+        if(printIterations)
+            addListener(engine);
         engine.evolve(generations);
         BestModelCandidate bestModelCandidate = engine.buildBestModelCandidate();
         bestModelCandidate.fitnessCalculator(blackBoxTree);

@@ -19,8 +19,8 @@ public class BestModelCandidate {
 
     private Expression bestSyntaxTree;
     private double effort;
-    private double distanceFromBlackBox = -1;
-    private double fitness = -1;
+    private double distanceFromBlackBox;
+    private double fitness;
 
     public BestModelCandidate(Expression bestSyntaxTree, double effort) {
         this.bestSyntaxTree = bestSyntaxTree;
@@ -42,6 +42,7 @@ public class BestModelCandidate {
      */
     public double fitnessCalculator(BlackBoxTree blackBox) {
         distanceFromBlackBox = blackBox.measureDistanceFromCadidate(bestSyntaxTree);
+        fitness = distanceFromBlackBox+effort;
         return distanceFromBlackBox;
     }
 
