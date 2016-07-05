@@ -17,6 +17,10 @@ package evolutionGaTools;
 
 import java.util.List;
 
+/**
+ * simple interface just to make sure operators exists
+ * @param <C>
+ */
 public interface Chromosome<C extends Chromosome<C>> {
 	
 	List<C> crossover( C anotherChromosome );

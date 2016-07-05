@@ -23,6 +23,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Function trees are using this in the lower level.
+ * it holds basic function a tree can be made from
+ * it holds the value of the variable (x) in the trees - meaning if you want to evaluate the value of
+ * 						a tree function for a specific x you have to set it in the context
+ */
 public class Context {
 
 	private Random random = new Random();
@@ -43,6 +49,11 @@ public class Context {
 
 	private int nextRndFunctionIndx = 0;
 
+	/**
+	 * constructor
+	 * @param functions
+	 * @param variables
+     */
 	public Context(List<? extends Function> functions, Collection<String> variables) {
 		for (Function f : functions) {
 			if (f.argumentsCount() == 0) {
@@ -64,14 +75,28 @@ public class Context {
 		}
 	}
 
+	/**
+	 * returns the current value of a variable
+	 * @param variable
+	 * @return
+     */
 	public double lookupVariable(String variable) {
 		return this.variables.get(variable);
 	}
 
+	/**
+	 * will be used before evluating a function tree
+	 * @param variable
+	 * @param value
+     */
 	public void setVariable(String variable, double value) {
 		this.variables.put(variable, value);
 	}
 
+	/**
+	 * chooses a new none terminal function
+	 * @return
+     */
 	public Function getRandomNonTerminalFunction() {
 		return this.roundRobinFunctionSelection();
 		// return this.randomFunctionSelection();
@@ -82,6 +107,10 @@ public class Context {
 	// return this.nonTerminalFunctions.get(indx);
 	// }
 
+	/**
+	 * what???
+	 * @return
+     */
 	private Function roundRobinFunctionSelection() {
 		if (this.nextRndFunctionIndx >= this.nonTerminalFunctions.size()) {
 			this.nextRndFunctionIndx = 0;

@@ -19,6 +19,12 @@ import higherLevelGA.ParamGA;
 
 import java.util.*;
 
+/**
+ * heart of the genetic process
+ * each iteration of the process is manged by the evolve method in this class
+ * @param <C>
+ * @param <T>
+ */
 public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> {
 
 	private static final int ALL_PARENTAL_CHROMOSOMES = Integer.MAX_VALUE;
