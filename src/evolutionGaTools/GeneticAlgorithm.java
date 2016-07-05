@@ -89,6 +89,7 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 
 		Population<C> newPopulation = new Population<C>();
 
+		//going for next generation
 		for (int i = 0; (i < parentPopulationSize) && (i < this.parentChromosomesSurviveCount); i++) {
 			newPopulation.addChromosome(this.population.getChromosomeByIndex(i));
 		}
@@ -96,12 +97,14 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 		for (int i = 0; i < parentPopulationSize; i++) {
 			C chromosome = this.population.getChromosomeByIndex(i);
 
+			//getting mutattion in the next generation
 			x = Math.random();
 			if (x < paramGA.getpMutationRate()) {
 				C mutated = chromosome.mutate();
 				newPopulation.addChromosome(mutated);
 			}
 
+			//getting crossover into the next generation
 			x = Math.random();
 			if (x < paramGA.getCrossoverRate()) {
 				C otherChromosome = this.population.getRandomChromosome();
@@ -112,6 +115,7 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 			}
 		}
 
+		//if next generation is too small adds the best ones from previous gen that warnt chosen before
 		for(int i = 0; newPopulation.getSize() < parentPopulationSize ; i++){
 			newPopulation.addChromosome(this.population.getChromosomeByIndex(i+this.parentChromosomesSurviveCount));
 			System.out.println("adding old one from parent population");
@@ -119,7 +123,7 @@ public class GeneticAlgorithm<C extends Chromosome<C>, T extends Comparable<T>> 
 
 		effortInThisGeneration = newPopulation.getSize();//PARAM EFFORT   IMPROVE handle treesizes as well
 		newPopulation.sortPopulationByFitness(this.chromosomesComparator);
-		newPopulation.trim(parentPopulationSize);
+		newPopulation.trim(parentPopulationSize); //choosing the best parentPopulationSize chromosomes in the new generation
 		this.population = newPopulation;
 		return effortInThisGeneration;
 	}

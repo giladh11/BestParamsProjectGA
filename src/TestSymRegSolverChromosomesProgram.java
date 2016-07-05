@@ -52,7 +52,7 @@ public class TestSymRegSolverChromosomesProgram {
 		populationSize=10; initialParentChromosomesSurviveCount=1; pMutation=1; pCrossover=1; dataSetSize=10; maxInitialTreeDepth=1; bloatPenaltyRate=0;
 		paramGA = new ParamGA(populationSize, initialParentChromosomesSurviveCount, pMutation, pCrossover, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);//(int populationSize, int initialParentChromosomesSurviveCount, double pMutation, double pCrossover, int dataSetSize, int maxInitialTreeDepth, int bloatPenaltyRate)
 
-		//TODO change idstance to be avarge distance that depends on the amount of points...
+		//TODO TAL change idstance to be avarge distance that depends on the amount of points...
 		//*****************************
 		printHelp();
 

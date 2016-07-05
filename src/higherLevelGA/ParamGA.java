@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
+//TODO comments TAL
 /**
  * this class represents a GA parameters that will be used by SymRegSolverChromosome and
  * that will develop over time
@@ -24,7 +24,7 @@ public class ParamGA implements Chromosome<ParamGA> {
     private double bloatPenaltyRate;//IMPROVE too complicated now
     private int dataSetSize;
 
-    private int initialParentChromosomesSurviveCount;//1 TODO maybe turn to precentage and join with pmutation and p cross over
+    private int initialParentChromosomesSurviveCount;//1 TODO TAL maybe turn to precentage and join with pmutation and p cross over
 
     private int maxInitialTreeDepth;//1
 
