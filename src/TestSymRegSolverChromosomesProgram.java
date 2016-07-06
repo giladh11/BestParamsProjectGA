@@ -34,7 +34,7 @@ import java.util.Scanner;
 
 
 
-	private static List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.VARIABLE, Functions.CONSTANT);
+	private static List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.POW, Functions.VARIABLE, Functions.CONSTANT);
 	private static Context sharedContext = new Context(baseFunctions, list("x"));
 
 	private static Setup currentSetup;
@@ -65,7 +65,7 @@ import java.util.Scanner;
 		StringBuilder sbuild;
 
 				//setting curent population size
-		populationSize=10; pParentSurviveRate=0.5; pCrossover=0.4; pMutation=0.1; dataSetSize=10; maxInitialTreeDepth=1; bloatPenaltyRate=0;
+		populationSize=10; pParentSurviveRate=1; pCrossover=1; pMutation=1; dataSetSize=20; maxInitialTreeDepth=1; bloatPenaltyRate=0;
 		paramGA = new ParamGA(populationSize, pParentSurviveRate, pCrossover, pMutation, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);
 		symRegSolverChromosome = new SymRegSolverChromosome(paramGA, baseFunctions);//TODO think where this should be
 
@@ -174,7 +174,7 @@ import java.util.Scanner;
 	 * creates a tree based on the string
 	 */
 	private static void createNewFuncFromString(String funcString) {
-		//currentBlackBoxTree = From TAL TODO
+		currentBlackBoxTree = new BlackBoxTree(funcString);
 		System.out.println(" chosenFunc function is " + currentBlackBoxTree);
 		currentSetup = new Setup(currentBlackBoxTree);
 		setUpsList.add(currentSetup);

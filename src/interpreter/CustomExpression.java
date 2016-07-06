@@ -32,5 +32,7 @@ public class CustomExpression implements AbstractExpression {
         return expr.evaluate();
     }
 
-
+    public String toString(){
+        return expression;
+    }
 }
