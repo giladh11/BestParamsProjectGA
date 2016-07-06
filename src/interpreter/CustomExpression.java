@@ -1,8 +1,10 @@
 package interpreter;
 
-import parsii.eval.Parser;
-import parsii.eval.StringBasedExpression;
-import parsii.tokenizer.ParseException;
+
+import interpreter.java.parsii.eval.Parser;
+import interpreter.java.parsii.eval.StringBasedExpression;
+import interpreter.java.parsii.tokenizer.ParseException;
+
 
 /**
  * This class is used to create expression from a given string.

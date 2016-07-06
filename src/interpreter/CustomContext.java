@@ -1,12 +1,12 @@
 package interpreter;
 
-import parsii.eval.Scope;
-import parsii.eval.Variable;
+
+import interpreter.java.parsii.eval.Scope;
+import interpreter.java.parsii.eval.Variable;
 
 /**
  * CustomContext is the equivalent Context class for CustomExpression.
  */
-
 
 public class CustomContext implements AbstractContext {
     private Scope scope;

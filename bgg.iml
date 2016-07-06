@@ -18,6 +18,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="functionParser" />
-    <orderEntry type="module" module-name="testFunctionParser" />
+    <orderEntry type="library" name="java" level="project" />
+    <orderEntry type="module" module-name="main" />
   </component>
 </module>
