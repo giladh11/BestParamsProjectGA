@@ -53,7 +53,7 @@ import java.util.Scanner;
 		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;
 		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
 		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = 0.001;
-
+		//param for mutation inside of ParamGA
 		private static int MAX_POINT_IN_RANGE = 50; //for DATASET creator
 		private static int MIN_POINT_IN_RANGE = -50;
 

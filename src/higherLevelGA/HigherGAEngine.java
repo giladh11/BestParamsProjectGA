@@ -4,6 +4,8 @@
 //
 //import evolutionGaTools.GeneticAlgorithm;
 //import evolutionGaTools.Population;
+//import interpreter.Functions;
+//import lowerLevelGA.BlackBoxTree;
 //
 //import java.util.List;
 //
@@ -17,6 +19,8 @@
 //											//	Effort effort;
 //
 //	private GeneticAlgorithm<SymRegSolverChromosome, Double> environment;
+//	private List<BlackBoxTree> listOfBlackboxes;
+//	private List<Functions> baseFunctions;
 //
 //											//private Context context; //this context holds the variables
 //
@@ -28,8 +32,10 @@
 //	 * @param baseFunctions
 //	 * @param paramGA
 //     */
-//	public HigherGAEngine(ComparableDataSet comparableDataSet, List<Functions> baseFunctions, ParamGA paramGA) {
+//	public HigherGAEngine(List<BlackBoxTree> listOfBlackboxes, List<Functions> baseFunctions) {
 //		//TODO constuctor for a higher engine
+//		this.listOfBlackboxes = listOfBlackboxes;
+//		this.baseFunctions = listOfBlackboxes;
 //																//		this.context = new Context(baseFunctions, paramGA.getVariables());
 //																//		this.comparableDataSet = comparableDataSet;
 //																//		this.paramGA = paramGA;
@@ -46,12 +52,12 @@
 //	 * @param populationSize
 //     * @return
 //     */
-//	private Population<SymRegSolverChromosome, Double> createPopulation(Context context, Fitness<SymRegSolverChromosome, Double> fitnessFunction, int populationSize) {
+//	private Population<SymRegSolverChromosome, Double> createPopulation(Fitness<SymRegSolverChromosome, Double> fitnessFunction, int populationSize) {//TODO maybe give a fitness function to the SymRegSolverChromosome
 //		//TODO createPopulation
 //		Population<SymRegSolverChromosome, Double> population = new Population<SymRegSolverChromosome, Double>();
 //		for (int i = 0; i < populationSize; i++) {
 //			SymRegSolverChromosome chromosome =
-//					new SymRegSolverChromosome();
+//					new SymRegSolverChromosome(ParamGA.getRandomParamGA(), baseFunctions);
 //			population.addChromosome(chromosome);
 //		}
 //		return population;
@@ -75,7 +81,8 @@
 //	 * starts the evolution
 //	 * @param iterationsCount
 //     */
-//	public void evolve(int iterationsCount) {this.environment.evolve(iterationsCount);
+//	public void evolve(int iterationsCount) {
+//		this.environment.evolve(iterationsCount);
 //	}
 //
 //	/**

@@ -15,23 +15,13 @@
 // */
 // public final class RunHigherLevel {
 //
-//																									//private static ParamGA currentParamGA;
-//	//static int populationSize; static double pCrossover; static double pMutation; static int dataSetSize; static int maxInitialTreeDepth; static double bloatPenaltyRate;
-//
-//
-//
-//	private static List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.POW, Functions.VARIABLE, Functions.CONSTANT);
-//	private static Context sharedContext = new Context(baseFunctions, list("x"));
-//
-//															//	private static Setup currentSetup = null;
-//															//	private static BlackBoxTree currentBlackBoxTree = null;
-//															//	private static BestModelCandidate tempBestModelFound = null;
-//															//	private static List<Setup> setUpsList = null;
-//															//	private static int currentSetupIndex = -1;
-//															//
-//															//	private static SymRegSolverChromosome symRegSolverChromosome;
-//
-//
+//					//	private static Setup currentSetup = null;
+//					//	private static BlackBoxTree currentBlackBoxTree = null;
+//					//	private static BestModelCandidate tempBestModelFound = null;
+//					//	private static List<Setup> setUpsList = null;
+//					//	private static int currentSetupIndex = -1;
+//					//
+//					//	private static SymRegSolverChromosome symRegSolverChromosome;
 //
 //	//params chosen PARAM in higher level Tester
 //		private static int NUM_GEN_HIGHER_LEVEL = 100;
@@ -45,7 +35,8 @@
 //		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;//not sure that will be used here
 //		//param for mutation inside of ParamGA
 //
-//	private static List<Functions> baseFunctions;
+//	private static List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.POW, Functions.VARIABLE, Functions.CONSTANT);
+//	private static Context sharedContext = new Context(baseFunctions, list("x"));
 //	private static List<BlackBoxTree> listOfBlackboxes;
 //
 //	public static void main(String[] args) {
@@ -85,17 +76,16 @@
 ////					break;
 //				case "run":
 //					System.out.println("running");
-//					baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.POW, Functions.VARIABLE, Functions.CONSTANT);
-//					listOfBlackboxes = createBlackBoxesList(); //TODO set this list
+//					listOfBlackboxes = createBlackBoxesList();
 //
-//					boolean printIterations = false;
+//					boolean printIterations = true;
 //					ParamGA bestParamsFound;
 //					double  bestParamsFoundFitness;
 //
 //							//choose family of functions
 //							//choose group of functions
 //
-//					HigherGAEngine engine = new HigherGAEngine();
+//					HigherGAEngine engine = new HigherGAEngine(listOfBlackboxes, baseFunctions);
 //					if(printIterations)
 //						addListener(engine);
 //					bestParamsFound = engine.evolve(NUM_GEN_HIGHER_LEVEL);
@@ -168,7 +158,16 @@
 //
 //	}
 //
+//	/**
+//	 * this method will return a list with BlackBoxTree
+//	 * @return
+//     */
+//	private static List<BlackBoxTree> createBlackBoxesList() {
+//		List<BlackBoxTree> list = new LinkedList<BlackBoxTree>();
+//		list.add(new BlackBoxTree("2*x + 3"));
 //
+//		return list
+//	}
 //
 //
 //	/**
