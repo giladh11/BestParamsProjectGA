@@ -24,7 +24,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     //Inner parameters
     private SolverGAEngine engine;
     private static List<Functions> baseFunctions;
-    private double fitness = -1;
+    private Double fitness = null;
 
 
     /**
@@ -116,7 +116,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @return
      */
     public Double getFitness() {
-        if(fitness == -1)
+        if(fitness == null)
             System.out.println("!!!fitness yet to be calculated!!!");
         return fitness;
     }
@@ -126,7 +126,9 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @param fit
      */
     public void setFitness(Double fit) {
-
+        System.out.println("!!!fitness tried to be set");
+        //TODO set here th fitness
+        //this.fitness = fit;
     }
 
     /**
