@@ -69,10 +69,6 @@ public class GeneticAlgorithmCoeficient<C extends Chromosome<C, T>, T extends Co
 
 	private boolean terminate = false;
 
-	// Percentage of parental chromosomes, which survive (and move to new
-	// population)
-	private double parentSurviveRate = 1;
-
 	private int iteration = 0;
 
 	public GeneticAlgorithmCoeficient(Population<C,T> population, Fitness<C, T> fitnessFunc, ParamGA paramGA) {
@@ -162,14 +158,6 @@ public class GeneticAlgorithmCoeficient<C extends Chromosome<C, T>, T extends Co
 
 	public C getWorst() {
 		return this.population.getChromosomeByIndex(this.population.getSize() - 1);
-	}
-
-	public void setParentSurviveRate(double parentChromosomesCount) {
-		this.parentSurviveRate = parentChromosomesCount;
-	}
-
-	public double getParentSurviveRate() {
-		return this.parentSurviveRate;
 	}
 
 	public void addIterationListener(IterartionListener<C, T> listener) {

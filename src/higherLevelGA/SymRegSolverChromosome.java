@@ -26,16 +26,21 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     private SolverGAEngine engine;
     private static  double epsilon = 0.001;
     private static List<Functions> baseFunctions;
+    private double fitness = -1;
 
 
-
+    /**
+     * simple constuctor
+     * @param paramGA
+     * @param baseFunctions
+     */
     public SymRegSolverChromosome(ParamGA paramGA, List<Functions> baseFunctions) {
         this.paramGA = paramGA;
         this.baseFunctions = baseFunctions;
     }
 
     /**
-     * Initialize SolverGAEngine for the given dataSet.
+     * Initialize SolverGAEngine(Engine for lower level GA) for the given dataSet.
      * Assuming fixed genotype for all higher lever GA chromosomes.
      * @param dataSet
      */
@@ -78,11 +83,12 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     }
 
     /**
+     * does a crossover with another SymRegSolverChromosome
      * The crossover operation on SymRegSolverChromosome is a wrapper
      * for crossover operation on its ParamGA.
      * @param symRegSolverChromosome
      * @return List<SymRegSolverChromosome>
-     *///GILADGOOVER
+     **/
      public List<SymRegSolverChromosome> crossover(SymRegSolverChromosome symRegSolverChromosome) {
         List<ParamGA> crossoverParamGA = this.paramGA.crossover(symRegSolverChromosome.getParamGA());
         List<SymRegSolverChromosome> crossoverSolvers = new LinkedList<>();
@@ -101,7 +107,6 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @param
      * @return SymRegSolverChromosome
      */
-    //GILADGOOVER
     public SymRegSolverChromosome mutate() {
         ParamGA mutatedParamGA = this.paramGA.mutate();
         SymRegSolverChromosome mutatedSolver = new SymRegSolverChromosome(mutatedParamGA, baseFunctions);
@@ -109,21 +114,27 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     }
 
     /**
-     * TODO GILAD
+     * simple fitness getter
      * @return
      */
     public Double getFitness() {
-        return null;
+        if(fitness == -1)
+            System.out.println("!!!fitness yet to be calculated!!!");
+        return fitness;
     }
 
     /**
-     * TODO GILAD
+     * sets the fitness so it wont get calculated more than once during the evolution
      * @param fit
      */
     public void setFitness(Double fit) {
 
     }
 
+    /**
+     * simple context getter
+     * @return
+     */
     public Context getContext() {
         return engine.getContext();
     }

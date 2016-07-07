@@ -15,8 +15,6 @@ public class ParamGA{
     //These are the Chromosome's characteristics parameters
 
     private int populationSize;
-    //chromosome from the previous population.
-    private double pParentSurviveRate;
     private double pCrossover;
     private double pMutation;
 
@@ -34,34 +32,30 @@ public class ParamGA{
     //Number of ParamGA that are evolved during higher lever GA.
     private static final int PARAM_GA_COUNT = 7;
 
+    //max and min values for the random param generator
+            //PARAM used by mutate() and getRandomParamGA()
+            private static final double MIN_MUTATION_PROB = 0;
+            private static final double MAX_MUTATION_PROB = 1;
 
-    //PARAM used by mutate() and getRandomParamGA()
-    private static final double MIN_MUTATION_PROB = 0;
-    private static final double MAX_MUTATION_PROB = 1;
+            //PARAM used by mutate() and getRandomParamGA()
+            private static final double  MIN_CROSSOVER_PROB = 0;
+            private static final double MAX_CROSSOVER_PROB = 1;
 
-    //PARAM used by mutate() and getRandomParamGA()
-    private static final double  MIN_CROSSOVER_PROB = 0;
-    private static final double MAX_CROSSOVER_PROB = 1;
+            //PARAM used by mutate() and getRandomParamGA()
+            private static final int MIN_POPULATION_SIZE = 5;
+            private static final int MAX_POPULATION_SIZE = 10;
 
-    //PARAM used by mutate() and getRandomParamGA()
-    private static final int MIN_POPULATION_SIZE = 5;
-    private static final int MAX_POPULATION_SIZE = 10;
+            //PARAM used by mutate() and getRandomParamGA()
+            private static final double MIN_BLOAT_PENALTY_RATE = 0;
+            private static final double MAX_BLOAT_PENALTY_RATE = 2;
 
-    //PARAM used by mutate() and getRandomParamGA()
-    private static final double MIN_BLOAT_PENALTY_RATE = 0;
-    private static final double MAX_BLOAT_PENALTY_RATE = 2;
+            //PARAM used by mutate() and getRandomParamGA()
+            private static final int MIN_DATA_SET_SIZE = 5;
+            private static final int MAX_DATA_SET_SIZE = 20;
 
-    //PARAM used by mutate() and getRandomParamGA()
-    private static final int MIN_DATA_SET_SIZE = 5;
-    private static final int MAX_DATA_SET_SIZE = 20;
-
-    //PARAM used by mutate() and getRandomParamGA()
-    private static final double MIN_INITIAL_PARENT_SURVIVE_RATE = 0;
-    private static final double MAX_INITIAL_PARENT_SURVIVE_RATE = 1;
-
-    //PARAM used by mutate() and getRandomParamGA()
-    private static final int MIN_TREE_DEPTH = 1;
-    private static final int MAX_TREE_DEPTH = 8;
+            //PARAM used by mutate() and getRandomParamGA()
+            private static final int MIN_TREE_DEPTH = 1;
+            private static final int MAX_TREE_DEPTH = 8;
 
 
     //Note: this property is static for all instances since only one-variables models are tested.
@@ -72,20 +66,18 @@ public class ParamGA{
     /**
      * Constructor
      * @param populationSize
-     * @param pParentSurviveRate
      * @param pCrossover
      * @param pMutation
      * @param dataSetSize
      * @param maxInitialTreeDepth
      * @param bloatPenaltyRate
      */
-    public ParamGA(int populationSize, double pParentSurviveRate, double pCrossover, double pMutation, int dataSetSize, int maxInitialTreeDepth, double bloatPenaltyRate) {
+    public ParamGA(int populationSize, double pCrossover, double pMutation, int dataSetSize, int maxInitialTreeDepth, double bloatPenaltyRate) {
         this.pMutation = pMutation;
         this.pCrossover = pCrossover;
         this.populationSize = populationSize;
         this.bloatPenaltyRate = bloatPenaltyRate;
         this.dataSetSize = dataSetSize;
-        this.pParentSurviveRate = pParentSurviveRate;
         this.maxInitialTreeDepth = maxInitialTreeDepth;
     }
 
@@ -99,13 +91,12 @@ public class ParamGA{
         this.populationSize = paramGA.populationSize;
         this.bloatPenaltyRate = paramGA.bloatPenaltyRate;
         this.dataSetSize = paramGA.dataSetSize;
-        this.pParentSurviveRate = paramGA.pParentSurviveRate; //TODO delete this from everywhere
         this.maxInitialTreeDepth = paramGA.maxInitialTreeDepth;
 
     }
 
     /**
-     * Empty constructor
+     * Empty constructor - used for the random paran generator
      */
     public ParamGA() {
 
@@ -137,10 +128,6 @@ public class ParamGA{
         return dataSetSize;
     }
 
-    public double getpParentSurviveRate() {
-        return pParentSurviveRate;
-    }
-
     public Collection<String> getVariables() {
         return VARIABLES;
     }
@@ -163,9 +150,6 @@ public class ParamGA{
 
         int dataSetSize = getRandomIntegerInRange(MIN_DATA_SET_SIZE, MAX_DATA_SET_SIZE);
         randomParamGA.dataSetSize = dataSetSize;
-
-        double initialParentSurviveRate = getRandomDoubleInRange(MIN_INITIAL_PARENT_SURVIVE_RATE, MAX_INITIAL_PARENT_SURVIVE_RATE);
-        randomParamGA.pParentSurviveRate = initialParentSurviveRate;
 
         int maxInitialTreeDepth = getRandomIntegerInRange(MIN_TREE_DEPTH, MAX_TREE_DEPTH);
         randomParamGA.maxInitialTreeDepth = maxInitialTreeDepth;
@@ -273,13 +257,8 @@ public class ParamGA{
                 int dataSetSize = getRandomIntegerInRange(MIN_DATA_SET_SIZE, MAX_DATA_SET_SIZE);
                 mutated.dataSetSize = dataSetSize;
                 break;
-            //pParentSurviveRate
-            case 6:
-                double initialParentSurviveRate = getRandomDoubleInRange(MIN_INITIAL_PARENT_SURVIVE_RATE, MAX_INITIAL_PARENT_SURVIVE_RATE);
-                mutated.pParentSurviveRate = initialParentSurviveRate;
-                break;
             //maxInitialTreeDepth
-            case 7:
+            case 6:
                 int maxInitialTreeDepth = getRandomIntegerInRange(MIN_TREE_DEPTH, MAX_TREE_DEPTH);
                 mutated.maxInitialTreeDepth = maxInitialTreeDepth;
                 break;
@@ -340,7 +319,10 @@ public class ParamGA{
     }
 
 
-
+    /**
+     * only used for testing
+     * @param args
+     */
     public static void main(String[] args) {
 //        ParamGA first = new ParamGA(MIN_POPULATION_SIZE, MIN_INITIAL_PARENT_SURVIVE_RATE, MIN_MUTATION_PROB, MIN_CROSSOVER_PROB, MIN_DATA_SET_SIZE, MIN_TREE_DEPTH, MIN_BLOAT_PENALTY_RATE);
 //        ParamGA second = new ParamGA(MAX_POPULATION_SIZE, MAX_INITIAL_PARENT_SURVIVE_RATE, MAX_MUTATION_PROB, MAX_CROSSOVER_PROB, MAX_DATA_SET_SIZE, MAX_TREE_DEPTH, MAX_BLOAT_PENALTY_RATE);

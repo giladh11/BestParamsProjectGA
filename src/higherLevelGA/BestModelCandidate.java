@@ -1,34 +1,35 @@
 package higherLevelGA;
 
-/**
- * gilad is checking
- *  this Class represents a candidate for a best model for a certain black box
- *  will usually be returned by SymRegSolverChromosome
- *  Created by Gilad on 21/06/2016.
- */
-
 
 import interpreter.Expression;
 import lowerLevelGA.BlackBoxTree;
 import evolutionGaTools.Effort;
 
 /**
- * this class represents the bestModelCandidate
+ * this class represents the bestModelCandidate returned by a certain run of a SymRegSolverChromosome
  */
 public class BestModelCandidate {
 
     private Expression bestSyntaxTree;
     private Effort effort;
     private double distanceFromBlackBox;
-    private double fitness;
+    protected double fitness;
 
+    /**
+     * simple constuctor... doesn't get the distance (will be calculated later) and can not calc fitness without the distance
+     * @param bestSyntaxTree
+     * @param effort
+     */
     public BestModelCandidate(Expression bestSyntaxTree, Effort effort) {
         this.bestSyntaxTree = bestSyntaxTree;
         this.effort = effort;
     }
 
-    //calcs the overall fitness with the effort level
 
+    /**
+     * simple toString
+     * @return
+     */
     public String toString(){
         return "Function: " + bestSyntaxTree.print() + "\n" +"      distance: " + distanceFromBlackBox+ " Effort: <" + effort + "> fitness: " + fitness;
     }
