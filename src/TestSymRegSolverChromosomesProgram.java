@@ -153,6 +153,12 @@ import java.util.Scanner;
 
 	}
 
+	//TODO GUI make every set print the number of models it calculated
+	//TODO add "randomFromFamily" that gets a number and chooses a random function from tal's string generator family
+	//TODO choose 10 function that would aoutomaticly be on the Setups when begining run TAL has to choose the functions and
+			//TODO TAL make a function that returns a list of 10 Strings for the default setup
+	//TODO add runAll x option - if gets 0 make sure all the setups in memory had the same number of runs, if get higher number adds the the current most ran setup, x runs
+
 
 
 
