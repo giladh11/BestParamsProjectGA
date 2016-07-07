@@ -37,7 +37,6 @@ public class SolverGAEngine {
 		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
 		Population<FunctionTreeChromosome,Double> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
 		this.environment = new GeneticAlgorithm<FunctionTreeChromosome, Double>(population, distanceMeasurer, paramGA);
-		this.environment.setParentSurviveRate(paramGA.getpParentSurviveRate());
 	}
 
 

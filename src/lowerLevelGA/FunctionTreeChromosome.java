@@ -186,7 +186,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 			population.addChromosome(initialChromosome);
 
 			Fitness<CoefficientsChromosome, Double> fit = new CoefficientsFitness();
-			ParamGA tempParam = new ParamGA(0, 0, 1, 1, 0, 0, 0); //optimize tree will use the original setup
+			ParamGA tempParam = new ParamGA(0, 1, 1, 0, 0, 0); //optimize tree will use the original setup
 			GeneticAlgorithmCoeficient<CoefficientsChromosome, Double> env = new GeneticAlgorithmCoeficient<CoefficientsChromosome, Double>(population, fit, tempParam );
 
 			env.evolve(iterations);

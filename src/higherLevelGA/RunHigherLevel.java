@@ -1,23 +1,10 @@
-/*******************************************************************************
- * Copyright 2012 Yuriy Lagodiuk
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
-import higherLevelGA.BestModelCandidate;
-import higherLevelGA.ParamGA;
-import higherLevelGA.SymRegSolverChromosome;
-import interpreter.*;
-import lowerLevelGA.*;
+package higherLevelGA;
+import interpreter.Context;
+import interpreter.Expression;
+import interpreter.Functions;
+import lowerLevelGA.BlackBoxTree;
+import lowerLevelGA.SolverGAEngine;
+import lowerLevelGA.SolverGAEngineIterationListener;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,7 +14,7 @@ import java.util.Scanner;
 /**
  * a main function that allows to check the implementation of the lower level
  */
- public final class TestSymRegSolverChromosomesProgram {
+ public final class RunHigherLevel {
 
 	private static double epsilon = 0.001;
 	private static ParamGA currentParamGA;
@@ -152,12 +139,6 @@ import java.util.Scanner;
 		}
 
 	}
-
-	//TODO GUI make every set print the number of models it calculated
-	//TODO add "randomFromFamily" that gets a number and chooses a random function from tal's string generator family
-	//TODO choose 10 function that would aoutomaticly be on the Setups when begining run TAL has to choose the functions and
-			//TODO TAL make a function that returns a list of 10 Strings for the default setup
-	//TODO add runAll x option - if gets 0 make sure all the setups in memory had the same number of runs, if get higher number adds the the current most ran setup, x runs
 
 
 
@@ -310,7 +291,7 @@ import java.util.Scanner;
 	/**
 	 * this method will set the paramGa according to the cuurent values of  populationSize=10; pCrossover=1; pMutation=1; dataSetSize=10; maxInitialTreeDepth=1; bloatPenaltyRate=0;
 	 */
-	public static void setParamGA(){
+	public static void setParamGA(){    
 		currentParamGA = new ParamGA(populationSize, pCrossover, pMutation, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);
 		BlackBoxTree.setContextRegular(new Context(baseFunctions, currentParamGA.getVariables()));
 		symRegSolverChromosome = new SymRegSolverChromosome(currentParamGA, baseFunctions);
