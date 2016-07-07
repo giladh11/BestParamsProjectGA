@@ -57,11 +57,7 @@ import java.util.Scanner;
 		String s = null;
 		String arrS[];
 		boolean exit = false;
-//		Console c = System.console();
-//		if (c == null) {
-//			System.err.println("No console.");
-//			System.exit(1);
-//		}
+
 		Scanner in;
 		in = new Scanner(System.in);
 		StringBuilder sbuild;
