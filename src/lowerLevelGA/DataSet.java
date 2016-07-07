@@ -96,6 +96,12 @@ public class DataSet implements ComparableDataSet {
 		double diff = 0;
 		int num = 0;
 
+		//GILAD GOOVER
+		//When the diff is too small,
+		//the program refers to it as NaN or Infinity.
+		//I suggest you to set some bound under which
+		//the diff is essentially zero.
+		
 		for (Point point : this.points) {
 			for (Entry<String, Double> e : point.getContextState().entrySet()) {
 				String variableName = e.getKey();
