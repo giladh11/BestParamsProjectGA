@@ -44,7 +44,7 @@ public class BestModelCandidate {
         distanceFromBlackBox = blackBox.measureDistanceFromCandidate(bestSyntaxTree);
         fitness = -1;//TODO decide how to calc fitness
         return distanceFromBlackBox;
-    }
+    } 
 
     /**
      * simple getter
