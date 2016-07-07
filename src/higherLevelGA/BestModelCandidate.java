@@ -43,7 +43,7 @@ public class BestModelCandidate {
      */
     public double fitnessCalculator(BlackBoxTree blackBox) {
         distanceFromBlackBox = blackBox.measureDistanceFromCandidate(bestSyntaxTree);
-        fitness = -1;//TODO decide how to calc fitness
+        fitness = 1/distanceFromBlackBox;//TODO decide how to calc fitness
         return distanceFromBlackBox;
     }
 
