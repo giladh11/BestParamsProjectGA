@@ -150,6 +150,7 @@ public class TestFunctions {
             kx = randomK();
             polynomial.append(SPACE + action + SPACE + kx);
         }
+
         return polynomial.toString();
     }
 
@@ -365,15 +366,18 @@ public class TestFunctions {
     }
 
 
-    public static List<String> customFunction(){
+    public static List<String> getTestFunctions(){
         List<String> customSet = new LinkedList<>();
-        customSet.add("(x-1) - (x^2 - 2x + 1)/(x-1)");
+        customSet.add("(x-1) - (x^2 - 2x + 1)/(x - 1)");
         customSet.add("sin(x)^2 - cos(x)^2 + 1");
         customSet.add("1/(1 + x^2)");
         customSet.add("1/x^2");
         customSet.add(createPolynomial(3));
         customSet.add(createPolynomial(4));
         customSet.add(createExpFunction(3));
+        customSet.add(createExpFunction(3));
+        customSet.add(createTrigonometricFunction(3));
+        customSet.add(createTrigonometricFunction(5));
         return customSet;
     }
 
@@ -401,9 +405,17 @@ public class TestFunctions {
             System.out.println(exp);
 
 
+
+        List<String> testFunctions = getTestFunctions();
+        System.out.println("TestFunctions");
+
+        for (String test: testFunctions)
+            System.out.println(test);
+
+
         System.out.println();
         System.out.println("BlackBoxes");
-        List<BlackBoxTree> blackBoxTreeList = buildBlackBoxList(exponents);
+        List<BlackBoxTree> blackBoxTreeList = buildBlackBoxList(testFunctions);
         for (BlackBoxTree blackBoxTree: blackBoxTreeList) {
             System.out.println("f(x) = " + blackBoxTree);
             double x = getRandomIntegerInRange(MIN_VALUE, MAX_VALUE);
