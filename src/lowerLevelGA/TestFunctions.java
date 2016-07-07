@@ -33,6 +33,7 @@ public class TestFunctions {
 
 
 
+
     /**
      * Utility function.
      * return a random integer in range(minimum, maximum)
@@ -361,6 +362,19 @@ public class TestFunctions {
             blackBoxTreeList.add(new BlackBoxTree(function));
 
         return blackBoxTreeList;
+    }
+
+
+    public static List<String> customFunction(){
+        List<String> customSet = new LinkedList<>();
+        customSet.add("(x-1) - (x^2 - 2x + 1)/(x-1)");
+        customSet.add("sin(x)^2 - cos(x)^2 + 1");
+        customSet.add("1/(1 + x^2)");
+        customSet.add("1/x^2");
+        customSet.add(createPolynomial(3));
+        customSet.add(createPolynomial(4));
+        customSet.add(createExpFunction(3));
+        return customSet;
     }
 
 
