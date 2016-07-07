@@ -15,7 +15,7 @@
  ******************************************************************************/
 package evolutionGaTools;
 
-public interface Fitness<C extends Chromosome<C>, T extends Comparable<T>> {
+public interface Fitness<C extends Chromosome<C, T>, T extends Comparable<T>> {
 
 	/**
 	 * Assume that chromosome1 is better than chromosome2 <br/>

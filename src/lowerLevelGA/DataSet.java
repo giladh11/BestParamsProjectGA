@@ -29,14 +29,14 @@ import java.util.Random;
  * will usually be created by SymRegSolverChromosome before hading it out to the SolverGAEngine
  */
 public class DataSet implements ComparableDataSet {
-	static Random rand = new Random();
+	private Random rand = new Random();
 	private List<Point> points = new LinkedList<Point>();
 
-	public DataSet(AbstractExpression function, int i, Point... points) {
-		for (Point point : points) {
-			this.points.add(point);
-		}
-	}
+//	public DataSet(AbstractExpression function, int i, Point... points) {
+//		for (Point point : points) {
+//			this.points.add(point);
+//		}
+//	}
 
 
 	/**
@@ -51,11 +51,11 @@ public class DataSet implements ComparableDataSet {
 	 * constuctor that creates a random data set according to a function and a size
 	 * @param function
 	 * @param size
-     */
-	public DataSet(Expression function, int size) {
+	 * @param context
+	 */
+	public DataSet(AbstractExpression function, int size, AbstractContext context) {
 		int numOfPoints = 0;
 		double x, fx;
-		Context context = new Context(list(Functions.CONSTANT), list("x"));
 		while(size>0) {
 			x = getRandomValueInRange();
 			context.setVariable("x", x);
@@ -65,9 +65,7 @@ public class DataSet implements ComparableDataSet {
 		}
 	}
 
-	public DataSet() {
 
-	}
 
 	/**
 	 * See createDataSet

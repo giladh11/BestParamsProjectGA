@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Population<C extends Chromosome<C>> implements Iterable<C> {
+public class Population<C extends Chromosome<C,T> , T extends Comparable<T>> implements Iterable<C> {
 
 	private static final int DEFAULT_NUMBER_OF_CHROMOSOMES = 32;
 

@@ -17,7 +17,7 @@ import java.util.Random;
  * Its main method is "trySolving" which gets a BlackBox, try trySolving it and returns the
  * BestModel found.
  */
-public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome>
+public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome, Double>
 {
 
     private ParamGA paramGA;
@@ -55,7 +55,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @return bestModelCandidate
      */
     public BestModelCandidate trySolving(BlackBoxTree blackBoxTree, boolean printIterations){
-        DataSet dataSet = new DataSet(blackBoxTree.getFunction(), paramGA.getDataSetSize());
+        DataSet dataSet = new DataSet(blackBoxTree.getFunction(), paramGA.getDataSetSize(), blackBoxTree.getContext());
         setEngine(dataSet);
         if(printIterations)
             addListener(engine);
@@ -106,6 +106,22 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
         ParamGA mutatedParamGA = this.paramGA.mutate();
         SymRegSolverChromosome mutatedSolver = new SymRegSolverChromosome(mutatedParamGA, baseFunctions);
         return mutatedSolver;
+    }
+
+    /**
+     * TODO GILAD
+     * @return
+     */
+    public Double getFitness() {
+        return null;
+    }
+
+    /**
+     * TODO GILAD
+     * @param fit
+     */
+    public void setFitness(Double fit) {
+
     }
 
     public Context getContext() {
