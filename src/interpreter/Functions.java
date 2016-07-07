@@ -172,17 +172,17 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double left = childs.get(0).eval(context);
-			double right = childs.get(1).eval(context);
+			List<Expression> children = expression.getChilds();
+			double left = children.get(0).eval(context);
+			double right = children.get(1).eval(context);
 			return (left + right);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
-			String left = childs.get(0).print();
-			String right = childs.get(1).print();
+			List<Expression> children = expression.getChilds();
+			String left = children.get(0).print();
+			String right = children.get(1).print();
 			return String.format("(%s + %s)", left, right);
 		}
 	},
@@ -227,17 +227,17 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double left = childs.get(0).eval(context);
-			double right = childs.get(1).eval(context);
+			List<Expression> children = expression.getChilds();
+			double left = children.get(0).eval(context);
+			double right = children.get(1).eval(context);
 			return (left - right);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
-			String left = childs.get(0).print();
-			String right = childs.get(1).print();
+			List<Expression> children = expression.getChilds();
+			String left = children.get(0).print();
+			String right = children.get(1).print();
 
 			return String.format("(%s - %s)", left, right);
 		}
@@ -283,17 +283,17 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double left = childs.get(0).eval(context);
-			double right = childs.get(1).eval(context);
+			List<Expression> children = expression.getChilds();
+			double left = children.get(0).eval(context);
+			double right = children.get(1).eval(context);
 			return (left * right);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
-			String left = childs.get(0).print();
-			String right = childs.get(1).print();
+			List<Expression> children = expression.getChilds();
+			String left = children.get(0).print();
+			String right = children.get(1).print();
 
 			return String.format("(%s * %s)", left, right);
 		}
@@ -339,17 +339,17 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double left = childs.get(0).eval(context);
-			double right = childs.get(1).eval(context);
+			List<Expression> children = expression.getChilds();
+			double left = children.get(0).eval(context);
+			double right = children.get(1).eval(context);
 			return (left / right);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
-			String left = childs.get(0).print();
-			String right = childs.get(1).print();
+			List<Expression> children = expression.getChilds();
+			String left = children.get(0).print();
+			String right = children.get(1).print();
 
 			return String.format("(%s / %s)", left, right);
 		}
@@ -395,16 +395,16 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double arg = childs.get(0).eval(context);
+			List<Expression> children = expression.getChilds();
+			double arg = children.get(0).eval(context);
 			return Math.sqrt(Math.abs(arg));
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
+			List<Expression> children = expression.getChilds();
 
-			String arg = childs.get(0).print();
+			String arg = children.get(0).print();
 
 			return String.format("sqrt(abs(%s))", arg);
 		}
@@ -450,18 +450,18 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double arg1 = childs.get(0).eval(context);
-			double arg2 = childs.get(1).eval(context);
+			List<Expression> children = expression.getChilds();
+			double arg1 = children.get(0).eval(context);
+			double arg2 = children.get(1).eval(context);
 			return Math.pow(arg1, arg2);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
+			List<Expression> children = expression.getChilds();
 
-			String arg1 = childs.get(0).print();
-			String arg2 = childs.get(1).print();
+			String arg1 = children.get(0).print();
+			String arg2 = children.get(1).print();
 
 			return String.format("(%s ^ %s)", arg1, arg2);
 		}
@@ -509,16 +509,16 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double arg = childs.get(0).eval(context);
+			List<Expression> children = expression.getChilds();
+			double arg = children.get(0).eval(context);
 			return Math.log(Math.abs(arg) + this.threshold);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
+			List<Expression> children = expression.getChilds();
 
-			String arg = childs.get(0).print();
+			String arg = children.get(0).print();
 
 			return String.format("ln(abs(%s) + %s)", arg, this.threshold);
 		}
@@ -564,16 +564,16 @@ public enum Functions implements Function {
 
 		@Override
 		public double eval(Expression expression, Context context) {
-			List<Expression> childs = expression.getChilds();
-			double arg = childs.get(0).eval(context);
+			List<Expression> children = expression.getChilds();
+			double arg = children.get(0).eval(context);
 			return Math.sin(arg);
 		}
 
 		@Override
 		public String print(Expression expression) {
-			List<Expression> childs = expression.getChilds();
+			List<Expression> children = expression.getChilds();
 
-			String arg = childs.get(0).print();
+			String arg = children.get(0).print();
 
 			return String.format("sin(%s)", arg);
 		}

@@ -28,7 +28,7 @@ public class ParamGA{
     private int maxInitialTreeDepth;//1
 
     //Number of ParamGA that are evolved during higher lever GA.
-    private static final int numOfParamGaFields = 6;
+    private static final int numOfParamGAFields = 6;
 
     //PARAM max and min values for the random param generator
             // used by mutate() and getRandomParamGA()
@@ -166,18 +166,18 @@ public class ParamGA{
      */
     public List<ParamGA> crossover(ParamGA anotherChromosome) {
         //Selecting the crossover point
-        int crossoverPoint = getRandomIntegerInRange(1, numOfParamGaFields);
+        int crossoverPoint = getRandomIntegerInRange(1, numOfParamGAFields);
         List<ParamGA> crossoverParamGAs = new LinkedList<>();
 
         ParamGA firstOffspring = null;
         ParamGA secondOffspring = null;
 
         try {
-            //First offspring is composed from the first #crossoverPoint field of this chromosome
+            //First offspring is composed from the first #crossoverPoint fields of this chromosome
             //and the last from anotherChromosome.
             firstOffspring = createOffspring(this, anotherChromosome, crossoverPoint);
 
-            //Second offspring is the reflection of the first.
+            //Second offspring is a reflection of the first.
             secondOffspring = createOffspring(anotherChromosome, this, crossoverPoint);
 
         } catch (IllegalAccessException e) {
@@ -209,7 +209,7 @@ public class ParamGA{
                     field.set(offspring, field.get(first));
                 copiedFields++;
             }
-            else if(copiedFields <= numOfParamGaFields){
+            else if(copiedFields <= numOfParamGAFields){
                 field.set(offspring, field.get(second));
                 copiedFields++;
             }
@@ -226,7 +226,7 @@ public class ParamGA{
      * @return
      */
     public ParamGA mutate() {
-        int mutatedParam =  getRandomIntegerInRange(1, numOfParamGaFields);
+        int mutatedParam =  getRandomIntegerInRange(1, numOfParamGAFields);
         //Copy the original ParamGA before mutation
         ParamGA mutated = new ParamGA(this);
         switch (mutatedParam){
