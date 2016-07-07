@@ -164,8 +164,12 @@ import java.util.Scanner;
 
 	//TODO GUI make every set print the number of models it calculated
 	//TODO add "randomFromFamily" that gets a number and chooses a random function from tal's string generator family
-	//TODO choose 10 function that would aoutomaticly be on the Setups when begining run TAL has to choose the functions and
-			//TODO TAL make a function that returns a list of 10 Strings for the default setup
+			//GILAD you can use the following functions:
+			//1. createPolynomial(int ndegree)
+			//2. createTrigonometricFunction(int nlength)
+			//3. createExpFunction(int nlength)
+
+	//TODO GILAD use the function getTestFunction() in order to get a list of 10 test functions.
 	//TODO add runAll x option - if gets 0 make sure all the setups in memory had the same number of runs, if get higher number adds the the current most ran setup, x runs
 
 
