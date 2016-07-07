@@ -3,10 +3,7 @@ package lowerLevelGA;
 
 import java.util.List;
 
-import evolutionGaTools.GeneticAlgorithm;
-import evolutionGaTools.Fitness;
-import evolutionGaTools.IterartionListener;
-import evolutionGaTools.Population;
+import evolutionGaTools.*;
 import higherLevelGA.BestModelCandidate;
 import higherLevelGA.ParamGA;
 import interpreter.*;
@@ -18,7 +15,7 @@ import interpreter.*;
 public class SolverGAEngine {
 
 	private ParamGA paramGA;
-	private double effort = 0;
+	Effort effort;
 
 	private GeneticAlgorithm<FunctionTreeChromosome, Double> environment;
 
@@ -38,21 +35,10 @@ public class SolverGAEngine {
 		this.comparableDataSet = comparableDataSet;
 		this.paramGA = paramGA;
 		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
-		Population<FunctionTreeChromosome> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
+		Population<FunctionTreeChromosome,Double> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
 		this.environment = new GeneticAlgorithm<FunctionTreeChromosome, Double>(population, distanceMeasurer, paramGA);
 		this.environment.setParentSurviveRate(paramGA.getpParentSurviveRate());
 	}
-
-	// DELETE lowerLevelGA constructor for problems with example code
-//	public SolverGAEngine(ComparableDataSet comparableDataSet, Collection<String> variables, List<? extends Function> baseFunctions) {
-//		this.context = new Context(baseFunctions, variables);
-//		this.comparableDataSet = comparableDataSet;
-//		this.paramGA = null;
-//		DistanceMeasurer distanceMeasurer = new DistanceMeasurer(this.comparableDataSet);
-//		Population<FunctionTreeChromosome> population = this.createPopulation(this.context, distanceMeasurer, paramGA.getPopulationSize());
-//		this.environment = new GeneticAlgorithm<FunctionTreeChromosome, Double>(population, distanceMeasurer, paramGA);
-//		this.environment.setParentSurviveRate(paramGA.getpParentSurviveRate());
-//	}
 
 
 	/**
@@ -62,8 +48,8 @@ public class SolverGAEngine {
 	 * @param populationSize
      * @return
      */
-	private Population<FunctionTreeChromosome> createPopulation(Context context, Fitness<FunctionTreeChromosome, Double> fitnessFunction, int populationSize) {
-		Population<FunctionTreeChromosome> population = new Population<FunctionTreeChromosome>();
+	private Population<FunctionTreeChromosome, Double> createPopulation(Context context, Fitness<FunctionTreeChromosome, Double> fitnessFunction, int populationSize) {
+		Population<FunctionTreeChromosome, Double> population = new Population<FunctionTreeChromosome, Double>();
 		for (int i = 0; i < populationSize; i++) {
 			FunctionTreeChromosome chromosome =
 					new FunctionTreeChromosome(context, fitnessFunction, SyntaxTreeUtils.createTree(paramGA.getMaxInitialTreeDepth(), context));
@@ -113,8 +99,8 @@ public class SolverGAEngine {
 	 * a getter for the effort level used to get the best tree
 	 * @return
      */
-	public double getEffortLevelUsedToReachBest() {
-		return this.effort;
+	public Effort getEffortLevelUsedToReachBest() {
+		return effort;
 	}
 
 	/**

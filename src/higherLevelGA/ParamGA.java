@@ -11,7 +11,7 @@ import java.util.Random;
  * This class represents the GA parameters that will be used by SymRegSolverChromosome and
  * that will develop over time.
  */
-public class ParamGA implements Chromosome<ParamGA> {
+public class ParamGA{
     //These are the Chromosome's characteristics parameters
 
     private int populationSize;
@@ -243,7 +243,6 @@ public class ParamGA implements Chromosome<ParamGA> {
      * and generate a new value according to field's legal range.
      * @return
      */
-    @Override
     public ParamGA mutate() {
         int mutatedParam =  getRandomIntegerInRange(1, PARAM_GA_COUNT);
         //Copy the original ParamGA before mutation
@@ -332,8 +331,8 @@ public class ParamGA implements Chromosome<ParamGA> {
     public String toString(){
         return
                 "ParamGA - populationSize: " + populationSize + ", " +
-                        "pCrossover: " + pCrossover*100 + "%, " +
-                        "pMutation: " +  pMutation*100 + "%, " +
+                        "pCrossover: " + pCrossover + ", " +
+                        "pMutation: " +  pMutation + ", " +
                         "dateSetSize: " + dataSetSize + ", " +
                         "maxInitialTreeDepth: " + maxInitialTreeDepth + ", " +
                         "bloatPenaltyRate: " + bloatPenaltyRate;
