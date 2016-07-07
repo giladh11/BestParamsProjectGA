@@ -117,7 +117,7 @@ public class GeneticAlgorithmCoeficient<C extends Chromosome<C, T>, T extends Co
 			}
 		}
 
-		effortInThisGeneration = newPopulation.getSize()-parentPopulationSize;//PARAM EFFORT   IMPROVE handle treesizes as well
+		effortInThisGeneration = newPopulation.getSize()-parentPopulationSize;
 		newPopulation.sortPopulationByFitness(this.chromosomesComparator);
 		newPopulation.trim(parentPopulationSize); //choosing the best parentPopulationSize chromosomes in the new generation
 		this.population = newPopulation;
@@ -131,7 +131,7 @@ public class GeneticAlgorithmCoeficient<C extends Chromosome<C, T>, T extends Co
 			if (this.terminate) {
 				break;
 			}
-			totalEngineEffort += this.evolve();//PARAM EFFORT can set an heavier wieght  for each generation
+			totalEngineEffort += this.evolve();
 			this.iteration = i;
 //			for (IterartionListener<C, T> l : this.iterationListeners) {
 //				l.update(this);

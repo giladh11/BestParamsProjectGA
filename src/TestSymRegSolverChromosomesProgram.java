@@ -48,11 +48,24 @@ import java.util.Scanner;
 
 
 
+	//params chosen PARAM in lower level Tester
+		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
+		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;
+		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
+		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = 0.001;
+
+		private static int MAX_POINT_IN_RANGE = 50; //for DATASET creator
+		private static int MIN_POINT_IN_RANGE = -50;
+
+
 
 	public static void main(String[] args) {
-
-
-
+		//params setters
+			BlackBoxTree.setObjectiveNumOfPointsForDistanceMeasurer(OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER);
+			SymRegSolverChromosome.setMaxNumOfIterationsLowerLevel(MAX_NUM_OF_ITERATIONS_LOWER_LEVEL);
+			SymRegSolverChromosome.setEpsilonDistanceForLowerEvolutionToStop(EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP);
+			DataSet.setMaxPointInRange(MAX_POINT_IN_RANGE);
+			DataSet.setMinPointInRange(MIN_POINT_IN_RANGE);
 
 		String s = null;
 		String arrS[];
@@ -200,7 +213,7 @@ import java.util.Scanner;
 	 * runs a new random black box
 	 */
 	private static void createNewRandomBlackBox() {
-		currentBlackBoxTree = new BlackBoxTree(4, sharedContext);//PARAM set how big will be the currentBlackBoxTree
+		currentBlackBoxTree = new BlackBoxTree(SIZE_OF_RANDOM_BLACKBOXTREE, sharedContext);
 		System.out.println(" Random function is " + currentBlackBoxTree);
 		currentSetup = new Setup(currentBlackBoxTree, currentParamGA);
 		currentSetupIndex = -1;
@@ -331,7 +344,7 @@ import java.util.Scanner;
 
 				Expression bestSyntaxTree = engine.getBestSyntaxTree();
 
-				double currFitValue = engine.fitnessMeasureShouldNotBeUsed(bestSyntaxTree);
+				double currFitValue = engine.fitnessMeasureShouldNotBeUsed(bestSyntaxTree);//TODO GILAD check whats up with this?
 
 				// log to console
 				System.out.println(

@@ -11,6 +11,8 @@ import interpreter.*;
  */
 public class BlackBoxTree {
 
+    private static int objectiveNumOfPointsForDistanceMeasurer;
+
     //private Expression function;
     private AbstractContext context;
     private static AbstractContext contextRegular;
@@ -66,7 +68,7 @@ public class BlackBoxTree {
      */
     public double measureDistanceFromCandidate(Expression bestModelExpression){
         if(this.generalDataSet == null) { //CHECK this function
-            this.generalDataSet = new DataSet(this.function, 100, this.context);//PARAM choose how many points are checked "objectively"
+            this.generalDataSet = new DataSet(this.function, objectiveNumOfPointsForDistanceMeasurer, this.context);
         }
         return this.generalDataSet.distanceFromExpression(bestModelExpression,contextRegular);
     }
@@ -97,5 +99,13 @@ public class BlackBoxTree {
      */
     public AbstractContext getContext() {
         return context;
+    }
+
+    /**
+     * public setter for num of points
+     * @param objectiveNumOfPointsForDistanceMeasurer
+     */
+    public static void setObjectiveNumOfPointsForDistanceMeasurer(int objectiveNumOfPointsForDistanceMeasurer) {
+        BlackBoxTree.objectiveNumOfPointsForDistanceMeasurer = objectiveNumOfPointsForDistanceMeasurer;
     }
 }

@@ -26,10 +26,13 @@ import java.util.Random;
 
 /**
  * this class represents a DATASET of points and their values.
- * will usually be created by SymRegSolverChromosome before hading it out to the SolverGAEngine
+ * will usually be created by SymRegSolverChromosome before hading it out to the HigherGAEngine
  */
 public class DataSet implements ComparableDataSet {
-	private Random rand = new Random();
+	private static int MAX_POINT_IN_RANGE;
+	private static int MIN_POINT_IN_RANGE;
+
+	private static Random rand = new Random();
 	private List<Point> points = new LinkedList<Point>();
 
 //	public DataSet(AbstractExpression function, int i, Point... points) {
@@ -72,8 +75,7 @@ public class DataSet implements ComparableDataSet {
 	 * @return
 	 */
 	public double getRandomValueInRange() {
-		int minimum = -50, maximum = 50;//PARAM getRandomValueInRange() for the chosing of x values of the data sets
-		double randomNum = minimum + rand.nextInt((maximum - minimum) + 1);
+		double randomNum = MIN_POINT_IN_RANGE + rand.nextInt((MAX_POINT_IN_RANGE - MIN_POINT_IN_RANGE) + 1);
 		return randomNum;
 	}
 
@@ -131,5 +133,22 @@ public class DataSet implements ComparableDataSet {
 		}
 		return list;
 	}
+
+	/**
+	 * simple setter
+	 * @param maxPointInRange
+     */
+	public static void setMaxPointInRange(int maxPointInRange) {
+		MAX_POINT_IN_RANGE = maxPointInRange;
+	}
+
+	/**
+	 * simple setter
+	 * @param minPointInRange
+     */
+	public static void setMinPointInRange(int minPointInRange) {
+		MIN_POINT_IN_RANGE = minPointInRange;
+	}
+
 
 }

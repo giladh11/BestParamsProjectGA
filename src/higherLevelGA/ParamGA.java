@@ -1,7 +1,5 @@
 package higherLevelGA;
 
-import evolutionGaTools.Chromosome;
-
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -30,30 +28,30 @@ public class ParamGA{
     private int maxInitialTreeDepth;//1
 
     //Number of ParamGA that are evolved during higher lever GA.
-    private static final int PARAM_GA_COUNT = 7;
+    private static final int numOfParamGaFields = 6;
 
-    //max and min values for the random param generator
-            //PARAM used by mutate() and getRandomParamGA()
+    //PARAM max and min values for the random param generator
+            // used by mutate() and getRandomParamGA()
             private static final double MIN_MUTATION_PROB = 0;
             private static final double MAX_MUTATION_PROB = 1;
 
-            //PARAM used by mutate() and getRandomParamGA()
+            //used by mutate() and getRandomParamGA()
             private static final double  MIN_CROSSOVER_PROB = 0;
             private static final double MAX_CROSSOVER_PROB = 1;
 
-            //PARAM used by mutate() and getRandomParamGA()
+            //used by mutate() and getRandomParamGA()
             private static final int MIN_POPULATION_SIZE = 5;
             private static final int MAX_POPULATION_SIZE = 10;
 
-            //PARAM used by mutate() and getRandomParamGA()
+            //used by mutate() and getRandomParamGA()
             private static final double MIN_BLOAT_PENALTY_RATE = 0;
             private static final double MAX_BLOAT_PENALTY_RATE = 2;
 
-            //PARAM used by mutate() and getRandomParamGA()
+            //used by mutate() and getRandomParamGA()
             private static final int MIN_DATA_SET_SIZE = 5;
             private static final int MAX_DATA_SET_SIZE = 20;
 
-            //PARAM used by mutate() and getRandomParamGA()
+            //used by mutate() and getRandomParamGA()
             private static final int MIN_TREE_DEPTH = 1;
             private static final int MAX_TREE_DEPTH = 8;
 
@@ -161,14 +159,14 @@ public class ParamGA{
 
     /**
      * ParamGA crossover operator is a classical one-point crossover:
-     * Choosing a random point from 1 to PARAM_GA_COUNT,
+     * Choosing a random point from 1 to PARAm_GA_COUNT,
      * and create two offspring.
      * @param anotherChromosome
      * @return list of two offspring
      */
     public List<ParamGA> crossover(ParamGA anotherChromosome) {
         //Selecting the crossover point
-        int crossoverPoint = getRandomIntegerInRange(1, PARAM_GA_COUNT);
+        int crossoverPoint = getRandomIntegerInRange(1, numOfParamGaFields);
         List<ParamGA> crossoverParamGAs = new LinkedList<>();
 
         ParamGA firstOffspring = null;
@@ -211,7 +209,7 @@ public class ParamGA{
                     field.set(offspring, field.get(first));
                 copiedFields++;
             }
-            else if(copiedFields <= PARAM_GA_COUNT){
+            else if(copiedFields <= numOfParamGaFields){
                 field.set(offspring, field.get(second));
                 copiedFields++;
             }
@@ -228,7 +226,7 @@ public class ParamGA{
      * @return
      */
     public ParamGA mutate() {
-        int mutatedParam =  getRandomIntegerInRange(1, PARAM_GA_COUNT);
+        int mutatedParam =  getRandomIntegerInRange(1, numOfParamGaFields);
         //Copy the original ParamGA before mutation
         ParamGA mutated = new ParamGA(this);
         switch (mutatedParam){

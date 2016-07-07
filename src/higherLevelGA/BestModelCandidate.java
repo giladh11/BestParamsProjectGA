@@ -37,7 +37,7 @@ public class BestModelCandidate {
 
     /**
      * this method will get a blackbox and check its distance from the bestSyntaxTree
-     * PARAM the amount of points is a project parameter
+     * the amount of points is a project parameter
      * @param blackBox
      * @return
      */

@@ -1,7 +1,6 @@
 package higherLevelGA;
 
 import evolutionGaTools.Chromosome;
-import higherLevelGA.ParamGA;
 import interpreter.Context;
 import interpreter.Expression;
 import interpreter.Functions;
@@ -9,7 +8,6 @@ import lowerLevelGA.*;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * This class represents the chromosome for the higher level GA.
@@ -19,12 +17,12 @@ import java.util.Random;
  */
 public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome, Double>
 {
+    private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL;
+    private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP;
 
     private ParamGA paramGA;
-    private int generations = 200;//PARAM
     //Inner parameters
     private SolverGAEngine engine;
-    private static  double epsilon = 0.001;
     private static List<Functions> baseFunctions;
     private double fitness = -1;
 
@@ -40,7 +38,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     }
 
     /**
-     * Initialize SolverGAEngine(Engine for lower level GA) for the given dataSet.
+     * Initialize HigherGAEngine(Engine for lower level GA) for the given dataSet.
      * Assuming fixed genotype for all higher lever GA chromosomes.
      * @param dataSet
      */
@@ -59,12 +57,12 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @param blackBoxTree
      * @return bestModelCandidate
      */
-    public BestModelCandidate trySolving(BlackBoxTree blackBoxTree, boolean printIterations){
+    public BestModelCandidate trySolving (BlackBoxTree blackBoxTree, boolean printIterations){
         DataSet dataSet = new DataSet(blackBoxTree.getFunction(), paramGA.getDataSetSize(), blackBoxTree.getContext());
         setEngine(dataSet);
         if(printIterations)
             addListener(engine);
-        engine.evolve(generations);
+        engine.evolve(MAX_NUM_OF_ITERATIONS_LOWER_LEVEL);
         BestModelCandidate bestModelCandidate = engine.buildBestModelCandidate();
         bestModelCandidate.fitnessCalculator(blackBoxTree);
         return bestModelCandidate;
@@ -155,7 +153,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
                                 engine.getIteration(), currFitValue, bestSyntaxTree.print()));
 
                 // halt condition
-                if (currFitValue < epsilon) {
+                if (currFitValue < EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP) {
                     engine.terminate();
                 }
             }
@@ -165,5 +163,21 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
 
     public ParamGA getParamGA() {
         return paramGA;
+    }
+
+    /**
+     * simple static setter
+     * @param epsilonDistanceForLowerEvolutionToStop
+     */
+    public static void setEpsilonDistanceForLowerEvolutionToStop(double epsilonDistanceForLowerEvolutionToStop) {
+        EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = epsilonDistanceForLowerEvolutionToStop;
+    }
+
+    /**
+     * simple static setter
+     * @param maxNumOfIterationsLowerLevel
+     */
+    public static void setMaxNumOfIterationsLowerLevel(int maxNumOfIterationsLowerLevel) {
+        MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = maxNumOfIterationsLowerLevel;
     }
 }
