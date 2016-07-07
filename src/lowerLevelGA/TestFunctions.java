@@ -368,7 +368,7 @@ public class TestFunctions {
 
     public static List<String> getTestFunctions(){
         List<String> customSet = new LinkedList<>();
-        customSet.add("(x-1) - (x^2 - 2x + 1)/(x - 1)");
+        customSet.add("(x-1) - (x^2 - 2*x + 1)/(x - 1)");
         customSet.add("sin(x)^2 - cos(x)^2 + 1");
         customSet.add("1/(1 + x^2)");
         customSet.add("1/x^2");
