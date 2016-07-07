@@ -10,19 +10,19 @@ package higherLevelGA;
 
 import interpreter.Expression;
 import lowerLevelGA.BlackBoxTree;
-import lowerLevelGA.DistanceMeasurer;
+import evolutionGaTools.Effort;
 
 /**
- *
+ * this class represents the bestModelCandidate
  */
 public class BestModelCandidate {
 
     private Expression bestSyntaxTree;
-    private double effort;
+    private Effort effort;
     private double distanceFromBlackBox;
     private double fitness;
 
-    public BestModelCandidate(Expression bestSyntaxTree, double effort) {
+    public BestModelCandidate(Expression bestSyntaxTree, Effort effort) {
         this.bestSyntaxTree = bestSyntaxTree;
         this.effort = effort;
     }
@@ -30,7 +30,7 @@ public class BestModelCandidate {
     //calcs the overall fitness with the effort level
 
     public String toString(){
-        return "Function: " + bestSyntaxTree.print() + "\n" +"      distance: " + distanceFromBlackBox+ " Effort: " + effort + " fitness: " + fitness;
+        return "Function: " + bestSyntaxTree.print() + "\n" +"      distance: " + distanceFromBlackBox+ " Effort: <" + effort + "> fitness: " + fitness;
     }
 
 
@@ -42,7 +42,7 @@ public class BestModelCandidate {
      */
     public double fitnessCalculator(BlackBoxTree blackBox) {
         distanceFromBlackBox = blackBox.measureDistanceFromCandidate(bestSyntaxTree);
-        fitness = distanceFromBlackBox+effort;
+        fitness = -1;//TODO decide how to calc fitness
         return distanceFromBlackBox;
     }
 
@@ -50,7 +50,7 @@ public class BestModelCandidate {
      * simple getter
      * @return
      */
-    public double getEffort() {
+    public Effort getEffort() {
         return effort;
     }
     /**
@@ -70,3 +70,4 @@ public class BestModelCandidate {
 
 
 }
+

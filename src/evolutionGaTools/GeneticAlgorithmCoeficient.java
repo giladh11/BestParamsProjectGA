@@ -20,15 +20,15 @@ import higherLevelGA.ParamGA;
 import java.util.*;
 
 /**
+ * CLASS is only used so we could DEBUG GeneticAlgorithm easily
  * heart of the genetic process
  * each iteration of the process is manged by the evolve method in this class
  * @param <C>
  * @param <T>
  */
-public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T>> {
+public class GeneticAlgorithmCoeficient<C extends Chromosome<C, T>, T extends Comparable<T>> {
 
 	private static final int ALL_PARENTAL_CHROMOSOMES = Integer.MAX_VALUE;
-	private Effort effort;
 
 	private class ChromosomesComparator implements Comparator<C> {
 
@@ -45,12 +45,8 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 		public T fit(C chr) {
 			T fit = this.cache.get(chr);
 			if (fit == null) {
-				fit =  chr.getFitness();
-				if(fit==null) {
-					fit = GeneticAlgorithm.this.fitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
-					this.cache.put(chr, fit);
-					chr.setFitness(fit);
-				}
+				fit = GeneticAlgorithmCoeficient.this.fitnessFunc.calculate(chr);
+				this.cache.put(chr, fit);
 			}
 			return fit;
 		};
@@ -79,7 +75,7 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 
 	private int iteration = 0;
 
-	public GeneticAlgorithm(Population<C, T> population, Fitness<C, T> fitnessFunc, ParamGA paramGA) {
+	public GeneticAlgorithmCoeficient(Population<C,T> population, Fitness<C, T> fitnessFunc, ParamGA paramGA) {
 		this.population = population;
 		this.fitnessFunc = fitnessFunc;
 		this.chromosomesComparator = new ChromosomesComparator();
@@ -87,13 +83,14 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 		this.paramGA = paramGA;
 	}
 
-	public void evolve() {
+	public double evolve() {
 		double x;
+		double effortInThisGeneration = 0;
 		int parentPopulationSize = this.population.getSize();
 		C chromosome, mutated , perviuosChromo = null;
 
 
-		Population<C, T> newPopulation = new Population<C, T>();
+		Population<C,T> newPopulation = new Population<C,T>();
 
 
 		this.population.shufflePopulation();
@@ -108,7 +105,6 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 				//getting crossover into the next generation
 				x = Math.random();
 				if (x < paramGA.getCrossoverRate()) {
-					effort.numOfCrossovers++;
 					List<C> crossovered = chromosome.crossover(perviuosChromo);
 					for (C c : crossovered) {
 						newPopulation.addChromosome(c);
@@ -120,42 +116,32 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 			//getting mutattion in the next generation
 			x = Math.random();
 			if (x < paramGA.getpMutationRate()) {
-				effort.numOfMutations++;
 				mutated = chromosome.mutate();
 				newPopulation.addChromosome(mutated);
 			}
 		}
 
+		effortInThisGeneration = newPopulation.getSize()-parentPopulationSize;//PARAM EFFORT   IMPROVE handle treesizes as well
 		newPopulation.sortPopulationByFitness(this.chromosomesComparator);
 		newPopulation.trim(parentPopulationSize); //choosing the best parentPopulationSize chromosomes in the new generation
 		this.population = newPopulation;
-
+		return effortInThisGeneration;
 	}
 
-	public Effort evolve(int count) {
+	public double evolve(int count) {
 		this.terminate = false;
-		// IMPROVE GILAD TODO handle tree sizes as well
-		effort = new Effort(0,0,0,0);
+		double totalEngineEffort = this.population.getSize();
 		for (int i = 0; i < count; i++) {
 			if (this.terminate) {
-				effort.genNum = i;
 				break;
 			}
-			this.evolve();
+			totalEngineEffort += this.evolve();//PARAM EFFORT can set an heavier wieght  for each generation
 			this.iteration = i;
-			for (IterartionListener<C, T> l : this.iterationListeners) {
-				l.update(this);
-			}
+//			for (IterartionListener<C, T> l : this.iterationListeners) {
+//				l.update(this);
+//			}
 		}
-
-		if (effort.genNum ==0)
-			effort.genNum = count;
-
-		effort.numOfPointsEvaluated += paramGA.getPopulationSize()*paramGA.getDataSetSize();
-		effort.numOfPointsEvaluated += effort.numOfCrossovers*paramGA.getDataSetSize()*2;
-		effort.numOfPointsEvaluated += effort.numOfMutations*paramGA.getDataSetSize();
-
-		return effort;
+		return totalEngineEffort;
 	}
 
 	public int getIteration() {
@@ -166,7 +152,7 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 		this.terminate = true;
 	}
 
-	public Population<C, T> getPopulation() {
+	public Population<C,T> getPopulation() {
 		return this.population;
 	}
 

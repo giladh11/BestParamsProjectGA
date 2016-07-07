@@ -13,13 +13,13 @@ public class BlackBoxTree {
 
     //private Expression function;
     private AbstractContext context;
+    private static AbstractContext contextRegular;
     private DataSet generalDataSet = null;
     private AbstractExpression function;
 
     public BlackBoxTree(String expression){
         function = new CustomExpression(expression);
         context = new CustomContext();
-
     }
     /**
      * constructor
@@ -41,6 +41,13 @@ public class BlackBoxTree {
         this.context = context;
     }
 
+    /**
+     * only supposed to be used once
+     * @param contextRegular
+     */
+    public static void setContextRegular(AbstractContext contextRegular) {
+        BlackBoxTree.contextRegular = contextRegular;
+    }
 
 
     /**
@@ -59,9 +66,9 @@ public class BlackBoxTree {
      */
     public double measureDistanceFromCandidate(Expression bestModelExpression){
         if(this.generalDataSet == null) { //CHECK this function
-            this.generalDataSet = new DataSet(this.function, 100);//PARAM choose how many points are checked "objectively"
+            this.generalDataSet = new DataSet(this.function, 100, this.context);//PARAM choose how many points are checked "objectively"
         }
-        return this.generalDataSet.distanceFromExpression(bestModelExpression, context);
+        return this.generalDataSet.distanceFromExpression(bestModelExpression,contextRegular);
     }
 
 //    public void print(){
@@ -82,5 +89,13 @@ public class BlackBoxTree {
      */
     public AbstractExpression getFunction() {
         return function;
+    }
+
+    /**
+     * simple getter
+     * @return
+     */
+    public AbstractContext getContext() {
+        return context;
     }
 }

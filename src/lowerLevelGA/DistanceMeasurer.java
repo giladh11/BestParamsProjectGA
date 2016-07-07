@@ -38,7 +38,7 @@ public class DistanceMeasurer implements Fitness<FunctionTreeChromosome, Double>
      */
 	@Override
 	public Double calculate(FunctionTreeChromosome chromosome) {
-		ComparableDataSet comparableDataSet = new DataSet();
+		//ComparableDataSet comparableDataSet = new DataSet(); //DELETE
 		Expression expression = chromosome.getSyntaxTree();
 		Context context = chromosome.getContext();
 		return this.comparableDataSet.distanceFromExpression(expression, context);

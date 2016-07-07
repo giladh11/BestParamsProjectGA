@@ -20,10 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import evolutionGaTools.Chromosome;
-import evolutionGaTools.GeneticAlgorithm;
-import evolutionGaTools.Fitness;
-import evolutionGaTools.Population;
+import evolutionGaTools.*;
 import higherLevelGA.ParamGA;
 import interpreter.Context;
 import interpreter.Expression;
@@ -34,15 +31,17 @@ import interpreter.SyntaxTreeUtils;
  * this class represents a possible solution for a certain blackBox -
  * 			meaning if every generation of the lower GA there are a lot of these
  */
-class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
+class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Double> {
 
 	private Expression syntaxTree;
 
 	private Context context;
 
-	private Fitness<FunctionTreeChromosome, Double> fitnessFunction;
+	private Fitness<FunctionTreeChromosome, Double> fitnessFunction;//can calculate
 
 	private Random random = new Random();
+
+	Double fitness = null;
 
 	/**
 	 * constructor
@@ -54,6 +53,20 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 		this.context = context;
 		this.fitnessFunction = fitnessFunction;
 		this.syntaxTree = syntaxTree;
+	}
+
+	/**
+	 *	returns the fitness if its allocated
+	 */
+	public Double getFitness(){
+		return fitness;//stop the fitness from being calculated twice
+	}
+
+	/**
+	 *	sets the fitness
+	 */
+	public void setFitness(Double n){
+		this.fitness = n;//stop the fitness from being calculated twice
 	}
 
 	/**
@@ -166,7 +179,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 
 		if (coefficientsOfTree.size() > 0) {
 			CoefficientsChromosome initialChromosome = new CoefficientsChromosome(coefficientsOfTree, 0.6, 0.8);
-			Population<CoefficientsChromosome> population = new Population<CoefficientsChromosome>();
+			Population<CoefficientsChromosome,Double> population = new Population<CoefficientsChromosome, Double>();
 			for (int i = 0; i < 5; i++) {
 				population.addChromosome(initialChromosome.mutate());
 			}
@@ -174,7 +187,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 
 			Fitness<CoefficientsChromosome, Double> fit = new CoefficientsFitness();
 			ParamGA tempParam = new ParamGA(0, 0, 1, 1, 0, 0, 0); //optimize tree will use the original setup
-			GeneticAlgorithm<CoefficientsChromosome, Double> env = new GeneticAlgorithm<FunctionTreeChromosome.CoefficientsChromosome, Double>(population, fit, tempParam );
+			GeneticAlgorithmCoeficient<CoefficientsChromosome, Double> env = new GeneticAlgorithmCoeficient<CoefficientsChromosome, Double>(population, fit, tempParam );
 
 			env.evolve(iterations);
 
@@ -213,7 +226,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 	 * their is an inner GA process happening whole evaluating the FunctionTreeChromosome
 	 * this inner GA is used to find different coefficient
 	 */
-	private class CoefficientsChromosome implements Chromosome<CoefficientsChromosome>, Cloneable {
+	private class CoefficientsChromosome implements Chromosome<CoefficientsChromosome, Double>, Cloneable {
 
 		private double pMutation;
 
@@ -226,6 +239,23 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome> {
 			this.pMutation = pMutation;
 			this.pCrossover = pCrossover;
 		}
+
+		/**
+		 * only because i changed the interface of chromosome
+		 * @return
+         */
+		public Double getFitness(){
+			return new Double(-1);
+		}
+
+		/**
+		 * only because i changed the interface of chromosome
+		 * @return
+		 */
+		public void setFitness(Double n){
+			return;
+		}
+
 
 		/**
 		 * cross over for the inner coefficient chromosome
