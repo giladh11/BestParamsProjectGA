@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/bgg.iml" filepath="$PROJECT_DIR$/bgg.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../Parsii/parsii/functionParser/main.iml" filepath="$PROJECT_DIR$/../Parsii/parsii/functionParser/main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../Parsii/parsii/testFunctionParser/test.iml" filepath="$PROJECT_DIR$/../Parsii/parsii/testFunctionParser/test.iml" />
     </modules>
   </component>
 </project>
