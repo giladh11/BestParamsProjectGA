@@ -48,9 +48,9 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 				fit =  chr.getFitness();
 				if(fit==null) {
 					fit = GeneticAlgorithm.this.fitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
-					this.cache.put(chr, fit);
-					chr.setFitness(fit);
 				}
+				this.cache.put(chr, fit);
+				chr.setFitness(fit);
 			}
 			return fit;
 		};

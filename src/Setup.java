@@ -106,6 +106,7 @@ class Setup{
      * @param s
      */
     private void appendAverages(StringBuilder s){
+        s.append("      num of best models found = "+bestModelFoundList.size() + "\n");
         s.append("      minGen = "+ minGen + ", avgGen = "+ sumGen /bestModelFoundList.size() + ", maxGen = " + maxGen + "\n");
         s.append("      minDistanceFromBlackBox = " + minDistanceFromBlackBox + ", avgDistanceFromBlackBox = "+sumDistanceFromBlackBox/bestModelFoundList.size() + ", maxDistanceFromBlackBox = " + maxDistanceFromBlackBox + "\n");
         s.append("      minFitness = " + minFitness + ", avgFitness = "+sumFitness/bestModelFoundList.size() + ", maxFitness = " + maxFitness +"\n");
@@ -145,7 +146,11 @@ class Setup{
         System.out.println(s.toString());
     }
 
-
-
-
+    /**
+     * simple getter
+     * @return
+     */
+    public int getNumOfModels() {
+        return bestModelFoundList.size();
+    }
 }

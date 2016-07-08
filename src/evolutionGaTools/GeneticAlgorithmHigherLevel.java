@@ -42,19 +42,19 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 		public int compare(C chr1, C chr2) {
 			T fit1 = this.fit(chr1);
 			T fit2 = this.fit(chr2);
-			int ret = fit1.compareTo(fit2);
+			int ret = fit2.compareTo(fit1);//Switch these to change the order of the sort
 			return ret;
 		}
 
 		public T fit(C chr) {
 			T fit = this.cache.get(chr);
 			if (fit == null) {
-				fit =  chr.getFitness();//TODO makesure the fitness func works good with this
+				fit =  chr.getFitness();
 				if(fit==null) {
 					fit = GeneticAlgorithmHigherLevel.this.fitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
-					this.cache.put(chr, fit);
-					chr.setFitness(fit);
 				}
+				this.cache.put(chr, fit);
+				chr.setFitness(fit);
 			}
 			return fit;
 		};
@@ -144,7 +144,7 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 				l.update(this);
 			}
 		}
-		return this.population.getChromosomeByIndex(0);
+		return getBest();
 
 																		//		if (effort.genNum ==0)
 																		//			effort.genNum = count;

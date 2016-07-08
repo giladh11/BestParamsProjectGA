@@ -15,7 +15,7 @@ public class BlackBoxTree {
 
     //private Expression function;
     private AbstractContext context;
-    private static AbstractContext contextRegular;
+    private static AbstractContext contextRegular = null;//TODO whats this??
     private DataSet generalDataSet = null;
     private AbstractExpression function;
 
