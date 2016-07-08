@@ -20,7 +20,7 @@ import higherLevelGA.ParamGA;
 import java.util.*;
 
 /**
- * CLASS is only used so we could DEBUG GeneticAlgorithm easily
+ * CLASS is only used so we could GeneticAlgorithm easily
  * heart of the genetic process
  * each iteration of the process is manged by the evolve method in this class
  * @param <C>

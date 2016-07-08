@@ -30,4 +30,14 @@ public class Effort {
     public int getGen() {
         return genNum;
     }
+
+    /**
+     * this method calcs the overAll effort, meaning our way to determine the running complexity
+     * PARAM how to calculate the running complexity
+     * @return
+     */
+    public double calcTotalEffort() {
+        //TODO determine how to calculate the running complexity
+        return 0;
+    }
 }
