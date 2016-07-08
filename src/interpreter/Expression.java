@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class Expression implements Cloneable, AbstractExpression {
 
-	private List<Expression> childs = new ArrayList<Expression>();
+	private List<Expression> children = new ArrayList<Expression>();
 
 	private List<Double> coefficients = new ArrayList<Double>();
 
@@ -51,17 +51,17 @@ public class Expression implements Cloneable, AbstractExpression {
 
 	public String toString(){return this.function.print(this);}
 
-	public List<Expression> getChilds() {
-		return this.childs;
+	public List<Expression> getChildren() {
+		return this.children;
 	}
 
 	/**
 	 * dont really get this!!
-	 * @param childs
+	 * @param children
 	 * @return
      */
-	public Expression setChilds(List<Expression> childs) {
-		this.childs = childs;
+	public Expression setChildren(List<Expression> children) {
+		this.children = children;
 		return this;
 	}
 
@@ -70,14 +70,14 @@ public class Expression implements Cloneable, AbstractExpression {
 	 * @param child
      */
 	public void addChild(Expression child) {
-		this.childs.add(child);
+		this.children.add(child);
 	}
 
 	/**
 	 * dont really get this!!
 	 */
 	public void removeChilds() {
-		this.childs.clear();
+		this.children.clear();
 	}
 
 	/**
@@ -158,8 +158,8 @@ public class Expression implements Cloneable, AbstractExpression {
 		if (this.variable != null) {
 			cloned.variable = new String(this.variable);
 		}
-		for (Expression c : this.childs) {
-			cloned.childs.add(c.clone());
+		for (Expression c : this.children) {
+			cloned.children.add(c.clone());
 		}
 		for (Double d : this.coefficients) {
 			cloned.coefficients.add(d);
@@ -187,8 +187,8 @@ public class Expression implements Cloneable, AbstractExpression {
 		for (Double d : coeffs) {
 			coefficients.push(d);
 		}
-		for (int i = 0; i < this.childs.size(); i++) {
-			this.childs.get(i).getCoefficientsOfTree(coefficients);
+		for (int i = 0; i < this.children.size(); i++) {
+			this.children.get(i).getCoefficientsOfTree(coefficients);
 		}
 	}
 
@@ -209,9 +209,9 @@ public class Expression implements Cloneable, AbstractExpression {
 	private int setCoefficientsOfTree(List<Double> coefficients, int index) {
 		this.function.setCoefficients(this, coefficients, index);
 		index += this.function.coefficientsCount();
-		if (this.childs.size() > 0) {
-			for (int i = 0; i < this.childs.size(); i++) {
-				index = this.childs.get(i).setCoefficientsOfTree(coefficients, index);
+		if (this.children.size() > 0) {
+			for (int i = 0; i < this.children.size(); i++) {
+				index = this.children.get(i).setCoefficientsOfTree(coefficients, index);
 			}
 		}
 		return index;
@@ -237,7 +237,7 @@ public class Expression implements Cloneable, AbstractExpression {
 		while (true) {
 			if (indx < nodesList.size()) {
 				Expression node = nodesList.get(indx++);
-				for (Expression child : node.childs) {
+				for (Expression child : node.children) {
 					nodesList.add(child);
 				}
 			} else {
@@ -247,10 +247,10 @@ public class Expression implements Cloneable, AbstractExpression {
 	}
 
 	/**
-	 * TODO TAL write a method that returns the number of nodes in the tree
+	 * write a method that returns the number of nodes in the tree
 	 * @return
      */
 	public int getNumberOfNodes() {
-		return 1;
+		return SyntaxTreeUtils.getNumberOfNodes(this);
 	}
 }

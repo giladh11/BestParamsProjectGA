@@ -32,13 +32,7 @@ public class CustomExpression implements AbstractExpression {
         return expr.evaluate();
     }
 
-    /**
-     * TODO TAL write a method that returns the number of nodes in the tree
-     * @return
-     */
-    public int getNumberOfNodes() {
-        return 1;
-    }
+
 
     public String toString(){
         return expression;

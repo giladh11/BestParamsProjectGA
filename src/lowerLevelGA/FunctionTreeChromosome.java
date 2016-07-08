@@ -158,7 +158,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 	 * @param newNode
      */
 	private void swapNode(Expression oldNode, Expression newNode) {
-		oldNode.setChilds(newNode.getChilds());
+		oldNode.setChildren(newNode.getChildren());
 		oldNode.setFunction(newNode.getFunction());
 		oldNode.setCoefficientsOfNode(newNode.getCoefficientsOfNode());
 		oldNode.setVariable(newNode.getVariable());
@@ -393,18 +393,18 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 		}
 
 		int functionArgumentsCount = newFunction.argumentsCount();
-		int mutatingNodeChildsCount = mutatingNode.getChilds().size();
+		int mutatingNodeChildsCount = mutatingNode.getChildren().size();
 
 		if (functionArgumentsCount > mutatingNodeChildsCount) {
 			for (int i = 0; i < ((functionArgumentsCount - mutatingNodeChildsCount) + 1); i++) {
-				mutatingNode.getChilds().add(SyntaxTreeUtils.createTree(1, this.context));
+				mutatingNode.getChildren().add(SyntaxTreeUtils.createTree(1, this.context));
 			}
 		} else if (functionArgumentsCount < mutatingNodeChildsCount) {
 			List<Expression> subList = new ArrayList<Expression>(functionArgumentsCount);
 			for (int i = 0; i < functionArgumentsCount; i++) {
-				subList.add(mutatingNode.getChilds().get(i));
+				subList.add(mutatingNode.getChildren().get(i));
 			}
-			mutatingNode.setChilds(subList);
+			mutatingNode.setChildren(subList);
 		}
 
 		int functionCoefficientsCount = newFunction.coefficientsCount();
@@ -426,10 +426,10 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 		Expression mutatingNode = this.getRandomNode(this.syntaxTree);
 		Function mutatingNodeFunction = mutatingNode.getFunction();
 
-		if ((mutatingNode.getChilds().size() > 1)
+		if ((mutatingNode.getChildren().size() > 1)
 				&& (!mutatingNodeFunction.isCommutative())) {
 
-			Collections.reverse(mutatingNode.getChilds());
+			Collections.reverse(mutatingNode.getChildren());
 
 		} else {
 			this.mutateByRandomChangeOfFunction();
@@ -439,11 +439,11 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 	private void mutateByRandomChangeOfChild() {
 		Expression mutatingNode = this.getRandomNode(this.syntaxTree);
 
-		if (!mutatingNode.getChilds().isEmpty()) {
+		if (!mutatingNode.getChildren().isEmpty()) {
 
-			int indx = this.random.nextInt(mutatingNode.getChilds().size());
+			int indx = this.random.nextInt(mutatingNode.getChildren().size());
 
-			mutatingNode.getChilds().set(indx, SyntaxTreeUtils.createTree(1, this.context));
+			mutatingNode.getChildren().set(indx, SyntaxTreeUtils.createTree(1, this.context));
 
 		} else {
 			this.mutateByRandomChangeOfFunction();
@@ -453,11 +453,11 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 	private void mutateByRandomChangeOfNodeToChild() {
 		Expression mutatingNode = this.getRandomNode(this.syntaxTree);
 
-		if (!mutatingNode.getChilds().isEmpty()) {
+		if (!mutatingNode.getChildren().isEmpty()) {
 
-			int indx = this.random.nextInt(mutatingNode.getChilds().size());
+			int indx = this.random.nextInt(mutatingNode.getChildren().size());
 
-			Expression child = mutatingNode.getChilds().get(indx);
+			Expression child = mutatingNode.getChildren().get(indx);
 
 			this.swapNode(mutatingNode, child.clone());
 

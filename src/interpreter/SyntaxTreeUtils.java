@@ -92,7 +92,7 @@ public class SyntaxTreeUtils {
      */
 	public static void simplifyTree(Expression tree, Context context) {
 		if (hasVariableNode(tree)) {
-			for (Expression child : tree.getChilds()) {
+			for (Expression child : tree.getChildren()) {
 				simplifyTree(child, context);
 			}
 		} else {
@@ -117,7 +117,7 @@ public class SyntaxTreeUtils {
      */
 	public static void cutTree(Expression tree, Context context, int depth) {
 		if (depth > 0) {
-			for (Expression child : tree.getChilds()) {
+			for (Expression child : tree.getChildren()) {
 				cutTree(child, context, depth - 1);
 			}
 		} else {
@@ -144,7 +144,7 @@ public class SyntaxTreeUtils {
 		if (tree.getFunction().isVariable()) {
 			ret = true;
 		} else {
-			for (Expression child : tree.getChilds()) {
+			for (Expression child : tree.getChildren()) {
 				ret = hasVariableNode(child);
 				if (ret) {
 					break;
@@ -157,5 +157,14 @@ public class SyntaxTreeUtils {
 
 	public static Expression generateTree(String str){
 		return  null;
+	}
+
+	/**
+	 * TODO TAL write a method that returns the number of nodes in the tree
+	 * @return
+	 */
+	public static int getNumberOfNodes(Expression expression) {
+		return 0;
+
 	}
 }
