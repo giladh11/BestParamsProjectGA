@@ -31,7 +31,7 @@ public class BestModelCandidate {
      * @return
      */
     public String toString(){
-        return "Function: " + bestSyntaxTree.print() + "\n" +"      distance: " + distanceFromBlackBox+ " Effort: <" + effort + "> fitness: " + fitness;
+        return "Function: " + bestSyntaxTree.print() + "\n" +"      distance: " + distanceFromBlackBox+ " Effort: <" + effort + "> higherLvlFitness: " + fitness;
     }
 
 
@@ -43,7 +43,7 @@ public class BestModelCandidate {
      */
     public double fitnessCalculator(BlackBoxTree blackBox) {
         distanceFromBlackBox = blackBox.measureDistanceFromCandidate(bestSyntaxTree);
-        fitness = 1/distanceFromBlackBox;//TODO decide how to calc fitness
+        fitness = 1/distanceFromBlackBox + effort.calcTotalEffort();//TODO decide how to calc fitness PARAM set how to calc the fitness of ParamGA
         return distanceFromBlackBox;
     }
 
