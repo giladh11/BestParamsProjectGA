@@ -88,7 +88,7 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 	public void evolve() {
 		double x;
 		int parentPopulationSize = this.population.getSize();
-		C chromosome, mutated , perviuosChromo = null;
+		C chromosome, mutated , previousChromo = null;
 
 
 		Population<C, T> newPopulation = new Population<C, T>();
@@ -107,13 +107,13 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 				x = Math.random();
 				if (x < HIGHER_CHROMOSOME_RATE) {
 																								//effort.numOfCrossovers++;
-					List<C> crossovered = chromosome.crossover(perviuosChromo);
+					List<C> crossovered = chromosome.crossover(previousChromo);
 					for (C c : crossovered) {
 						newPopulation.addChromosome(c);
 					}
 				}
 			}else
-				perviuosChromo = chromosome;
+				previousChromo = chromosome;
 
 			//getting mutattion in the next generation
 			x = Math.random();

@@ -10,5 +10,4 @@ public interface AbstractExpression {
     double eval(AbstractContext context);
 
 
-    public int getNumberOfNodes();
 }
