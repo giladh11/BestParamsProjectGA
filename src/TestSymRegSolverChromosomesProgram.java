@@ -294,13 +294,15 @@ import static lowerLevelGA.TestFunctions.*;
 		}
 		Iterator<Setup> iter =  setUpsList.listIterator(i);
 		Setup set = null;
+		List<Setup> tempList = new LinkedList<Setup>();
 		while (!(i>j)){
 			set = iter.next();
 			currentBlackBoxTree = set.getBlackBoxTree();//new BlackBoxTree(set.getBlackBoxTree());//TODO make a copy constructor for BlackTree , or check if its a problem like this
 			currentSetup = new Setup(currentBlackBoxTree, currentParamGA);
-			setUpsList.add(currentSetup);
+			tempList.add(currentSetup);
 			i++;
 		}
+		setUpsList.addAll(tempList);
 		resetCurrentSetup();
 	}
 
