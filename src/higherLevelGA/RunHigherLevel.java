@@ -184,6 +184,22 @@ import java.util.Scanner;
 	}
 
 
+	//TODO choose the family of functions to create black box from (and the amount of functions)
+			//TODO print all the black box list options - descrivbe the diffrent families
+	//TODO save as setup - a family, and the best ParamGA found for it?
+	//TODO add as setup a ParamGA and make it possible to run it on every function group
+		//the idea is that it allows you to run different families on params we got in different runs
+
+				//TODO make it easy to see the ParamGA chromosomes of the first population
+
+	//TODO choose a few hand-crafted ParamGA and add them to the setups
+	/*ideas
+		* check if running the highlevel on the same group of function return similar parameters in each run/
+		*
+	 */
+
+
+
 	/**
 	 * prints the help menu
 	 */
