@@ -95,7 +95,7 @@ public class DataSet implements ComparableDataSet {
      * @return diff/num average distance
      */
 	public double distanceFromExpression(AbstractExpression expression, AbstractContext context) {
-		double diff = 0;
+		double diff = 0;//TODO change doubles to long?
 		int num = 0;
 
 		//GILAD GOOVER

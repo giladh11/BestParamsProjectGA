@@ -60,11 +60,16 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     public BestModelCandidate trySolving (BlackBoxTree blackBoxTree, boolean printIterations){
         DataSet dataSet = new DataSet(blackBoxTree.getFunction(), paramGA.getDataSetSize(), blackBoxTree.getContext());
         setEngine(dataSet);
-        if(printIterations)
+        if(printIterations) {
             addListener(engine);
+        }
+        if(printIterations)
+         System.out.println("   trying to solve "+ blackBoxTree);
         engine.evolve(MAX_NUM_OF_ITERATIONS_LOWER_LEVEL);
         BestModelCandidate bestModelCandidate = engine.buildBestModelCandidate();
         bestModelCandidate.fitnessCalculator(blackBoxTree);
+        if(printIterations)
+            System.out.println("    best model found is " + bestModelCandidate);
         return bestModelCandidate;
     }
 
@@ -116,8 +121,6 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @return
      */
     public Double getFitness() {
-        if(fitness == null)
-            System.out.println("!!!fitness yet to be calculated!!!");
         return fitness;
     }
 
@@ -126,9 +129,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
      * @param fit
      */
     public void setFitness(Double fit) {
-        System.out.println("!!!fitness tried to be set");
-        //TODO set here th fitness
-        //this.fitness = fit;
+        this.fitness = fit;
     }
 
     /**

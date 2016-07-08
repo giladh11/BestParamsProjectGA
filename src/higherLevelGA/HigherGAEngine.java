@@ -115,4 +115,7 @@ public class HigherGAEngine {
 		return this.environment.getIteration();
 	}
 
+	public SymRegSolverChromosome getBestSymRegSolver() {
+		return this.environment.getBest();
+	}
 }

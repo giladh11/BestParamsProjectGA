@@ -25,16 +25,19 @@ import java.util.Scanner;
 					//	private static SymRegSolverChromosome symRegSolverChromosome;
 
 	//params chosen PARAM in higher level Tester
-		private static int NUM_GEN_HIGHER_LEVEL = 100;
+		private static int NUM_GEN_HIGHER_LEVEL = 3;
 		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
 		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
 		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = 0.001;
-		private static int HIGHER_POPULATION_SIZE = 5;
+		private static int HIGHER_POPULATION_SIZE = 2;
 		private static double HIGHER_CHROMOSOME_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
 
 		private static int MAX_POINT_IN_RANGE = 50; //for DATASET creator
 		private static int MIN_POINT_IN_RANGE = -50;
+		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = true;
+		protected static boolean PRINT_LOWER_LEVEL_ITERATIONS = false;
+
 
 		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;//not sure that will be used here
 		//param for mutation inside of ParamGA
@@ -54,6 +57,7 @@ import java.util.Scanner;
 			GeneticAlgorithmHigherLevel.setHigherChromosomeRate(HIGHER_CHROMOSOME_RATE);
 			GeneticAlgorithmHigherLevel.setHigherMutatuionRate(HIGHER_MUTATUION_RATE);
 		//end param setters
+		BlackBoxTree.setContextRegular(new Context(baseFunctions, list("x")));
 
 
 		String s = null;
@@ -83,10 +87,9 @@ import java.util.Scanner;
 //					createNewFuncFromString(arrS[1]);
 //					break;
 				case "run":
-					System.out.println("running");
 					listOfBlackboxes = createBlackBoxesList();
 
-					boolean printIterations = true;
+
 					SymRegSolverChromosome bestParamChromosomeFound;
 					ParamGA bestParamsFound;
 					double  bestParamsFoundFitness;
@@ -95,7 +98,7 @@ import java.util.Scanner;
 							//choose group of functions
 
 					HigherGAEngine engine = new HigherGAEngine(listOfBlackboxes, baseFunctions, HIGHER_POPULATION_SIZE);
-					if(printIterations)
+					if(PRINT_HIGHER_LEVEL_ITERATIONS)
 						addListener(engine);
 					bestParamChromosomeFound = engine.evolve(NUM_GEN_HIGHER_LEVEL);
 					bestParamsFound = bestParamChromosomeFound.getParamGA();
@@ -175,6 +178,7 @@ import java.util.Scanner;
 	private static List<BlackBoxTree> createBlackBoxesList() {
 		List<BlackBoxTree> list = new LinkedList<BlackBoxTree>();
 		list.add(new BlackBoxTree("2*x + 3"));
+		list.add(new BlackBoxTree("3*x + 4"));
 
 		return list;
 	}
@@ -189,7 +193,7 @@ import java.util.Scanner;
 		System.out.println("Options:");
 //		System.out.println("random - create a random black box and run on it");
 //		System.out.println("setNewFunc 'FUNCTION_STRING' - will create a new BlackBox according to the requested string");
-		System.out.println("run x - will rerun the last blackBox x times. when finished will print the results of the pervious runs and the averages");
+		System.out.println("run - will run the HigherLevelEngine of the set boxes");
 //		System.out.println("printModels - will print all the models found by the runs on the currentBlackBox");
 //		System.out.println("printSetups - will print all the setups currently on memory");
 //		System.out.println("chooseSetup x - will change to the requested setup index");
@@ -351,16 +355,14 @@ import java.util.Scanner;
 			@Override
 			public void update(HigherGAEngine engine) {
 				//TODO write listener for highr level
-				System.out.println("higher iteration");
 
-//				Expression bestSyntaxTree = engine.getBestSyntaxTree();
-//
-//				double currFitValue = engine.fitnessMeasureShouldNotBeUsed(bestSyntaxTree);
-//
-//				// log to console
-//				System.out.println(
-//						String.format("iter = %s \t fit = %s \t func = %s",
-//								engine.getIteration(), currFitValue, bestSyntaxTree.print()));
+
+				SymRegSolverChromosome bestSymRegSolver = engine.getBestSymRegSolver();
+
+				// log to console
+				System.out.println(
+						String.format("\niter = %s \t fit = %s \t param = %s \n      ***",
+								engine.getIteration(), bestSymRegSolver.getFitness(), bestSymRegSolver.getParamGA()));
 //
 //				// halt condition
 //				if (currFitValue < epsilon) {
