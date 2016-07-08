@@ -116,7 +116,7 @@ import static lowerLevelGA.TestFunctions.*;
 					break;
 				case "runAll":
 					if (arrS.length==1)
-						runAll(1);
+						runAll(0);
 					else
 						runAll(Integer.parseInt(arrS[1]));
 					break;
@@ -297,7 +297,7 @@ import static lowerLevelGA.TestFunctions.*;
 		List<Setup> tempList = new LinkedList<Setup>();
 		while (!(i>j)){
 			set = iter.next();
-			currentBlackBoxTree = set.getBlackBoxTree();//new BlackBoxTree(set.getBlackBoxTree());//TODO make a copy constructor for BlackTree , or check if its a problem like this
+			currentBlackBoxTree = set.getBlackBoxTree();//new BlackBoxTree(set.getBlackBoxTree());// make a copy constructor for BlackTree , or check if its a problem like this
 			currentSetup = new Setup(currentBlackBoxTree, currentParamGA);
 			tempList.add(currentSetup);
 			i++;
@@ -361,11 +361,12 @@ import static lowerLevelGA.TestFunctions.*;
 		while (iter.hasNext()){
 			set = iter.next();
 			numToRunSet = numsOfRunsToAdd + maxNumOfModelsInASetup - set.getNumOfModels();
+			System.out.println("!!!running function: '"+set.getBlackBoxTree() +"' "+numToRunSet + " times, found models:");
 			switchToSetup(set, -1);//current index doesnt really matter
 			for (int i = 0; i < numToRunSet; i++) {
 				tempBestModelFound = symRegSolverChromosome.trySolving(currentBlackBoxTree, false);//will not print the evolutions iterations
 				currentSetup.addBestModel(tempBestModelFound);
-				System.out.println("***\n" + tempBestModelFound);
+				System.out.println("   " + tempBestModelFound);
 			}
 		}
 
@@ -471,7 +472,7 @@ import static lowerLevelGA.TestFunctions.*;
 
 				Expression bestSyntaxTree = engine.getBestSyntaxTree();
 
-				double currFitValue = engine.fitnessMeasureShouldNotBeUsed(bestSyntaxTree);//TODO GILAD check whats up with this?
+				double currFitValue = engine.fitnessMeasureForEachIteration(bestSyntaxTree);
 
 				// log to console
 				System.out.println(

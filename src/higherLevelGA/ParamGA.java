@@ -18,7 +18,7 @@ public class ParamGA{
 
 
 
-    //This parameter defines the measure of fitnessMeasureShouldNotBeUsed deduction
+    //This parameter defines the measure of fitnessMeasureForEachIteration deduction
     //for too big trees
     private double bloatPenaltyRate;//IMPROVE too complicated now
     private int dataSetSize;

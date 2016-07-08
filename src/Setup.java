@@ -12,7 +12,7 @@ import java.util.List;
 class Setup{
     private BlackBoxTree blackBoxTree;
     private ParamGA paramGA;
-    private static List<BestModelCandidate> bestModelFoundList;
+    private List<BestModelCandidate> bestModelFoundList;
 
     private int minGen; private int sumGen; private int maxGen;
 

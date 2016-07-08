@@ -132,6 +132,12 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
         this.fitness = fit;
     }
 
+    @Override
+    public int getSize() {
+        //should never be called
+        return 1/0;
+    }
+
     /**
      * simple context getter
      * @return
@@ -148,7 +154,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
 
                 Expression bestSyntaxTree = engine.getBestSyntaxTree();
 
-                double currFitValue = engine.fitnessMeasureShouldNotBeUsed(bestSyntaxTree);
+                double currFitValue = engine.fitnessMeasureForEachIteration(bestSyntaxTree);
 
                 // log to console
                 System.out.println(

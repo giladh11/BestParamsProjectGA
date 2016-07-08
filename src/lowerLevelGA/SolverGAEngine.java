@@ -108,7 +108,7 @@ public class SolverGAEngine {
 	 * @param expression
 	 * @return
      */
-	public double fitnessMeasureShouldNotBeUsed(Expression expression) {
+	public double fitnessMeasureForEachIteration(Expression expression) {
 		return this.comparableDataSet.distanceFromExpression(expression, this.context);
 	}
 
@@ -119,10 +119,6 @@ public class SolverGAEngine {
 	public int getIteration() {
 		return this.environment.getIteration();
 	}
-
-//	public void setParentsSurviveCount(int n) { // DELETE
-//		this.environment.setParentChromosomesSurviveCount(n);
-//	}
 
 
 	/**

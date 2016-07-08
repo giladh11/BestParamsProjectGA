@@ -370,9 +370,6 @@ import java.util.Scanner;
 		engine.addIterationListener(new HigherGAEngineIterationListener() {
 			@Override
 			public void update(HigherGAEngine engine) {
-				//TODO write listener for highr level
-
-
 				SymRegSolverChromosome bestSymRegSolver = engine.getBestSymRegSolver();
 
 				// log to console
