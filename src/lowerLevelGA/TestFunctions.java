@@ -37,9 +37,6 @@ public class TestFunctions {
     //2. createTrigonometricFunction(int nlength)
     //3. createExpFunction(int nlength)
 
-    //TODO GILAD use the function getTestFunction() in order to get a list of 10 test functions.
-
-
     /**
      * Return a mixed list of functions to be tested, some randomaly generated and some hard-coded.
      * @return

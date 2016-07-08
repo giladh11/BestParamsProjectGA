@@ -98,4 +98,19 @@ public class Population<C extends Chromosome<C,T> , T extends Comparable<T>> imp
 		return this.chromosomes.iterator();
 	}
 
+
+	/**
+	 *
+	 * @return
+     */
+	public int getSumOfTreeSizes() {
+		Iterator<C> iter = chromosomes.iterator();
+		int sumOfTrees = 0;
+		C chromosome;
+		while(iter.hasNext()){
+			chromosome = iter.next();
+			sumOfTrees+=chromosome.getSize();
+		}
+		return sumOfTrees;
+	}
 }

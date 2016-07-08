@@ -15,7 +15,7 @@ public class BlackBoxTree {
 
     //private Expression function;
     private AbstractContext context;
-    private static AbstractContext contextRegular = null;//TODO whats this??
+    private static AbstractContext contextRegular = null;//this is a regulat context to pass along to the tree chromosome if the context is the one that belongs to the String functions
     private DataSet generalDataSet = null;
     private AbstractExpression function;
 

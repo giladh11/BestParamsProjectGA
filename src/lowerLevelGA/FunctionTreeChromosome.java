@@ -69,6 +69,11 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 		this.fitness = n;//stop the fitness from being calculated twice
 	}
 
+	@Override
+	public int getSize() {
+		return syntaxTree.getNumberOfNodes();
+	}
+
 	/**
 	 * this method does a cross over with another FunctionTreeChromosome
 	 * @param anotherChromosome
@@ -254,6 +259,12 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 		 */
 		public void setFitness(Double n){
 			return;
+		}
+
+		@Override
+		public int getSize() {
+			//should never be called
+			return 1/0;
 		}
 
 

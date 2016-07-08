@@ -31,6 +31,8 @@ public interface Chromosome<C extends Chromosome<C, T>, T extends Comparable<T>>
 
 	void  setFitness(T fit);
 
+	int getSize();
+
 //	double getCrossoverRate();
 //
 //	double getMutateRate();

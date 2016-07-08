@@ -63,7 +63,6 @@ public class HigherGAEngine {
 	 * @param listener
      */
 	public void addIterationListener(final HigherGAEngineIterationListener listener) {
-		//TODO fix listner
 		this.environment.addIterationListener(new IterartionListenerHigh<SymRegSolverChromosome, Double>() {
 			@Override
 			public void update(GeneticAlgorithmHigherLevel<SymRegSolverChromosome, Double> environment) {
@@ -80,32 +79,7 @@ public class HigherGAEngine {
 		return this.environment.evolve(iterationsCount);
 	}
 
-													//	/**    maybe turn to getBestParams
-													//	 * a getter after the evolution is done for the best tree
-													//	 * @return
-													//     */
-													//	public Expression getBestSyntaxTree() {
-													//		return this.environment.getBest().getSyntaxTree();
-													//	}
 
-																//	/**  DELETE
-																//	 * a getter for the effort level used to get the best tree
-																//	 * @return
-																//     */
-																//	public Effort getEffortLevelUsedToReachBest() {
-																//		return effort;
-																//	}
-
-
-															//	/**
-															//	 * this method only compure the disstance of the expression from the dataset held by SolverGaEngine
-															//	 * should not really be used
-															//	 * @param expression
-															//	 * @return
-															//     */
-															//	public double fitnessMeasureShouldNotBeUsed(Expression expression) {
-															//		return this.comparableDataSet.distanceFromExpression(expression, this.context);
-															//	}
 
 	public void terminate() {
 		this.environment.terminate();

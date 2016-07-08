@@ -246,4 +246,11 @@ public class Expression implements Cloneable, AbstractExpression {
 		}
 	}
 
+	/**
+	 * TODO TAL write a method that returns the number of nodes in the tree
+	 * @return
+     */
+	public int getNumberOfNodes() {
+		return 1;
+	}
 }

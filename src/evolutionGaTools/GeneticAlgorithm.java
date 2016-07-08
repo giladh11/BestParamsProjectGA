@@ -78,10 +78,12 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 
 	public GeneticAlgorithm(Population<C, T> population, Fitness<C, T> fitnessFunc, ParamGA paramGA) {
 		this.population = population;
+		this.effort = new Effort(population.getSumOfTreeSizes());
 		this.fitnessFunc = fitnessFunc;
 		this.chromosomesComparator = new ChromosomesComparator();
 		this.population.sortPopulationByFitness(this.chromosomesComparator);
 		this.paramGA = paramGA;
+
 	}
 
 	public void evolve() {
@@ -108,6 +110,7 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 					effort.numOfCrossovers++;
 					List<C> crossovered = chromosome.crossover(previousChromo);
 					for (C c : crossovered) {
+						effort.sizeOfAllTreesCreated+=c.getSize();
 						newPopulation.addChromosome(c);
 					}
 				}
@@ -120,6 +123,7 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 				effort.numOfMutations++;
 				mutated = chromosome.mutate();
 				newPopulation.addChromosome(mutated);
+				effort.sizeOfAllTreesCreated+=mutated.getSize();
 			}
 		}
 
@@ -131,8 +135,6 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 
 	public Effort evolve(int count) {
 		this.terminate = false;
-		// IMPROVE GILAD TODO handle tree sizes as well
-		effort = new Effort(0,0,0,0);
 		for (int i = 0; i < count; i++) {
 			if (this.terminate) {
 				effort.genNum = i;
@@ -151,6 +153,7 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 		effort.numOfPointsEvaluated += paramGA.getPopulationSize()*paramGA.getDataSetSize();
 		effort.numOfPointsEvaluated += effort.numOfCrossovers*paramGA.getDataSetSize()*2;
 		effort.numOfPointsEvaluated += effort.numOfMutations*paramGA.getDataSetSize();
+
 
 		return effort;
 	}
