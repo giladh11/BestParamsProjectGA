@@ -13,19 +13,11 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * a main function that allows to check the implementation of the lower level
+ * a main function that allows to mange higher level runs
  */
  public final class RunHigherLevel {
 
-					//	private static Setup currentSetup = null;
-					//	private static BlackBoxTree currentBlackBoxTree = null;
-					//	private static BestModelCandidate tempBestModelFound = null;
-					//	private static List<Setup> setUpsList = null;
-					//	private static int currentSetupIndex = -1;
-					//
-					//	private static SymRegSolverChromosome symRegSolverChromosome;
-
-	//params chosen PARAM in higher level Tester
+	//*****************************************************************params chosen PARAM in higher level Tester**************************************************************************
 		protected static int NUM_GEN_HIGHER_LEVEL = 3;
 		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
 		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
@@ -36,20 +28,35 @@ import java.util.Scanner;
 
 		private static int MAX_POINT_IN_RANGE = 50; //for DATASET creator
 		private static int MIN_POINT_IN_RANGE = -50;
-		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = true;
+		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = false;
 		protected static boolean PRINT_LOWER_LEVEL_ITERATIONS = false;
 
 
 		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;//not sure that will be used here
 		//param for mutation inside of ParamGA
 		private static List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.POW, Functions.VARIABLE, Functions.CONSTANT);
-	//end param chosen
+	//*********************************************************************end param chosen***************************************************************************************************
+	//DEBUG prints
+		protected static boolean PRINT_EACH_HIGHER_LEVEL_CHROMOSOME_EVALUATION = false;
+
+
+	//********end debug prints
+
+
+
 
 	private static Context sharedContext = new Context(baseFunctions, list("x"));
+	static int populationSize; static double pCrossover; static double pMutation; static int dataSetSize; static int maxInitialTreeDepth; static double bloatPenaltyRate;
 	private static List<BlackBoxTree> listOfBlackboxes;
 	private static List<SetupHigherLevel> setupsLists = new LinkedList<SetupHigherLevel>();
-	private  static SetupHigherLevel currentSetup;
 
+	private  static SetupHigherLevel currentSetup = null;
+	private static ParamGA currentParamGA = null;
+	private static int currentSetupIndex = -1;
+
+
+
+	//*******************MAIN**************************
 	public static void main(String[] args) {
 		//params setters
 			BlackBoxTree.setObjectiveNumOfPointsForDistanceMeasurer(OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER);
@@ -61,6 +68,8 @@ import java.util.Scanner;
 			GeneticAlgorithmHigherLevel.setHigherMutatuionRate(HIGHER_MUTATUION_RATE);
 		//end param setters
 		BlackBoxTree.setContextRegular(new Context(baseFunctions, list("x")));
+
+
 
 
 		String s = null;
@@ -94,26 +103,20 @@ import java.util.Scanner;
 			System.out.print("$"); s = in.nextLine(); arrS = s.split(" ", 2);
 
 			switch(arrS[0]){
-//				case "random":
-//					createNewRandomBlackBox();
-//					//runCurrentBox(1);
-//					break;
-//				case "setNewFunc":
-//					createNewFuncFromString(arrS[1]);
-//					break;
-				case "run":
+				case "default":
+					//TODO write default actions to be made
 					currentSetup = new SetupHigherLevel("Test1", createBlackBoxesList(), baseFunctions);
 					setupsLists.add(currentSetup);
 
 					currentSetup = new SetupHigherLevel("Test2", createBlackBoxesList2(), baseFunctions);
 					setupsLists.add(currentSetup);
 					runAll();
-
-
-//					if (arrS.length==1)
-//						runCurrentBox(1);
-//					else
-//						runCurrentBox(Integer.parseInt(arrS[1]));
+					break;
+//				case "setNewFunc":
+//					createNewFuncFromString(arrS[1]);
+//					break;
+				case "runAll":
+					runAll();
 					break;
 //				case "printModels":
 //					if (currentSetup==null)
@@ -121,45 +124,44 @@ import java.util.Scanner;
 //					else
 //						System.out.println(currentSetup);
 //					break;
-//				case "printSetups":
-//					printSetups();
-//					break;
-//				case "chooseSetup":
-//					chooseSetup(Integer.parseInt(arrS[1]));
-//					break;
-//				case "currentParamGA":
-//					System.out.println(currentParamGA);
-//					break;
-//				case "setParamGA":
-//					parseAndSetParamGa(arrS[1]);
-//					System.out.println("   paramGA was set to "+currentParamGA);
-//					break;
-//				case "currentSetup":
-//					if (currentSetup==null)
-//						System.out.println("   no currentSetup chosen");
-//					else {
-//						sbuild = new StringBuilder();
-//						sbuild.append(currentSetupIndex);
-//						currentSetup.appendSetupData(sbuild);
-//						sbuild.append("\n");
-//						System.out.println(sbuild.toString());
-//					}
-//					break;
-//				case "removeCurrentSetup":
-//					if (currentSetup==null)
-//						System.out.println("   no currentSetup chosen");
-//					else {
-//						setUpsList.remove(currentSetupIndex);
-//						currentSetupIndex = -1;
-//						currentSetup = null;
-//						currentBlackBoxTree = null;
-//						System.out.println("   setup and blackBox have been reset");
-//					}
-//					break;
-//				case "resetBlackBox":
-//					currentBlackBoxTree = null;
-//					System.out.println("   blackBox has been reset");
-//					break;
+				case "printSetups":
+					printAllSetups();
+					break;
+				case "printSetupsModels":
+					printAllSetupsWithInfoOnBestModels();
+					break;
+				case "chooseSetup":
+					chooseSetup(Integer.parseInt(arrS[1]));
+					break;
+				case "currentParamGA":
+					if (currentParamGA!=null)
+						System.out.println(currentParamGA);
+					else
+						System.out.println("no currentSetup chosen and noCurrentParamGA");
+					break;
+				case "setParamGA":
+					parseAndSetParamGa(arrS[1]);
+					System.out.println("   paramGA was set to "+currentParamGA);
+					currentSetup = null; //TODO GILAD make sure resets the currentSetup
+					break;
+				case "currentSetup":
+					if (currentSetup==null)
+						System.out.println("   no currentSetup chosen");
+					else {
+						printCurrentSetupWithInfo();
+					}
+					break;
+				case "removeCurrentSetup":
+					if (currentSetup==null)
+						System.out.println("   no currentSetup chosen");
+					else {
+						setupsLists.remove(currentSetupIndex);//TODO GILAD manage currentSetupIndex
+						currentSetupIndex = -1;
+						currentSetup = null;
+						currentParamGA = null;
+						System.out.println("   setup and currentParamGA have been reset");
+					}
+					break;
 				case "help":
 					printHelp();
 					break;
@@ -172,6 +174,30 @@ import java.util.Scanner;
 			}
 		}
 
+	}
+
+
+	/**
+	 * prints the help menu
+	 */
+	private static void printHelp(){
+		System.out.println("    ------- RunHigherLevel program  -------\n");
+
+		System.out.println("Options:");
+		System.out.println("default - will set all the default setups and run them");
+//		System.out.println("setNewFunc 'FUNCTION_STRING' - will create a new BlackBox according to the requested string");
+
+		System.out.println("runAll - will make sure all the current setups were run");
+		System.out.println("printSetups - will print all the setups currently on memory");
+		System.out.println("printSetupsModels - will print all the setups currently on memory, and the bestModels each one of them found");
+		System.out.println("chooseSetup x - will change to the requested setup index");
+		System.out.println("currentParamGA - will print the current ParamGA used");
+		System.out.println("setParamGA  - to choose 6 new params for currentParamGA");
+		System.out.println("currentSetup - will printthe current setup index, and all its models");
+		System.out.println("removeCurrentSetup - will remove the current setup from the memory(and reset the box");
+		System.out.println("help - will print this option menu again");
+		System.out.println("quit - will exit the program");
+		System.out.println("");
 	}
 
 	/**
@@ -202,7 +228,7 @@ import java.util.Scanner;
 	/**
 	 * this method will make sure all setups has been ran
 	 */
-	public static void runAll(){
+	private static void runAll(){
 		Iterator<SetupHigherLevel> iter = setupsLists.iterator();
 		currentSetup = null;
 		while(iter.hasNext()){
@@ -213,34 +239,51 @@ import java.util.Scanner;
 		}
 	}
 
+	/**
+	 * will print all the setups (withOutinfo on each best model it found
+	 * at the end cuurentSetup=null
+	 */
+	private static void printAllSetups(){
+		//TODO TAL
+	}
 
-
-
+	/**
+	 * will print the currentSetups info with info on model
+	 */
+	private static void printCurrentSetupWithInfo(){
+		//TODO TAL
+	}
 
 
 	/**
-	 * prints the help menu
+	 * will print all the setups WithInfoOnBestModels
+	 * at the end cuurentSetup=null
 	 */
-	private static void printHelp(){
-		System.out.println("    ------- Test SymRegSolverChromosomes program  -------\n");
-
-		System.out.println("Options:");
-//		System.out.println("random - create a random black box and run on it");
-//		System.out.println("setNewFunc 'FUNCTION_STRING' - will create a new BlackBox according to the requested string");
-
-		System.out.println("run - will run the HigherLevelEngine of the set boxes");
-//		System.out.println("printModels - will print all the models found by the runs on the currentBlackBox");
-//		System.out.println("printSetups - will print all the setups currently on memory");
-//		System.out.println("chooseSetup x - will change to the requested setup index");
-//		System.out.println("currentParamGA - will print the current ParamGA used");
-//		System.out.println("setParamGA  - to choose 6 new params for currentParamGA");
-//		System.out.println("currentSetup - will printthe current setup index, the blackbox and its averages");
-//		System.out.println("removeCurrentSetup - will remove the current setup from the memory(and reset the box");
-//		System.out.println("resetBlackBox - will reset the currentBox");
-		System.out.println("help - will print this option menu again");
-		System.out.println("quit - will exit the program");
-		System.out.println("");
+	private static void printAllSetupsWithInfoOnBestModels(){
+		//TODO TAL
 	}
+
+	/**
+	 * will switch to the chosen setup
+	 * @param i
+     */
+	private static void chooseSetup(int i) {
+		//TODO TAL find find the setup and put in the currentSetups, print unvalid index if un valid.
+		// take example from the functions in TestSymRegSolvelProgram
+		//TODO GILAD decide what else should be changed, ParamGA
+
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -349,35 +392,29 @@ import java.util.Scanner;
 //
 //	}
 //
-//	/**
-//	 * this method will set the paramGa according to the string
-//	 * @param s
-//	 */
-//	public static void parseAndSetParamGa(String s){
-//		String arrS[] = s.split(" ", 6);
-//		populationSize=Integer.parseInt(arrS[0]);
-//		pCrossover=Double.parseDouble(arrS[1]);
-//		pMutation=Double.parseDouble(arrS[2]);
-//		dataSetSize=Integer.parseInt(arrS[3]);
-//		maxInitialTreeDepth=Integer.parseInt(arrS[4]);
-//		bloatPenaltyRate=Double.parseDouble(arrS[5]);
-//		setParamGA();
-//	}
-//
-//	/**
-//	 * this method will set the paramGa according to the cuurent values of  populationSize=10; pCrossover=1; pMutation=1; dataSetSize=10; maxInitialTreeDepth=1; bloatPenaltyRate=0;
-//	 */
-//	public static void setParamGA(){
-//		currentParamGA = new ParamGA(populationSize, pCrossover, pMutation, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);
-//		BlackBoxTree.setContextRegular(new Context(baseFunctions, currentParamGA.getVariables()));
-//		symRegSolverChromosome = new SymRegSolverChromosome(currentParamGA, baseFunctions);
-//		if(currentBlackBoxTree!=null)
-//			currentSetup = new Setup(currentBlackBoxTree, currentParamGA);
-//		else
-//			currentSetup = null;
-//		currentSetupIndex = -1;
-//
-//	}
+	/**
+	 * this method will set the paramGa according to the string
+	 * @param s
+	 */
+	public static void parseAndSetParamGa(String s){
+		String arrS[] = s.split(" ", 6);
+		populationSize=Integer.parseInt(arrS[0]);
+		pCrossover=Double.parseDouble(arrS[1]);
+		pMutation=Double.parseDouble(arrS[2]);
+		dataSetSize=Integer.parseInt(arrS[3]);
+		maxInitialTreeDepth=Integer.parseInt(arrS[4]);
+		bloatPenaltyRate=Double.parseDouble(arrS[5]);
+		setParamGA();
+	}
+
+	/**
+	 * this method will set the paramGa according to the cuurent values
+	 */
+	public static void setParamGA(){
+		currentParamGA = new ParamGA(populationSize, pCrossover, pMutation, dataSetSize, maxInitialTreeDepth, bloatPenaltyRate);
+		currentSetupIndex = -1;
+
+	}
 
 
 

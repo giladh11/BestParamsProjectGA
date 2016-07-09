@@ -45,13 +45,15 @@ public class ParamMeasurer implements Fitness<SymRegSolverChromosome, Double> {
 		BlackBoxTree currentBox;
 		BestModelCandidate currentBestCandidate;
 		double fitness = 0;
-		System.out.println("Evaluating chromosome with ParamGA: "+ symRegSolverChromosome.getParamGA());
+		if(RunHigherLevel.PRINT_EACH_HIGHER_LEVEL_CHROMOSOME_EVALUATION)
+			System.out.println("Evaluating chromosome with ParamGA: "+ symRegSolverChromosome.getParamGA());
 		while(iter.hasNext()){
 			currentBox = iter.next();
 			currentBestCandidate = symRegSolverChromosome.trySolving(currentBox, RunHigherLevel.PRINT_LOWER_LEVEL_ITERATIONS);
 			fitness+=currentBestCandidate.getFitness();
 		}
-		System.out.println(" symRegSolverChromosome.fitness = "+ fitness);
+		if(RunHigherLevel.PRINT_EACH_HIGHER_LEVEL_CHROMOSOME_EVALUATION)
+			System.out.println(" symRegSolverChromosome.fitness = "+ fitness);
 		fitness= fitness/listOfBlackboxes.size();//size of boxes should never be zero
 		return fitness;
 	}
