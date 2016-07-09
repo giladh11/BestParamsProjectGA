@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import static lowerLevelGA.TestFunctions.*;
+
 /**
  * a main function that allows to mange higher level runs
  */
@@ -92,7 +94,6 @@ import java.util.Scanner;
 		//the idea is that it allows you to run different families on params we got in different runs
 
 		//TODO make it easy to see the ParamGA chromosomes of the first population
-
 		//TODO choose a few hand-crafted ParamGA and add them to the setups
 	/*ideas
 		* check if running the highlevel on the same group of function return similar parameters in each run/
@@ -111,6 +112,17 @@ import java.util.Scanner;
 					currentSetup = new SetupHigherLevel("Test2", createBlackBoxesList2(), baseFunctions);
 					setupsLists.add(currentSetup);
 					runAll();
+					break;
+				case "setTestFunctions":
+					currentSetup = new SetupHigherLevel(arrS[1], addTheseFunctionsStringsToBlackBoxesList(getTestFunctions()), baseFunctions);
+					setupsLists.add(currentSetup);
+					currentSetupIndex=setupsLists.size()-1;
+					break;
+				case "setFamily":
+					arrS = s.split(" ", 3);
+					currentSetup = new SetupHigherLevel(arrS[1], createFamilyBlackBoxesList(arrS[2]), baseFunctions);
+					setupsLists.add(currentSetup);
+					currentSetupIndex=setupsLists.size()-1;
 					break;
 //				case "setNewFunc":
 //					createNewFuncFromString(arrS[1]);
@@ -185,6 +197,8 @@ import java.util.Scanner;
 
 		System.out.println("Options:");
 		System.out.println("default - will set all the default setups and run them");
+		System.out.println("setTestFunctions chosenName  -  will add a list of 10 functions from the testfunctions, to a new setup chosenName in the list");
+		System.out.println("setFamily chosenName poly/exp/trigo 'x' 'y' - will add a list of 'y' functions from the family with degree/length x, to a new setup chosenName in the list");
 //		System.out.println("setNewFunc 'FUNCTION_STRING' - will create a new BlackBox according to the requested string");
 
 		System.out.println("runAll - will make sure all the current setups were run");
@@ -199,6 +213,51 @@ import java.util.Scanner;
 		System.out.println("quit - will exit the program");
 		System.out.println("");
 	}
+
+	/**
+	 * this method will return a list with BlackBoxTree
+	 * @return
+	 */
+	private static List<BlackBoxTree> createFamilyBlackBoxesList(String s) {
+		List<BlackBoxTree> blackBoxList = null;
+		String arrS[] = s.split(" ", 3);
+		int lengthOrDegree =  Integer.parseInt(arrS[1]);
+		int count = Integer.parseInt(arrS[2]);
+		switch(arrS[0]) {
+			case "poly":
+				blackBoxList = addTheseFunctionsStringsToBlackBoxesList(polynomials(lengthOrDegree, count));
+				break;
+			case "exp":
+				blackBoxList = addTheseFunctionsStringsToBlackBoxesList(exponents(lengthOrDegree, count));
+				break;
+			case "trigo":
+				blackBoxList = addTheseFunctionsStringsToBlackBoxesList(trigonometricFunctions(lengthOrDegree, count));
+				break;
+			default:
+				System.out.println("choose poly/exp/trigo ");
+				break;
+		}
+
+		return blackBoxList;
+	}
+
+
+
+	/**
+	 * this method will add to the setups the list of string functions it got
+	 */
+	private static List<BlackBoxTree> addTheseFunctionsStringsToBlackBoxesList(List<String> stringFunctionsList) {
+		List<BlackBoxTree> blackBoxList = new LinkedList<BlackBoxTree>();
+		Iterator<String> iter = stringFunctionsList.iterator();
+		String currentString;
+		while(iter.hasNext()){
+			currentString= iter.next();
+			blackBoxList.add(new BlackBoxTree(currentString));
+		}
+		System.out.println(" created "+stringFunctionsList.size()+" new blackBoxes in a list");
+		return blackBoxList;
+	}
+
 
 	/**
 	 * this method will return a list with BlackBoxTree
