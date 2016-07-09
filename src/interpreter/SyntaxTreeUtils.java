@@ -15,12 +15,14 @@
  ******************************************************************************/
 package interpreter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * this class holds method to create and manipulte function trees
  */
 public class SyntaxTreeUtils {
+
 
 	/**
 	 * creates a new tree using the context
@@ -160,11 +162,22 @@ public class SyntaxTreeUtils {
 	}
 
 	/**
-	 * TODO TAL write a method that returns the number of nodes in the tree
+	 * This method return the number of nodes in the tree of expression.
 	 * @return
 	 */
 	public static int getNumberOfNodes(Expression expression) {
-		return 0;
+		List<Expression> children = expression.getChildren();
+		int numOfNodes = 1;
+
+		if(children.size() != 0)
+			for (Expression child : children)
+				numOfNodes += getNumberOfNodes(child);
+
+		return numOfNodes;
 
 	}
+
+
+
+
 }
