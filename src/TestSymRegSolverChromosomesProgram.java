@@ -54,7 +54,7 @@ import static lowerLevelGA.TestFunctions.*;
 		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
 		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;
 		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
-		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = 0.001;
+		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = 0.5;
 		//param for mutation inside of ParamGA
 		private static int MAX_POINT_IN_RANGE = 50; //for DATASET creator
 		private static int MIN_POINT_IN_RANGE = -50;

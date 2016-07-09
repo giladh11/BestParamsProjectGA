@@ -38,6 +38,11 @@ public class Effort {
      */
     public double calcTotalEffort() {
         //TODO determine how to calculate the running complexity
+//        protected int genNum = 0;   maybe a fine if it gets to the maximus nuber allowed - not sure because than it already have crappy diatnce
+//        protected int numOfCrossovers = 0;     //we should decided how heavy is a crossover compared to mutation
+//        protected int numOfMutations = 0;
+//        protected int numOfPointsEvaluated = 0;   //the bigger the trees, the heavier the calculation of each point
+//        protected int sizeOfAllTreesCreated = 0;
         return 0;
     }
 }

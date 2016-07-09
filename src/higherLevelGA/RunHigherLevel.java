@@ -28,7 +28,7 @@ import java.util.Scanner;
 		private static int NUM_GEN_HIGHER_LEVEL = 3;
 		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
 		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
-		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = 0.001;
+		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP =0.5;
 		private static int HIGHER_POPULATION_SIZE = 2;
 		private static double HIGHER_CHROMOSOME_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
@@ -209,6 +209,7 @@ import java.util.Scanner;
 		System.out.println("Options:");
 //		System.out.println("random - create a random black box and run on it");
 //		System.out.println("setNewFunc 'FUNCTION_STRING' - will create a new BlackBox according to the requested string");
+
 		System.out.println("run - will run the HigherLevelEngine of the set boxes");
 //		System.out.println("printModels - will print all the models found by the runs on the currentBlackBox");
 //		System.out.println("printSetups - will print all the setups currently on memory");

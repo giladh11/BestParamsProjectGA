@@ -52,7 +52,7 @@ public class ParamMeasurer implements Fitness<SymRegSolverChromosome, Double> {
 			fitness+=currentBestCandidate.getFitness();
 		}
 		System.out.println(" symRegSolverChromosome.fitness = "+ fitness);
-
+		fitness= fitness/listOfBlackboxes.size();//size of boxes should never be zero
 		return fitness;
 	}
 

@@ -24,6 +24,7 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     //Inner parameters
     private SolverGAEngine engine;
     private static List<Functions> baseFunctions;
+
     private Double fitness = null;
 
 
@@ -70,6 +71,8 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
         bestModelCandidate.fitnessCalculator(blackBoxTree);
         if(printIterations)
             System.out.println("    best model found is " + bestModelCandidate);
+
+        //TODO this.fitness = null?
         return bestModelCandidate;
     }
 
