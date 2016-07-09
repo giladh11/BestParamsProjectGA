@@ -29,12 +29,23 @@ class SetupHigherLevel {
         this.baseFunctions = baseFunctions;
     }
 
+    /**
+     * constuctor of a set up
+     */
+    public SetupHigherLevel(String name, List<BlackBoxTree> blackBoxesList, List<Functions> baseFunctions, ParamGA paramGA){
+        this.name = name;
+        this.blackBoxesList = blackBoxesList;
+        this.baseFunctions = baseFunctions;
+        this.bestParamGASolverFound = new SymRegSolverChromosome(paramGA, baseFunctions);
+        calculateBestModelFoundList();
+    }
+
 
     /**
      * this method will run an engine on the boxes
      */
     public void runHigherOnTheBlackBoxes(){
-        System.out.println("Running Setup "+ name);
+        System.out.println("  Running Setup "+ name);
         HigherGAEngine engine = new HigherGAEngine(blackBoxesList, baseFunctions, RunHigherLevel.HIGHER_POPULATION_SIZE);
         if(RunHigherLevel.PRINT_HIGHER_LEVEL_ITERATIONS)
             RunHigherLevel.addListener(engine);
@@ -184,5 +195,21 @@ class SetupHigherLevel {
 
     public Collection<? extends BlackBoxTree> getBlackBoxList() {
         return this.blackBoxesList;
+    }
+
+    /**
+     * simple getter
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * simple getter
+     * @return
+     */
+    public List<BlackBoxTree> getBlackBoxesList() {
+        return blackBoxesList;
     }
 }
