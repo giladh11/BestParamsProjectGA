@@ -65,12 +65,18 @@ class SetupHigherLevel {
         return s.toString();
     }
 
+    /**
+     * This method will print the current setup
+     * with its results on the blackbox list
+     */
     public void printSetup(){
         if(bestParamGASolverFound != null && bestModelFoundList.size() == blackBoxesList.size()) {
             System.out.print(this);
-            for (int i = 0; i < this.blackBoxesList.size(); i++) {
-                System.out.println(i + ". BlackBox: " + blackBoxesList.get(i));
-                System.out.println("    BestModel: " + bestModelFoundList.get(i));
+            Iterator<BlackBoxTree> blackBoxTreeIterator = blackBoxesList.iterator();
+            Iterator<BestModelCandidate> bestModelCandidateIterator = bestModelFoundList.iterator();
+            while(blackBoxTreeIterator.hasNext() && bestModelCandidateIterator.hasNext()){
+                System.out.println("\tBlackBox: " + blackBoxTreeIterator.next());
+                System.out.println("\tBestModel: " + bestModelCandidateIterator.next());
             }
         }
 
