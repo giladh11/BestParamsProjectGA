@@ -3,6 +3,7 @@ package higherLevelGA;
 import interpreter.Functions;
 import lowerLevelGA.BlackBoxTree;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -175,6 +176,25 @@ class SetupHigherLevel {
         if(bestParamGASolverFound != null)
             paramGA = bestParamGASolverFound.getParamGA();
         return paramGA;
+    }
+
+    public BestModelCandidate getBestModelByBlackBox(BlackBoxTree blackbox){
+        Iterator<BlackBoxTree> iterBlack = this.blackBoxesList.iterator();
+        Iterator<BestModelCandidate> iterBest = this.bestModelFoundList.iterator();
+        BlackBoxTree blackBox;
+        BestModelCandidate bestModel = null;
+        while(iterBlack.hasNext()){
+            blackBox = iterBlack.next();
+            if(blackBox.toString().equals(blackBox.toString()))
+                bestModel = iterBest.next();
+            iterBest.next();
+        }
+
+        return bestModel;
+    }
+
+    public Collection<? extends BlackBoxTree> getBlackBoxList() {
+        return this.blackBoxesList;
     }
 
     /**

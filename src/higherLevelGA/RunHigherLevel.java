@@ -371,8 +371,28 @@ import static lowerLevelGA.TestFunctions.*;
             System.out.println("There are no setups");
     }
 
+    private static void printSetupsByBlackBox(){
+        List<BlackBoxTree> allBlackboxes = uniteBlackBoxesLists();
+        BestModelCandidate bestModel;
+        for(BlackBoxTree blackbox : allBlackboxes){
+            System.out.println("BlackBox: " + blackbox);
+            for(SetupHigherLevel setup : setupsLists){
+                if((bestModel = setup.getBestModelByBlackBox(blackbox)) != null){
+                    System.out.println(setup);
+                    System.out.println("Best Model: " + bestModel);
+                }
+            }
+        }
 
+    }
 
+    private static List<BlackBoxTree> uniteBlackBoxesLists() {
+        List<BlackBoxTree> ans = new LinkedList<>();
+        for(SetupHigherLevel setupHigherLevel : setupsLists)
+            ans.addAll(setupHigherLevel.getBlackBoxList());
+
+        return ans;
+    }
 
 	/**
 	 * will recreate the setups with indexes between x and y (including) as new ones with the current paramGA
@@ -478,6 +498,8 @@ import static lowerLevelGA.TestFunctions.*;
 			}
 		});
 	}
+
+
 
 	private static <T> List<T> list(T... items) {
 		List<T> list = new LinkedList<T>();
