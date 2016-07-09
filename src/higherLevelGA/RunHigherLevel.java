@@ -47,7 +47,7 @@ import java.util.Scanner;
 
 	private static Context sharedContext = new Context(baseFunctions, list("x"));
 	private static List<BlackBoxTree> listOfBlackboxes;
-	private static List<SetupHigherLevel> setupsLists;
+	private static List<SetupHigherLevel> setupsLists = new LinkedList<SetupHigherLevel>();
 	private  static SetupHigherLevel currentSetup;
 
 	public static void main(String[] args) {
@@ -77,6 +77,18 @@ import java.util.Scanner;
 		printHelp();
 																	//System.out.println("paramGA is set to "+currentParamGA);
 
+//TODO choose the family of functions to create black box from (and the amount of functions)
+		//TODO print all the black box list options - descrivbe the diffrent families
+		//TODO add as setup a ParamGA and make it possible to run it on every function group
+		//the idea is that it allows you to run different families on params we got in different runs
+
+		//TODO make it easy to see the ParamGA chromosomes of the first population
+
+		//TODO choose a few hand-crafted ParamGA and add them to the setups
+	/*ideas
+		* check if running the highlevel on the same group of function return similar parameters in each run/
+		*
+	 */
 
 		while(!exit){
 			System.out.print("$"); s = in.nextLine(); arrS = s.split(" ", 2);
@@ -95,6 +107,7 @@ import java.util.Scanner;
 
 					currentSetup = new SetupHigherLevel("Test2", createBlackBoxesList2(), baseFunctions);
 					setupsLists.add(currentSetup);
+					runAll();
 
 
 //					if (arrS.length==1)
@@ -189,7 +202,7 @@ import java.util.Scanner;
 	/**
 	 * this method will make sure all setups has been ran
 	 */
-	public void runAll(){
+	public static void runAll(){
 		Iterator<SetupHigherLevel> iter = setupsLists.iterator();
 		currentSetup = null;
 		while(iter.hasNext()){
@@ -201,19 +214,7 @@ import java.util.Scanner;
 	}
 
 
-	//TODO choose the family of functions to create black box from (and the amount of functions)
-			//TODO print all the black box list options - descrivbe the diffrent families
-	//TODO save as setup - a family, and the best ParamGA found for it?
-	//TODO add as setup a ParamGA and make it possible to run it on every function group
-		//the idea is that it allows you to run different families on params we got in different runs
 
-				//TODO make it easy to see the ParamGA chromosomes of the first population
-
-	//TODO choose a few hand-crafted ParamGA and add them to the setups
-	/*ideas
-		* check if running the highlevel on the same group of function return similar parameters in each run/
-		*
-	 */
 
 
 

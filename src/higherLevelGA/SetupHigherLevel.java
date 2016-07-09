@@ -33,13 +33,14 @@ class SetupHigherLevel {
      * this method will run an engine on the boxes
      */
     public void runHigherOnTheBlackBoxes(){
+        System.out.println("Running Setup "+ name);
         HigherGAEngine engine = new HigherGAEngine(blackBoxesList, baseFunctions, RunHigherLevel.HIGHER_POPULATION_SIZE);
         if(RunHigherLevel.PRINT_HIGHER_LEVEL_ITERATIONS)
             RunHigherLevel.addListener(engine);
         bestParamGASolverFound = engine.evolve(RunHigherLevel.NUM_GEN_HIGHER_LEVEL);
-        calculateAndPrintBestModelFoundList();
+        calculateBestModelFoundList();
 
-        System.out.println(" bestParamsFound are: "+bestParamGASolverFound.getParamGA() + "\n     with fitness: "+bestParamGASolverFound.getFitness());
+        printSetup();
     }
 
 
@@ -52,22 +53,24 @@ class SetupHigherLevel {
      */
     public String toString(){
         StringBuilder s = new StringBuilder();
+        s.append("SetupHigherLevel: name: " + name + "\n");
         if (bestParamGASolverFound != null)
         {
-            ParamGA paramGA = bestParamGASolverFound.getParamGA();
-            s.append("SetupHigherLevel: name: " + name + "\n");
-            s.append("\tParamGA: " + paramGA +"\n");
-
+            s.append("   ParamGA: " + bestParamGASolverFound.getParamGA() +"\n");
+            s.append("   with fitness: " + bestParamGASolverFound.getFitness() +"\n");
+        }
+        else{
+            s.append("   setup hasn't been ran\n");
         }
         return s.toString();
     }
 
     public void printSetup(){
         if(bestParamGASolverFound != null && bestModelFoundList.size() == blackBoxesList.size()) {
-            System.out.println("SetupHigherLevel: " + this.toString());
+            System.out.print(this);
             for (int i = 0; i < this.blackBoxesList.size(); i++) {
                 System.out.println(i + ". BlackBox: " + blackBoxesList.get(i));
-                System.out.println("\t BestModel: " + bestModelFoundList.get(i));
+                System.out.println("    BestModel: " + bestModelFoundList.get(i));
             }
         }
 
@@ -78,11 +81,11 @@ class SetupHigherLevel {
      */
     public void calculateBestModelFoundList(){
         if(this.bestParamGASolverFound == null ){
-            System.out.println("SetupHigherLevel: bestParamGASolverFound is null");
+            System.out.println("SetupHigherLevel: bestParamGASolverFound is null, run the setup before calculating");
             return;
         }
         else{
-            bestModelFoundList = new LinkedList<>();
+            bestModelFoundList = new LinkedList<BestModelCandidate>();
             BestModelCandidate bestModelCandidate;
             for(BlackBoxTree blackBox : this.blackBoxesList){
                 bestModelCandidate = bestParamGASolverFound.trySolving(blackBox, false);
