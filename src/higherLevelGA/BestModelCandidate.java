@@ -43,8 +43,8 @@ public class BestModelCandidate {
      */
     public double higherFitnessElementCalculator(BlackBoxTree blackBox) {
         distanceFromBlackBox = blackBox.measureDistanceFromCandidate(bestSyntaxTree);
-        double distanceWeight = distanceFromBlackBox* 1000 / PARAMs.EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP;//should be in the order 1000
-        double effortWeight = effortElement.calcTotalEffort();//should be in the order of 10
+        double distanceWeight = distanceFromBlackBox* 100 / PARAMs.EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP;//should be in the order 1000
+        double effortWeight = effortElement.calcTotalEffort();//should be in the order of 100
                             System.out.println("distanceWeight: "+distanceWeight+ ", effortWeight: "+ effortWeight);
         hFitnessElement = distanceWeight + effortWeight;// PARAM set how to calc the hFitnessElement of ParamGA
 

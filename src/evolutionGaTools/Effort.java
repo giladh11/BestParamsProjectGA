@@ -38,11 +38,11 @@ public class Effort {
      */
     public double calcTotalEffort() {
         double effort =
-                numOfCrossovers/100+  //order of 1...5
+                numOfCrossovers/10+  //order of 1...5
                 //genNum+
-                numOfMutations/100+ //order of 1...5
-                numOfPointsEvaluated/10000 + //order of 10...20
-                sumOfTreesSizesCreated /10000;//should be in the order of 10
+                numOfMutations/10+ //order of 1...5
+                numOfPointsEvaluated/1000 + //order of 10...20
+                sumOfTreesSizesCreated /1000;//should be in the order of 10
         return effort;
     }
 }
