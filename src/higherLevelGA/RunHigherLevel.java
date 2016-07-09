@@ -22,16 +22,16 @@ import static lowerLevelGA.TestFunctions.*;
 	//*****************************************************************params chosen PARAM in higher level Tester**************************************************************************
 		protected static int NUM_GEN_HIGHER_LEVEL = 3;
 		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
-		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
-		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP =0.5;
-		protected static int HIGHER_POPULATION_SIZE = 2;
+		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 10;
+		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP =30;
+		protected static int HIGHER_POPULATION_SIZE = 3;
 		private static double HIGHER_CHROMOSOME_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
 
 		private static int MAX_POINT_IN_RANGE = 50; //for DATASET creator
 		private static int MIN_POINT_IN_RANGE = -50;
-		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = false;
-		protected static boolean PRINT_LOWER_LEVEL_ITERATIONS = false;
+		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = true;
+		protected static boolean PRINT_LOWER_LEVEL_ITERATIONS = true;
 
 
 		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;//not sure that will be used here
@@ -72,8 +72,6 @@ import static lowerLevelGA.TestFunctions.*;
 		BlackBoxTree.setContextRegular(new Context(baseFunctions, list("x")));
 
 
-
-
 		String s = null;
 		String arrS[];
 		boolean exit = false;
@@ -83,15 +81,12 @@ import static lowerLevelGA.TestFunctions.*;
 		StringBuilder sbuild;
 
 
-															//setTheDefaultSetups();
 		//*****************************
 		printHelp();
-																	//System.out.println("paramGA is set to "+currentParamGA);
 
-//TODO choose the family of functions to create black box from (and the amount of functions)
-		//TODO print all the black box list options - descrivbe the diffrent families
-		//TODO add as setup a ParamGA and make it possible to run it on every function group
-		//the idea is that it allows you to run different families on params we got in different runs
+
+
+
 
 		//TODO make it easy to see the ParamGA chromosomes of the first population
 		//TODO choose a few hand-crafted ParamGA and add them to the setups
@@ -106,11 +101,11 @@ import static lowerLevelGA.TestFunctions.*;
 			switch(arrS[0]){
 				case "default":
 					//TODO write default actions to be made
-					currentSetup = new SetupHigherLevel("Test1", createBlackBoxesList(), baseFunctions);
-					setupsLists.add(currentSetup);
-
-					currentSetup = new SetupHigherLevel("Test2", createBlackBoxesList2(), baseFunctions);
-					setupsLists.add(currentSetup);
+						//					currentSetup = new SetupHigherLevel("Test1", createBlackBoxesList(), baseFunctions);
+						//					setupsLists.add(currentSetup);
+						//
+						//					currentSetup = new SetupHigherLevel("Test2", createBlackBoxesList2(), baseFunctions);
+						//					setupsLists.add(currentSetup);
 					runAll();
 					break;
 				case "setTestFunctions":
@@ -149,12 +144,15 @@ import static lowerLevelGA.TestFunctions.*;
 					if (currentParamGA!=null)
 						System.out.println(currentParamGA);
 					else
-						System.out.println("no currentSetup chosen and noCurrentParamGA");
+						System.out.println("   no CurrentParamGA chosen");
 					break;
 				case "setParamGA":
+					resetCurrentSetupAndParamGA();
 					parseAndSetParamGa(arrS[1]);
 					System.out.println("   paramGA was set to "+currentParamGA);
-					currentSetup = null; //TODO GILAD make sure resets the currentSetup
+					break;
+				case "setParamGaSetups":
+					setParamGaSetups(arrS[1]);
 					break;
 				case "currentSetup":
 					if (currentSetup==null)
@@ -167,7 +165,7 @@ import static lowerLevelGA.TestFunctions.*;
 					if (currentSetup==null)
 						System.out.println("   no currentSetup chosen");
 					else {
-						setupsLists.remove(currentSetupIndex);//TODO GILAD manage currentSetupIndex
+						setupsLists.remove(currentSetupIndex);
 						currentSetupIndex = -1;
 						currentSetup = null;
 						currentParamGA = null;
@@ -207,6 +205,8 @@ import static lowerLevelGA.TestFunctions.*;
 		System.out.println("chooseSetup x - will change to the requested setup index");
 		System.out.println("currentParamGA - will print the current ParamGA used");
 		System.out.println("setParamGA  - to choose 6 new params for currentParamGA");
+		System.out.println("setParamGaSetups x y - will recreate the setups with indexes between x and y (including) as new ones with the current paramGA");
+		System.out.println("          //the idea is that it allows you to run different families on params we got in different runs");
 		System.out.println("currentSetup - will printthe current setup index, and all its models");
 		System.out.println("removeCurrentSetup - will remove the current setup from the memory(and reset the box");
 		System.out.println("help - will print this option menu again");
@@ -260,31 +260,6 @@ import static lowerLevelGA.TestFunctions.*;
 
 
 	/**
-	 * this method will return a list with BlackBoxTree
-	 * @return
-     */
-	private static List<BlackBoxTree> createBlackBoxesList() {
-		List<BlackBoxTree> list = new LinkedList<BlackBoxTree>();
-		list.add(new BlackBoxTree("2*x + 3"));
-		list.add(new BlackBoxTree("3*x + 4"));
-
-		return list;
-	}
-
-	/**
-	 * this method will return a list with BlackBoxTree
-	 * @return
-	 */
-	private static List<BlackBoxTree> createBlackBoxesList2() {
-		List<BlackBoxTree> list = new LinkedList<BlackBoxTree>();
-		list.add(new BlackBoxTree("5*x + 3"));
-		list.add(new BlackBoxTree("4*x + 4"));
-
-		return list;
-	}
-
-
-	/**
 	 * this method will make sure all setups has been ran
 	 */
 	private static void runAll(){
@@ -296,6 +271,16 @@ import static lowerLevelGA.TestFunctions.*;
 				currentSetup.runHigherOnTheBlackBoxes();
 			}
 		}
+		resetCurrentSetupAndParamGA();
+	}
+
+	/**
+	 * resets the currentSetupAndParamGA
+	 */
+	private static void resetCurrentSetupAndParamGA() {
+		currentSetup = null;
+		currentSetupIndex = -1;
+		currentParamGA = null;
 	}
 
 	/**
@@ -308,7 +293,9 @@ import static lowerLevelGA.TestFunctions.*;
 			for(SetupHigherLevel setupHigherLevel: setupsLists)
 				System.out.println(setupHigherLevel);
 		else
-			System.out.println("There are no setups");
+			System.out.println("   There are no setups");
+
+		resetCurrentSetupAndParamGA();
 
 	}
 
@@ -317,12 +304,10 @@ import static lowerLevelGA.TestFunctions.*;
 	 * will print the currentSetups info with info on model
 	 */
 	private static void printCurrentSetupWithInfo(){
-		//GILAD GOOVER
 		if(currentSetup != null)
 			currentSetup.printSetup();
 		else
-			System.out.println("There is no current setup");
-
+			System.out.println("   There is no current setup");
 
 	}
 
@@ -330,11 +315,10 @@ import static lowerLevelGA.TestFunctions.*;
 
 	/**
 	 * will print all the setups WithInfoOnBestModels
-	 * at the end currentSetup=null //GILAD TAL didn't get this
+	 * at the end currentSetup=null
 	 */
 	private static void printAllSetupsWithInfoOnBestModels(){
-		//GILAD GOOVER
-		int i = 1;
+		int i = 0;
 		if(setupsLists.size() != 0) {
 			for (SetupHigherLevel setupHigherLevel : setupsLists) {
 				System.out.println(i + ".");
@@ -343,28 +327,53 @@ import static lowerLevelGA.TestFunctions.*;
 			}
 		}
 		else
-			System.out.println("There are no setups");
+			System.out.println("   There are no setups");
+
+		resetCurrentSetupAndParamGA();
 	}
 
 
+
+
+	/**
+	 * will recreate the setups with indexes between x and y (including) as new ones with the current paramGA
+	 * @param s
+	 */
+	private static void setParamGaSetups(String s) {
+		String arrS[] = s.split(" ", 2);
+		int i =  Integer.parseInt(arrS[0]);
+		int ibackup=i;
+		int j = Integer.parseInt(arrS[1]);
+		if (i<0 || i>=setupsLists.size() || i>j || j>=setupsLists.size()) {
+			System.out.println(" indexes inserted are not legal!!");
+			return;
+		}
+		Iterator<SetupHigherLevel> iter =  setupsLists.listIterator(i);
+		SetupHigherLevel set = null;
+		List<SetupHigherLevel> tempList = new LinkedList<SetupHigherLevel>();
+		while (!(i>j)){
+			set = iter.next();
+
+			currentSetup = new SetupHigherLevel(set.getName()+".setParams",set.getBlackBoxesList(), baseFunctions ,currentParamGA);
+			tempList.add(currentSetup);
+			i++;
+		}
+		setupsLists.addAll(tempList);
+	}
 
 	/**
 	 * will switch to the chosen setup
 	 * @param index
      */
 	private static void chooseSetup(int index) {
-		//GILAD GOOVER
 		if (index >= setupsLists.size() || index < 0){
-			System.out.println("   "+index+" is invalid");
+			System.out.println("   index "+index+" is invalid");
 			return;
 		}
 		switchToSetup(setupsLists.get(index), index);
 
 
 		System.out.println("   switched to setup "+index+"!\n"+currentSetup);
-
-		//TODO GILAD decide what else should be changed, ParamGA
-
 	}
 
 
@@ -374,119 +383,13 @@ import static lowerLevelGA.TestFunctions.*;
 	 * @param setupHigherLevel
 	 * @param index
 	 */
-
 	private static void switchToSetup(SetupHigherLevel setupHigherLevel, int index) {
-		//GILAD GOOVER
 		currentSetup = setupHigherLevel;
 		currentParamGA = currentSetup.getParamGA();
 		currentSetupIndex = index;
 	}
 
 
-//	/**
-//	 * this method sets the BlackBoxTreeList with method we want to run and test
-//	 */
-//	private static void setTheDefaultSetups() {
-//		setUpsList = new LinkedList<Setup>();
-//		currentSetupIndex = -1;
-//		//createNewFuncFromString("2*x");
-//		//createNewSetupFromCurrentBlackBox
-//	}
-
-
-
-//	/**
-//	 * runs a new random black box
-//	 */
-//	private static void createNewRandomBlackBox() {
-//		currentBlackBoxTree = new BlackBoxTree(4, sharedContext);
-//		System.out.println(" Random function is " + currentBlackBoxTree);
-//		currentSetup = new Setup(currentBlackBoxTree, currentParamGA);
-//		currentSetupIndex = -1;
-//	}
-
-//	/**
-//	 * creates a tree based on the string
-//	 */
-//	private static void createNewFuncFromString(String funcString) {
-//		currentBlackBoxTree = new BlackBoxTree(funcString);
-//		System.out.println(" chosenFunc function is " + currentBlackBoxTree);
-//		currentSetup = new Setup(currentBlackBoxTree, currentParamGA);
-//		currentSetupIndex = -1;
-//	}
-
-//	/**
-//	 * this method reruns the genetic algorithem on the last BlackBox n times
-//	 * @param n
-//     */
-//	private static void runCurrentBox(int n) {
-//		boolean printEvoIterations = false;
-//		if(currentSetupIndex== -1){//adding setup to list
-//			setUpsList.add(currentSetup);
-//			currentSetupIndex = setUpsList.size()-1;
-//		}
-//		if (currentBlackBoxTree==null) {
-//			System.out.println("   currentBlackBoxTree is still null, please choose function");
-//			return;
-//		}
-//		if (n<0){
-//			n = -n;
-//			printEvoIterations=true;
-//		}
-//
-//		for (int i = 0; i < n; i++) {
-//			tempBestModelFound = symRegSolverChromosome.trySolving(currentBlackBoxTree, printEvoIterations);//will not print the evolutions iterations
-//			currentSetup.addBestModel(tempBestModelFound);
-//			System.out.println("***\n" + tempBestModelFound);
-//		}
-//
-//		System.out.println("***\n"+"***\n"+"***");
-//		System.out.println("currentBlackBoxTree was: "+ currentSetup.getBlackBoxTree());
-//		currentSetup.printAverages();
-//	}
-
-//	/**
-//	 * will print all the setups in memory
-//	 */
-//	private static void printSetups(){
-//		if(setUpsList.size()==0){
-//			System.out.println("   no setups stored on memory");
-//			return;
-//		}
-//		StringBuilder s = new StringBuilder();
-//		Iterator<Setup> iter =  setUpsList.listIterator();
-//		int i = 0;
-//		Setup set = null;
-//
-//		while (iter.hasNext()){
-//			set = iter.next();
-//			s.append(i);
-//			set.appendSetupData(s);
-//			i++;
-//		}
-//		System.out.println(s.toString());
-//	}
-//
-//
-//	/**
-//	 * switches to the requested setup
-//	 * @param n
-//	 */
-//	private static void chooseSetup(int n){
-//		if (n>=setUpsList.size() || n<0){
-//			System.out.println("   "+n+" is not a valid setup index");
-//			return;
-//		}
-//		currentSetup = setUpsList.get(n);
-//		currentParamGA = currentSetup.getParamGA();
-//		currentBlackBoxTree = currentSetup.getBlackBoxTree();
-//		tempBestModelFound = null;
-//		currentSetupIndex = n;
-//
-//		System.out.println("   switched to setup "+n+"!\n"+currentSetup);
-//
-//	}
-//
 	/**
 	 * this method will set the paramGa according to the string
 	 * @param s
@@ -510,8 +413,6 @@ import static lowerLevelGA.TestFunctions.*;
 		currentSetupIndex = -1;
 
 	}
-
-
 
 
 	/**
