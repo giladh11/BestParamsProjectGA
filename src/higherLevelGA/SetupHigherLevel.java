@@ -107,7 +107,28 @@ class SetupHigherLevel {
 
     }
 
-    
+    /**
+     * This method will print the current setup
+     * just with black boxes
+     */
+    //GILAD GOOVER
+    public void printSetupWithBestModels(){
+        if(bestParamGASolverFound != null && bestModelFoundList.size() != 0) {
+            System.out.print(this);
+            Iterator<BestModelCandidate> bestModelCandidateIterator = bestModelFoundList.iterator();
+            while(bestModelCandidateIterator.hasNext())
+                System.out.println("\tBestModel: " + bestModelCandidateIterator.next());
+
+        }
+        else if(bestParamGASolverFound == null)
+            System.out.println("   setup hasn't been ran\n");
+        else
+            System.out.println(" setup hasn't been ran, no best models\n");
+
+    }
+
+
+
     /**
      * this method will run the solver on the list so we can see how are the best parameters acting for the best ParamGA found.
      */
@@ -117,7 +138,7 @@ class SetupHigherLevel {
             return;
         }
         else{
-            bestModelFoundList = new LinkedList<BestModelCandidate>();
+            bestModelFoundList = new LinkedList<>();
             BestModelCandidate bestModelCandidate;
             for(BlackBoxTree blackBox : this.blackBoxesList){
                 bestModelCandidate = bestParamGASolverFound.trySolving(blackBox, false);

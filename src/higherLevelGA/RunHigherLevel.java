@@ -140,7 +140,7 @@ import static lowerLevelGA.TestFunctions.*;
 					printAllSetups();
 					break;
 				case "printSetupsModels":
-					printAllSetupsWithInfoOnBestModels();
+					printAllSetupsWithBestModels();
 					break;
 				case "chooseSetup":
 					chooseSetup(Integer.parseInt(arrS[1]));
@@ -319,7 +319,7 @@ import static lowerLevelGA.TestFunctions.*;
 	private static void printCurrentSetupWithInfo(){
 		//GILAD GOOVER
 		if(currentSetup != null)
-			currentSetup.printSetup();
+            System.out.println(currentSetup);
 		else
 			System.out.println("There is no current setup");
 
@@ -329,16 +329,15 @@ import static lowerLevelGA.TestFunctions.*;
 
 
 	/**
-	 * will print all the setups WithInfoOnBestModels
-	 * at the end currentSetup=null //GILAD TAL didn't get this
+	 * will print all the setups with best models
 	 */
-	private static void printAllSetupsWithInfoOnBestModels(){
+	private static void printAllSetupsWithBestModels(){
 		//GILAD GOOVER
 		int i = 1;
 		if(setupsLists.size() != 0) {
 			for (SetupHigherLevel setupHigherLevel : setupsLists) {
 				System.out.println(i + ".");
-				setupHigherLevel.printSetup();
+				setupHigherLevel.printSetupWithBestModels();
 				i++;
 			}
 		}
@@ -346,9 +345,46 @@ import static lowerLevelGA.TestFunctions.*;
 			System.out.println("There are no setups");
 	}
 
+    /**
+     * will print all the setups with black boxes
+     */
+    private static void printAllSetupsWithBlackBoxes(){
+        //GILAD GOOVER
+        int i = 1;
+        if(setupsLists.size() != 0) {
+            for (SetupHigherLevel setupHigherLevel : setupsLists) {
+                System.out.println(i + ".");
+                setupHigherLevel.printSetupWithBlackBoxes();
+                i++;
+            }
+        }
+        else
+            System.out.println("There are no setups");
+    }
 
 
-	/**
+    /**
+     * will print all the setups with black boxes and best models
+     */
+    private static void printAllSetupsWithBlackBoxesAndBestModels(){
+        //GILAD GOOVER
+        int i = 1;
+        if(setupsLists.size() != 0) {
+            for (SetupHigherLevel setupHigherLevel : setupsLists) {
+                System.out.println(i + ".");
+                setupHigherLevel.printSetupWithBlackBoxesAndBestModels();
+                i++;
+            }
+        }
+        else
+            System.out.println("There are no setups");
+    }
+
+
+
+
+
+    /**
 	 * will switch to the chosen setup
 	 * @param index
      */
