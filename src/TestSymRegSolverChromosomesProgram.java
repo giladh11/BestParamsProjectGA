@@ -276,6 +276,9 @@ import static lowerLevelGA.TestFunctions.*;
 			case "trigo":
 				addTheseFunctionsStringsToSetups(trigonometricFunctions(lengthOrDegree, count));
 				break;
+			default:
+				System.out.println("choose poly/exp/trigo ");
+				break;
 		}
 	}
 
