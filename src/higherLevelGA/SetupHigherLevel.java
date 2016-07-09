@@ -52,15 +52,44 @@ class SetupHigherLevel {
      */
     public String toString(){
         StringBuilder s = new StringBuilder();
-       //TODO
+        if (bestParamGASolverFound != null)
+        {
+            ParamGA paramGA = bestParamGASolverFound.getParamGA();
+            s.append("SetupHigherLevel: name: " + name + "\n");
+            s.append("\tParamGA: " + paramGA +"\n");
+
+        }
         return s.toString();
     }
 
+    public void printSetup(){
+        if(bestParamGASolverFound != null && bestModelFoundList.size() == blackBoxesList.size()) {
+            System.out.println("SetupHigherLevel: " + this.toString());
+            for (int i = 0; i < this.blackBoxesList.size(); i++) {
+                System.out.println(i + ". BlackBox: " + blackBoxesList.get(i));
+                System.out.println("\t BestModel: " + bestModelFoundList.get(i));
+            }
+        }
+
+    }
+
     /**
-     * this method will run the solver on the list so we can see hows is the best parameters acting for the best ParamGA found.
+     * this method will run the solver on the list so we can see how are the best parameters acting for the best ParamGA found.
      */
-    public void calculateAndPrintBestModelFoundList(){
-        //TODO TAL   use a a general method
+    public void calculateBestModelFoundList(){
+        if(this.bestParamGASolverFound == null ){
+            System.out.println("SetupHigherLevel: bestParamGASolverFound is null");
+            return;
+        }
+        else{
+            bestModelFoundList = new LinkedList<>();
+            BestModelCandidate bestModelCandidate;
+            for(BlackBoxTree blackBox : this.blackBoxesList){
+                bestModelCandidate = bestParamGASolverFound.trySolving(blackBox, false);
+                bestModelFoundList.add(bestModelCandidate);
+            }
+        }
+
     }
 
     /**
