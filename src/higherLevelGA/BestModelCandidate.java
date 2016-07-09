@@ -4,6 +4,7 @@ package higherLevelGA;
 import interpreter.Expression;
 import lowerLevelGA.BlackBoxTree;
 import evolutionGaTools.Effort;
+import p.PARAMs;
 
 /**
  * this class represents the bestModelCandidate returned by a certain run of a SymRegSolverChromosome
@@ -11,18 +12,18 @@ import evolutionGaTools.Effort;
 public class BestModelCandidate {
 
     private Expression bestSyntaxTree;
-    private Effort effort;
+    private Effort effortElement;
     private double distanceFromBlackBox;
-    protected double fitness;
+    protected double hFitnessElement;
 
     /**
-     * simple constuctor... doesn't get the distance (will be calculated later) and can not calc fitness without the distance
+     * simple constuctor... doesn't get the distance (will be calculated later) and can not calc hFitnessElement without the distance
      * @param bestSyntaxTree
-     * @param effort
+     * @param effortElement
      */
-    public BestModelCandidate(Expression bestSyntaxTree, Effort effort) {
+    public BestModelCandidate(Expression bestSyntaxTree, Effort effortElement) {
         this.bestSyntaxTree = bestSyntaxTree;
-        this.effort = effort;
+        this.effortElement = effortElement;
     }
 
 
@@ -31,19 +32,22 @@ public class BestModelCandidate {
      * @return
      */
     public String toString(){
-        return "Function: " + bestSyntaxTree.print() + "\n" +"      distance: " + distanceFromBlackBox+ " Effort: <" + effort + "> higherLvlFitness: " + fitness;
+        return "Function: " + bestSyntaxTree.print() + "\n" +"      distance: " + distanceFromBlackBox+ " Effort: <" + effortElement + "> higherLvlFitness: " + hFitnessElement;
     }
 
 
     /**
-     * this method will get a blackbox and check its distance from the bestSyntaxTree
-     * the amount of points is a project parameter
+     * A bestModelCandidate is created by SymRegSolverChromosome and the hFitnessElement it holds represents the
      * @param blackBox
      * @return
      */
-    public double fitnessCalculator(BlackBoxTree blackBox) {
+    public double higherFitnessElementCalculator(BlackBoxTree blackBox) {
         distanceFromBlackBox = blackBox.measureDistanceFromCandidate(bestSyntaxTree);
-        fitness = 1/distanceFromBlackBox + effort.calcTotalEffort();//TODO decide how to calc fitness PARAM set how to calc the fitness of ParamGA
+        double distanceWeight = distanceFromBlackBox* 1000 / PARAMs.EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP;//should be in the order 1000
+        double effortWeight = effortElement.calcTotalEffort();//should be in the order of 10
+                            System.out.println("distanceWeight: "+distanceWeight+ ", effortWeight: "+ effortWeight);
+        hFitnessElement = distanceWeight + effortWeight;// PARAM set how to calc the hFitnessElement of ParamGA
+
         return distanceFromBlackBox;
     }
 
@@ -51,8 +55,8 @@ public class BestModelCandidate {
      * simple getter
      * @return
      */
-    public Effort getEffort() {
-        return effort;
+    public Effort getEffortElement() {
+        return effortElement;
     }
     /**
      * simple getter
@@ -65,8 +69,8 @@ public class BestModelCandidate {
      * simple getter
      * @return
      */
-    public double getFitness() {
-        return fitness;
+    public double getHFitnessElement() {
+        return hFitnessElement;
     }
 
 

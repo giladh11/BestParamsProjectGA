@@ -18,14 +18,14 @@ import java.util.List;
 public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome, Double>
 {
     private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL;
-    private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP;
+//    private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP;
 
     private ParamGA paramGA;
     //Inner parameters
     private SolverGAEngine engine;
     private static List<Functions> baseFunctions;
 
-    private Double fitness = null;
+    private Double hFitness = null;
 
 
     /**
@@ -68,11 +68,10 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
          System.out.println("   trying to solve "+ blackBoxTree);
         engine.evolve(MAX_NUM_OF_ITERATIONS_LOWER_LEVEL);
         BestModelCandidate bestModelCandidate = engine.buildBestModelCandidate();
-        bestModelCandidate.fitnessCalculator(blackBoxTree);
+        bestModelCandidate.higherFitnessElementCalculator(blackBoxTree);
         if(printIterations)
             System.out.println("    best model found is " + bestModelCandidate);
 
-        //TODO this.fitness = null?
         return bestModelCandidate;
     }
 
@@ -120,19 +119,19 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     }
 
     /**
-     * simple fitness getter
+     * simple hFitnessElement getter
      * @return
      */
     public Double getFitness() {
-        return fitness;
+        return hFitness;
     }
 
     /**
-     * sets the fitness so it wont get calculated more than once during the evolution
+     * sets the hFitnessElement so it wont get calculated more than once during the evolution
      * @param fit
      */
     public void setFitness(Double fit) {
-        this.fitness = fit;
+        this.hFitness = fit;
     }
 
     @Override
@@ -157,17 +156,17 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
 
                 Expression bestSyntaxTree = engine.getBestSyntaxTree();
 
-                double currFitValue = engine.fitnessMeasureForEachIteration(bestSyntaxTree);
+                double currFitValue = engine.lFitnessMeasureForEachIteration(bestSyntaxTree);
 
                 // log to console
                 System.out.println(
                         String.format("iter = %s \t fit = %s \t func = %s",
                                 engine.getIteration(), currFitValue, bestSyntaxTree.print()));
 
-                // halt condition
-                if (currFitValue < EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP) {
-                    engine.terminate();
-                }
+//                // halt condition
+//                if (currFitValue < EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP) {
+//                    engine.terminate();
+//                }
             }
         });
     }
@@ -177,13 +176,13 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
         return paramGA;
     }
 
-    /**
-     * simple static setter
-     * @param epsilonDistanceForLowerEvolutionToStop
-     */
-    public static void setEpsilonDistanceForLowerEvolutionToStop(double epsilonDistanceForLowerEvolutionToStop) {
-        EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = epsilonDistanceForLowerEvolutionToStop;
-    }
+//    /**
+//     * simple static setter
+//     * @param epsilonDistanceForLowerEvolutionToStop
+//     */
+//    public static void setEpsilonDistanceForLowerEvolutionToStop(double epsilonDistanceForLowerEvolutionToStop) {
+//        EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP = epsilonDistanceForLowerEvolutionToStop;
+//    }
 
     /**
      * simple static setter

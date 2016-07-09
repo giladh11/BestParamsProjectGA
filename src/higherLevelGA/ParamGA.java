@@ -18,7 +18,7 @@ public class ParamGA{
 
 
 
-    //This parameter defines the measure of fitnessMeasureForEachIteration deduction
+    //This parameter defines the measure of lFitnessMeasureForEachIteration deduction
     //for too big trees
     private double bloatPenaltyRate;//IMPROVE too complicated now
     private int dataSetSize;
@@ -41,19 +41,19 @@ public class ParamGA{
 
             //used by mutate() and getRandomParamGA()
             private static final int MIN_POPULATION_SIZE = 5;
-            private static final int MAX_POPULATION_SIZE = 10;
-
-            //used by mutate() and getRandomParamGA()
-            private static final double MIN_BLOAT_PENALTY_RATE = 0;
-            private static final double MAX_BLOAT_PENALTY_RATE = 2;
+            private static final int MAX_POPULATION_SIZE = 30;
 
             //used by mutate() and getRandomParamGA()
             private static final int MIN_DATA_SET_SIZE = 5;
-            private static final int MAX_DATA_SET_SIZE = 20;
+            private static final int MAX_DATA_SET_SIZE = 40;
 
             //used by mutate() and getRandomParamGA()
             private static final int MIN_TREE_DEPTH = 1;
             private static final int MAX_TREE_DEPTH = 8;
+
+            //used by mutate() and getRandomParamGA()
+            private static final double MIN_BLOAT_PENALTY_RATE = 0;
+            private static final double MAX_BLOAT_PENALTY_RATE = 2;
 
 
     //Note: this property is static for all instances since only one-variables models are tested.

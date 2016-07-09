@@ -68,7 +68,7 @@ class SetupHigherLevel {
         if (bestParamGASolverFound != null)
         {
             s.append("   ParamGA: " + bestParamGASolverFound.getParamGA() +"\n");
-            s.append("   with fitness: " + bestParamGASolverFound.getFitness() +"\n");
+            s.append("   with hFitnessElement: " + bestParamGASolverFound.getFitness() +"\n");
         }
         else{
             s.append("   setup hasn't been ran\n");

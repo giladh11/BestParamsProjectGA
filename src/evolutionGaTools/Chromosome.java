@@ -27,9 +27,9 @@ public interface Chromosome<C extends Chromosome<C, T>, T extends Comparable<T>>
 	
 	C mutate();
 
-	T  getFitness();
+	T getFitness();
 
-	void  setFitness(T fit);
+	void setFitness(T fit);
 
 	int getSize();
 

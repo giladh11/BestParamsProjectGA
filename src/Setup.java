@@ -18,7 +18,7 @@ class Setup{
 
     private double minDistanceFromBlackBox; private double sumDistanceFromBlackBox; private double maxDistanceFromBlackBox;
 
-    private double minFitness; private double sumFitness; private double maxFitness;
+    private double minHFitness; private double sumHFitness; private double maxHFitness;
 
     /**
      * constuctor of a set up
@@ -30,7 +30,7 @@ class Setup{
         bestModelFoundList = new LinkedList<BestModelCandidate>();
         minGen = -1 ; sumGen = 0; maxGen = 0;
         minDistanceFromBlackBox = -1 ; sumDistanceFromBlackBox = 0 ; maxDistanceFromBlackBox = 0;
-        minFitness = -1; sumFitness = 0; maxFitness = 0;
+        minHFitness = -1; sumHFitness = 0; maxHFitness = 0;
     }
 
     /**
@@ -57,23 +57,23 @@ class Setup{
      * @param best
      */
     public void addBestModel(BestModelCandidate best){
-        sumGen +=  best.getEffort().getGen();
+        sumGen +=  best.getEffortElement().getGen();
         sumDistanceFromBlackBox +=  best.getDistanceFromBlackBox();
-        sumFitness+= best.getFitness();
+        sumHFitness += best.getHFitnessElement();
 
-        if (minGen ==-1 || best.getEffort().getGen() < minGen)
-            minGen = best.getEffort().getGen();
+        if (minGen ==-1 || best.getEffortElement().getGen() < minGen)
+            minGen = best.getEffortElement().getGen();
         if (minDistanceFromBlackBox==-1 || best.getDistanceFromBlackBox() < minDistanceFromBlackBox)
             minDistanceFromBlackBox = best.getDistanceFromBlackBox();
-        if (minFitness==-1 || best.getFitness() < minFitness)
-            minFitness = best.getFitness();
+        if (minHFitness ==-1 || best.getHFitnessElement() < minHFitness)
+            minHFitness = best.getHFitnessElement();
 
-        if (best.getEffort().getGen() > maxGen)
-            maxGen = best.getEffort().getGen();
+        if (best.getEffortElement().getGen() > maxGen)
+            maxGen = best.getEffortElement().getGen();
         if (best.getDistanceFromBlackBox() > maxDistanceFromBlackBox)
             maxDistanceFromBlackBox = best.getDistanceFromBlackBox();
-        if (best.getFitness() > maxFitness)
-            maxFitness = best.getFitness();
+        if (best.getHFitnessElement() > maxHFitness)
+            maxHFitness = best.getHFitnessElement();
 
         bestModelFoundList.add(best);//adds to the end of the list
     }
@@ -109,7 +109,7 @@ class Setup{
         s.append("      num of best models found = "+bestModelFoundList.size() + "\n");
         s.append("      minGen = "+ minGen + ", avgGen = "+ sumGen /bestModelFoundList.size() + ", maxGen = " + maxGen + "\n");
         s.append("      minDistanceFromBlackBox = " + minDistanceFromBlackBox + ", avgDistanceFromBlackBox = "+sumDistanceFromBlackBox/bestModelFoundList.size() + ", maxDistanceFromBlackBox = " + maxDistanceFromBlackBox + "\n");
-        s.append("      minFitness = " + minFitness + ", avgFitness = "+sumFitness/bestModelFoundList.size() + ", maxFitness = " + maxFitness +"\n");
+        s.append("      minHFitness = " + minHFitness + ", avgHFitness = "+ sumHFitness /bestModelFoundList.size() + ", maxHFitness = " + maxHFitness +"\n");
     }
 
     /**

@@ -16,6 +16,7 @@
 package evolutionGaTools;
 
 import higherLevelGA.ParamGA;
+import p.PARAMs;
 
 import java.util.*;
 
@@ -43,16 +44,16 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 		}
 
 		public T fit(C chr) {
-			T fit = this.cache.get(chr);
-			if (fit == null) {
-				fit =  chr.getFitness();
-				if(fit==null) {
-					fit = GeneticAlgorithm.this.fitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
+			T lFit = this.cache.get(chr);
+			if (lFit == null) {
+				lFit =  chr.getFitness();//LowerFitness
+				if(lFit==null) {
+					lFit = GeneticAlgorithm.this.lowerFitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
 				}
-				this.cache.put(chr, fit);
-				chr.setFitness(fit);
+				this.cache.put(chr, lFit);
+				chr.setFitness(lFit);
 			}
-			return fit;
+			return lFit;
 		};
 
 		public void clearCache() {
@@ -60,9 +61,9 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 		}
 	}
 
-	private final ChromosomesComparator chromosomesComparator;
+	private final ChromosomesComparator lowerChromosomesComparator;
 
-	private final Fitness<C, T> fitnessFunc;
+	private final Fitness<C, T> lowerFitnessFunc;
 
 	private Population<C, T> population;
 
@@ -76,12 +77,12 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 
 	private int iteration = 0;
 
-	public GeneticAlgorithm(Population<C, T> population, Fitness<C, T> fitnessFunc, ParamGA paramGA) {
+	public GeneticAlgorithm(Population<C, T> population, Fitness<C, T> lowerFitnessFunc, ParamGA paramGA) {
 		this.population = population;
 		this.effort = new Effort(population.getSumOfTreeSizes());
-		this.fitnessFunc = fitnessFunc;
-		this.chromosomesComparator = new ChromosomesComparator();
-		this.population.sortPopulationByFitness(this.chromosomesComparator);
+		this.lowerFitnessFunc = lowerFitnessFunc;
+		this.lowerChromosomesComparator = new ChromosomesComparator();
+		this.population.sortPopulationByFitness(this.lowerChromosomesComparator);
 		this.paramGA = paramGA;
 
 	}
@@ -110,7 +111,7 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 					effort.numOfCrossovers++;
 					List<C> crossovered = chromosome.crossover(previousChromo);
 					for (C c : crossovered) {
-						effort.sizeOfAllTreesCreated+=c.getSize();
+						effort.sumOfTreesSizesCreated +=c.getSize();
 						newPopulation.addChromosome(c);
 					}
 				}
@@ -123,11 +124,11 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 				effort.numOfMutations++;
 				mutated = chromosome.mutate();
 				newPopulation.addChromosome(mutated);
-				effort.sizeOfAllTreesCreated+=mutated.getSize();
+				effort.sumOfTreesSizesCreated +=mutated.getSize();
 			}
 		}
 
-		newPopulation.sortPopulationByFitness(this.chromosomesComparator);
+		newPopulation.sortPopulationByFitness(this.lowerChromosomesComparator);
 		newPopulation.trim(parentPopulationSize); //choosing the best parentPopulationSize chromosomes in the new generation
 		this.population = newPopulation;
 
@@ -145,6 +146,8 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 			for (IterartionListener<C, T> l : this.iterationListeners) {
 				l.update(this);
 			}
+			if( ((Double)getBest().getFitness()).doubleValue() <= PARAMs.EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP)//lowerFitness
+				this.terminate();
 		}
 
 		if (effort.genNum ==0)
@@ -186,11 +189,16 @@ public class GeneticAlgorithm<C extends Chromosome<C, T>, T extends Comparable<T
 		this.iterationListeners.remove(listener);
 	}
 
+	/**
+	 * lower fitness
+	 * @param chromosome
+	 * @return
+     */
 	public T fitness(C chromosome) {
-		return this.chromosomesComparator.fit(chromosome);
+		return this.lowerChromosomesComparator.fit(chromosome);
 	}
 
 	public void clearCache() {
-		this.chromosomesComparator.clearCache();
+		this.lowerChromosomesComparator.clearCache();
 	}
 }

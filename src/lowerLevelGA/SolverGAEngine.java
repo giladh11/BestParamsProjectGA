@@ -43,15 +43,15 @@ public class SolverGAEngine {
 	/**
 	 * creates a population in the constuctor and in every evolution iteration
 	 * @param context
-	 * @param fitnessFunction
+	 * @param lowerFitnessFunction
 	 * @param populationSize
      * @return
      */
-	private Population<FunctionTreeChromosome, Double> createPopulation(Context context, Fitness<FunctionTreeChromosome, Double> fitnessFunction, int populationSize) {
+	private Population<FunctionTreeChromosome, Double> createPopulation(Context context, Fitness<FunctionTreeChromosome, Double> lowerFitnessFunction, int populationSize) {
 		Population<FunctionTreeChromosome, Double> population = new Population<FunctionTreeChromosome, Double>();
 		for (int i = 0; i < populationSize; i++) {
 			FunctionTreeChromosome chromosome =
-					new FunctionTreeChromosome(context, fitnessFunction, SyntaxTreeUtils.createTree(paramGA.getMaxInitialTreeDepth(), context));
+					new FunctionTreeChromosome(context, lowerFitnessFunction, SyntaxTreeUtils.createTree(paramGA.getMaxInitialTreeDepth(), context));
 			population.addChromosome(chromosome);
 		}
 		return population;
@@ -108,7 +108,7 @@ public class SolverGAEngine {
 	 * @param expression
 	 * @return
      */
-	public double fitnessMeasureForEachIteration(Expression expression) {
+	public double lFitnessMeasureForEachIteration(Expression expression) {
 		return this.comparableDataSet.distanceFromExpression(expression, this.context);
 	}
 

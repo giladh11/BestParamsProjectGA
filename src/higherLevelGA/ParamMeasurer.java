@@ -34,7 +34,7 @@ public class ParamMeasurer implements Fitness<SymRegSolverChromosome, Double> {
 	}
 
 	/**
-	 * this is a method that calcute the fitness of this params on the list of black boxes it got
+	 * this is a method that calcute the hFitnessElement of this params on the list of black boxes it got
 	 * meaning it will run the lower level ga with the params on each of the boxes and see the resulats
 	 * @param symRegSolverChromosome
 	 * @return
@@ -44,18 +44,18 @@ public class ParamMeasurer implements Fitness<SymRegSolverChromosome, Double> {
 		Iterator<BlackBoxTree> iter = listOfBlackboxes.listIterator();
 		BlackBoxTree currentBox;
 		BestModelCandidate currentBestCandidate;
-		double fitness = 0;
+		double sumHFitnessElements = 0;
 		if(RunHigherLevel.PRINT_EACH_HIGHER_LEVEL_CHROMOSOME_EVALUATION)
 			System.out.println("Evaluating chromosome with ParamGA: "+ symRegSolverChromosome.getParamGA());
 		while(iter.hasNext()){
 			currentBox = iter.next();
 			currentBestCandidate = symRegSolverChromosome.trySolving(currentBox, RunHigherLevel.PRINT_LOWER_LEVEL_ITERATIONS);
-			fitness+=currentBestCandidate.getFitness();
+			sumHFitnessElements+=currentBestCandidate.getHFitnessElement();
 		}
 		if(RunHigherLevel.PRINT_EACH_HIGHER_LEVEL_CHROMOSOME_EVALUATION)
-			System.out.println(" symRegSolverChromosome.fitness = "+ fitness);
-		fitness= fitness/listOfBlackboxes.size();//size of boxes should never be zero
-		return fitness;
+			System.out.println(" symRegSolverChromosome.hFitnessElement = "+ sumHFitnessElements);
+
+		return sumHFitnessElements/listOfBlackboxes.size();//size of boxes should never be zero
 	}
 
 }

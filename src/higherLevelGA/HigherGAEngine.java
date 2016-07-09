@@ -44,11 +44,11 @@ public class HigherGAEngine {
 
 	/**
 	 * creates a population in the constuctor and in every evolution iteration
-	 * @param fitnessFunction
+	 * @param higherFitnessFunction
 	 * @param populationSize
      * @return
      */
-	private Population<SymRegSolverChromosome, Double> createPopulation(Fitness<SymRegSolverChromosome, Double> fitnessFunction, int populationSize) {//TODO maybe give a fitness function to the SymRegSolverChromosome
+	private Population<SymRegSolverChromosome, Double> createPopulation(Fitness<SymRegSolverChromosome, Double> higherFitnessFunction, int populationSize) {
 		Population<SymRegSolverChromosome, Double> population = new Population<SymRegSolverChromosome, Double>();
 		for (int i = 0; i < populationSize; i++) {
 			SymRegSolverChromosome chromosome =

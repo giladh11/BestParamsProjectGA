@@ -6,6 +6,7 @@ import interpreter.Context;
 import interpreter.Functions;
 import lowerLevelGA.BlackBoxTree;
 import lowerLevelGA.DataSet;
+import p.PARAMs;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,26 +22,27 @@ import static lowerLevelGA.TestFunctions.*;
 
 	//*****************************************************************params chosen PARAM in higher level Tester**************************************************************************
 		protected static int NUM_GEN_HIGHER_LEVEL = 3;
-		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
-		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 10;
-		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP =30;
 		protected static int HIGHER_POPULATION_SIZE = 3;
 		private static double HIGHER_CHROMOSOME_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
 
-		private static int MAX_POINT_IN_RANGE = 50; //for DATASET creator
-		private static int MIN_POINT_IN_RANGE = -50;
-		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = true;
-		protected static boolean PRINT_LOWER_LEVEL_ITERATIONS = true;
+		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = PARAMs.OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER;
+		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = PARAMs.MAX_NUM_OF_ITERATIONS_LOWER_LEVEL;
 
 
-		private static int SIZE_OF_RANDOM_BLACKBOXTREE = 4;//not sure that will be used here
+
+		//param for mutation inside of ParamGA
+		private static int MAX_POINT_IN_RANGE = PARAMs.MAX_POINT_IN_RANGE; //for DATASET creator
+		private static int MIN_POINT_IN_RANGE = PARAMs.MIN_POINT_IN_RANGE;
+
+		private static int SIZE_OF_RANDOM_BLACKBOXTREE = PARAMs.SIZE_OF_RANDOM_BLACKBOXTREE;//not sure that will be used here
 		//param for mutation inside of ParamGA
 		private static List<Functions> baseFunctions = list(Functions.ADD, Functions.SUB, Functions.MUL, Functions.POW, Functions.VARIABLE, Functions.CONSTANT);
 	//*********************************************************************end param chosen***************************************************************************************************
 	//DEBUG prints
+		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = true;
+		protected static boolean PRINT_LOWER_LEVEL_ITERATIONS = false;
 		protected static boolean PRINT_EACH_HIGHER_LEVEL_CHROMOSOME_EVALUATION = false;
-
 
 	//********end debug prints
 
@@ -63,7 +65,7 @@ import static lowerLevelGA.TestFunctions.*;
 		//params setters
 			BlackBoxTree.setObjectiveNumOfPointsForDistanceMeasurer(OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER);
 			SymRegSolverChromosome.setMaxNumOfIterationsLowerLevel(MAX_NUM_OF_ITERATIONS_LOWER_LEVEL);
-			SymRegSolverChromosome.setEpsilonDistanceForLowerEvolutionToStop(EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP);
+			//SymRegSolverChromosome.setEpsilonDistanceForLowerEvolutionToStop(EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP);
 			DataSet.setMaxPointInRange(MAX_POINT_IN_RANGE);
 			DataSet.setMinPointInRange(MIN_POINT_IN_RANGE);
 			GeneticAlgorithmHigherLevel.setHigherChromosomeRate(HIGHER_CHROMOSOME_RATE);
@@ -100,7 +102,7 @@ import static lowerLevelGA.TestFunctions.*;
 
 			switch(arrS[0]){
 				case "default":
-					//TODO write default actions to be made
+					// write default actions to be made
 						//					currentSetup = new SetupHigherLevel("Test1", createBlackBoxesList(), baseFunctions);
 						//					setupsLists.add(currentSetup);
 						//
@@ -179,8 +181,10 @@ import static lowerLevelGA.TestFunctions.*;
 					System.out.println("   Goodbye:)");
 					exit = true;
 					break;
+				case "":
+					break;
 				default:
-					System.out.println("   please enter a valid command, use 'Help' for list of commmands");
+					System.out.println("   '" + s + "' command is not valid, please enter a valid command, use 'Help' for list of commmands");
 			}
 		}
 

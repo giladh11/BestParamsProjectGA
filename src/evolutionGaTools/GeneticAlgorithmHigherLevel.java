@@ -15,7 +15,6 @@
  ******************************************************************************/
 package evolutionGaTools;
 
-import higherLevelGA.ParamGA;
 import higherLevelGA.SymRegSolverChromosome;
 
 import java.util.*;
@@ -42,21 +41,21 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 		public int compare(C chr1, C chr2) {
 			T fit1 = this.fit(chr1);
 			T fit2 = this.fit(chr2);
-			int ret = fit2.compareTo(fit1);//Switch these to change the order of the sort
+			int ret = fit1.compareTo(fit2);//Switch these to change the order of the sort, now prefers the smaller hFitnessElement
 			return ret;
 		}
 
 		public T fit(C chr) {
-			T fit = this.cache.get(chr);
-			if (fit == null) {
-				fit =  chr.getFitness();
-				if(fit==null) {
-					fit = GeneticAlgorithmHigherLevel.this.fitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
+			T hFit = this.cache.get(chr);
+			if (hFit == null) {
+				hFit =  chr.getFitness();
+				if(hFit==null) {
+					hFit = GeneticAlgorithmHigherLevel.this.higherFitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
 				}
-				this.cache.put(chr, fit);
-				chr.setFitness(fit);
+				this.cache.put(chr, hFit);
+				chr.setFitness(hFit);
 			}
-			return fit;
+			return hFit;
 		};
 
 		public void clearCache() {
@@ -64,9 +63,9 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 		}
 	}
 
-	private final ChromosomesComparator chromosomesComparator;
+	private final ChromosomesComparator higherChromosomesComparator;
 
-	private final Fitness<C, T> fitnessFunc;
+	private final Fitness<C, T> higherFitnessFunc;
 
 	private Population<C, T> population;
 
@@ -78,11 +77,11 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 
 	private int iteration = 0;
 
-	public GeneticAlgorithmHigherLevel(Population<C, T> population, Fitness<C, T> fitnessFunc) {
+	public GeneticAlgorithmHigherLevel(Population<C, T> population, Fitness<C, T> higherFitnessFunc) {
 		this.population = population;
-		this.fitnessFunc = fitnessFunc;
-		this.chromosomesComparator = new ChromosomesComparator();
-		this.population.sortPopulationByFitness(this.chromosomesComparator);
+		this.higherFitnessFunc = higherFitnessFunc;
+		this.higherChromosomesComparator = new ChromosomesComparator();
+		this.population.sortPopulationByFitness(this.higherChromosomesComparator);
 	}
 
 	public void evolve() {
@@ -124,7 +123,7 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 			}
 		}
 
-		newPopulation.sortPopulationByFitness(this.chromosomesComparator);
+		newPopulation.sortPopulationByFitness(this.higherChromosomesComparator);
 		newPopulation.trim(parentPopulationSize); //choosing the best parentPopulationSize chromosomes in the new generation
 		this.population = newPopulation;
 	}
@@ -184,12 +183,17 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 		this.iterationListeners.remove(listener);
 	}
 
+	/**
+	 * higher fitness
+	 * @param chromosome
+	 * @return
+     */
 	public T fitness(C chromosome) {
-		return this.chromosomesComparator.fit(chromosome);
+		return this.higherChromosomesComparator.fit(chromosome);
 	}
 
 	public void clearCache() {
-		this.chromosomesComparator.clearCache();
+		this.higherChromosomesComparator.clearCache();
 	}
 
 	/**

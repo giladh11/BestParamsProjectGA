@@ -37,7 +37,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 
 	private Context context;
 
-	private Fitness<FunctionTreeChromosome, Double> fitnessFunction;//can calculate
+	private Fitness<FunctionTreeChromosome, Double> lowerFitnessFunction;//can calculate
 
 	private Random random = new Random();
 
@@ -46,27 +46,27 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 	/**
 	 * constructor
 	 * @param context
-	 * @param fitnessFunction
+	 * @param lowerFitnessFunction
 	 * @param syntaxTree
      */
-	public FunctionTreeChromosome(Context context, Fitness<FunctionTreeChromosome, Double> fitnessFunction, Expression syntaxTree) {
+	public FunctionTreeChromosome(Context context, Fitness<FunctionTreeChromosome, Double> lowerFitnessFunction, Expression syntaxTree) {
 		this.context = context;
-		this.fitnessFunction = fitnessFunction;
+		this.lowerFitnessFunction = lowerFitnessFunction;
 		this.syntaxTree = syntaxTree;
 	}
 
 	/**
-	 *	returns the fitness if its allocated
+	 *	returns the hFitnessElement if its allocated
 	 */
 	public Double getFitness(){
-		return fitness;//stop the fitness from being calculated twice
+		return fitness;//stop the hFitnessElement from being calculated twice
 	}
 
 	/**
-	 *	sets the fitness
+	 *	sets the hFitnessElement
 	 */
 	public void setFitness(Double n){
-		this.fitness = n;//stop the fitness from being calculated twice
+		this.fitness = n;//stop the hFitnessElement from being calculated twice
 	}
 
 	@Override
@@ -82,8 +82,8 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 	public List<FunctionTreeChromosome> crossover(FunctionTreeChromosome anotherChromosome) {
 		List<FunctionTreeChromosome> ret = new ArrayList<FunctionTreeChromosome>(2);
 
-		FunctionTreeChromosome thisClone = new FunctionTreeChromosome(this.context, this.fitnessFunction, this.syntaxTree.clone());
-		FunctionTreeChromosome anotherClone = new FunctionTreeChromosome(this.context, this.fitnessFunction, anotherChromosome.syntaxTree.clone());
+		FunctionTreeChromosome thisClone = new FunctionTreeChromosome(this.context, this.lowerFitnessFunction, this.syntaxTree.clone());
+		FunctionTreeChromosome anotherClone = new FunctionTreeChromosome(this.context, this.lowerFitnessFunction, anotherChromosome.syntaxTree.clone());
 
 		Expression thisRandomNode = this.getRandomNode(thisClone.syntaxTree);
 		Expression anotherRandomNode = this.getRandomNode(anotherClone.syntaxTree);
@@ -108,7 +108,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
 	 * @return
      */
 	public FunctionTreeChromosome mutate() {
-		FunctionTreeChromosome ret = new FunctionTreeChromosome(this.context, this.fitnessFunction, this.syntaxTree.clone());
+		FunctionTreeChromosome ret = new FunctionTreeChromosome(this.context, this.lowerFitnessFunction, this.syntaxTree.clone());
 
 
 		int type = this.random.nextInt(7);
@@ -334,7 +334,7 @@ class FunctionTreeChromosome implements Chromosome<FunctionTreeChromosome, Doubl
          */
 		public Double calculate(CoefficientsChromosome chromosome) {
 			FunctionTreeChromosome.this.syntaxTree.setCoefficientsOfTree(chromosome.getCoefficients());
-			return FunctionTreeChromosome.this.fitnessFunction.calculate(FunctionTreeChromosome.this);
+			return FunctionTreeChromosome.this.lowerFitnessFunction.calculate(FunctionTreeChromosome.this);
 		}
 
 	}
