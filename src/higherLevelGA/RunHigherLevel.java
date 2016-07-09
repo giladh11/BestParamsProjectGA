@@ -299,52 +299,88 @@ import static lowerLevelGA.TestFunctions.*;
 	}
 
 	/**
-	 * will print all the setups (withOutinfo on each best model it found
+	 * will print all the setups (without info on each best model it found
 	 * at the end cuurentSetup=null
 	 */
 	private static void printAllSetups(){
-		//TODO TAL
+
+		if(setupsLists.size() != 0)
+			for(SetupHigherLevel setupHigherLevel: setupsLists)
+				System.out.println(setupHigherLevel);
+		else
+			System.out.println("There are no setups");
+
 	}
+
 
 	/**
 	 * will print the currentSetups info with info on model
 	 */
 	private static void printCurrentSetupWithInfo(){
-		//TODO TAL
+		//GILAD GOOVER
+		if(currentSetup != null)
+			currentSetup.printSetup();
+		else
+			System.out.println("There is no current setup");
+
+
 	}
+
 
 
 	/**
 	 * will print all the setups WithInfoOnBestModels
-	 * at the end cuurentSetup=null
+	 * at the end currentSetup=null //GILAD TAL didn't get this
 	 */
 	private static void printAllSetupsWithInfoOnBestModels(){
-		//TODO TAL
+		//GILAD GOOVER
+		int i = 1;
+		if(setupsLists.size() != 0) {
+			for (SetupHigherLevel setupHigherLevel : setupsLists) {
+				System.out.println(i + ".");
+				setupHigherLevel.printSetup();
+				i++;
+			}
+		}
+		else
+			System.out.println("There are no setups");
 	}
+
+
 
 	/**
 	 * will switch to the chosen setup
-	 * @param i
+	 * @param index
      */
-	private static void chooseSetup(int i) {
-		//TODO TAL find find the setup and put in the currentSetups, print unvalid index if un valid.
-		// take example from the functions in TestSymRegSolvelProgram
+	private static void chooseSetup(int index) {
+		//GILAD GOOVER
+		if (index >= setupsLists.size() || index < 0){
+			System.out.println("   "+index+" is invalid");
+			return;
+		}
+		switchToSetup(setupsLists.get(index), index);
+
+
+		System.out.println("   switched to setup "+index+"!\n"+currentSetup);
+
 		//TODO GILAD decide what else should be changed, ParamGA
 
 	}
 
 
 
+	/**
+	 * switches to the requested setup
+	 * @param setupHigherLevel
+	 * @param index
+	 */
 
-
-
-
-
-
-
-
-
-
+	private static void switchToSetup(SetupHigherLevel setupHigherLevel, int index) {
+		//GILAD GOOVER
+		currentSetup = setupHigherLevel;
+		currentParamGA = currentSetup.getParamGA();
+		currentSetupIndex = index;
+	}
 
 
 //	/**

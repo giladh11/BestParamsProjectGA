@@ -111,4 +111,11 @@ class SetupHigherLevel {
         else
             return true;
     }
+
+    public ParamGA getParamGA() {
+        ParamGA paramGA = null;
+        if(bestParamGASolverFound != null)
+            paramGA = bestParamGASolverFound.getParamGA();
+        return paramGA;
+    }
 }
