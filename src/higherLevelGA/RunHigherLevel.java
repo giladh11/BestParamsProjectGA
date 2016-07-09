@@ -7,6 +7,7 @@ import interpreter.Functions;
 import lowerLevelGA.BlackBoxTree;
 import lowerLevelGA.DataSet;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -25,11 +26,11 @@ import java.util.Scanner;
 					//	private static SymRegSolverChromosome symRegSolverChromosome;
 
 	//params chosen PARAM in higher level Tester
-		private static int NUM_GEN_HIGHER_LEVEL = 3;
+		protected static int NUM_GEN_HIGHER_LEVEL = 3;
 		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = 100;
 		private static int MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = 200;
 		private static  double EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP =0.5;
-		private static int HIGHER_POPULATION_SIZE = 2;
+		protected static int HIGHER_POPULATION_SIZE = 2;
 		private static double HIGHER_CHROMOSOME_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
 
@@ -46,6 +47,8 @@ import java.util.Scanner;
 
 	private static Context sharedContext = new Context(baseFunctions, list("x"));
 	private static List<BlackBoxTree> listOfBlackboxes;
+	private static List<SetupHigherLevel> setupsLists;
+	private  static SetupHigherLevel currentSetup;
 
 	public static void main(String[] args) {
 		//params setters
@@ -87,24 +90,11 @@ import java.util.Scanner;
 //					createNewFuncFromString(arrS[1]);
 //					break;
 				case "run":
-					listOfBlackboxes = createBlackBoxesList();
+					currentSetup = new SetupHigherLevel("Test1", createBlackBoxesList(), baseFunctions);
+					setupsLists.add(currentSetup);
 
-
-					SymRegSolverChromosome bestParamChromosomeFound;
-					ParamGA bestParamsFound;
-					double  bestParamsFoundFitness;
-
-							//choose family of functions
-							//choose group of functions
-
-					HigherGAEngine engine = new HigherGAEngine(listOfBlackboxes, baseFunctions, HIGHER_POPULATION_SIZE);
-					if(PRINT_HIGHER_LEVEL_ITERATIONS)
-						addListener(engine);
-					bestParamChromosomeFound = engine.evolve(NUM_GEN_HIGHER_LEVEL);
-					bestParamsFound = bestParamChromosomeFound.getParamGA();
-					bestParamsFoundFitness = bestParamChromosomeFound.getFitness();
-					System.out.println(" bestParamsFound are: "+bestParamsFound + "\n     with fitness: "+bestParamsFoundFitness);
-
+					currentSetup = new SetupHigherLevel("Test2", createBlackBoxesList2(), baseFunctions);
+					setupsLists.add(currentSetup);
 
 
 //					if (arrS.length==1)
@@ -181,6 +171,33 @@ import java.util.Scanner;
 		list.add(new BlackBoxTree("3*x + 4"));
 
 		return list;
+	}
+
+	/**
+	 * this method will return a list with BlackBoxTree
+	 * @return
+	 */
+	private static List<BlackBoxTree> createBlackBoxesList2() {
+		List<BlackBoxTree> list = new LinkedList<BlackBoxTree>();
+		list.add(new BlackBoxTree("5*x + 3"));
+		list.add(new BlackBoxTree("4*x + 4"));
+
+		return list;
+	}
+
+
+	/**
+	 * this method will make sure all setups has been ran
+	 */
+	public void runAll(){
+		Iterator<SetupHigherLevel> iter = setupsLists.iterator();
+		currentSetup = null;
+		while(iter.hasNext()){
+			currentSetup = iter.next();
+			if(!currentSetup.hasBeenRan()){
+				currentSetup.runHigherOnTheBlackBoxes();
+			}
+		}
 	}
 
 
@@ -367,7 +384,7 @@ import java.util.Scanner;
 	/**
 	 * Track each iteration
 	 */
-	private static void addListener(HigherGAEngine engine) {
+	protected static void addListener(HigherGAEngine engine) {
 		engine.addIterationListener(new HigherGAEngineIterationListener() {
 			@Override
 			public void update(HigherGAEngine engine) {

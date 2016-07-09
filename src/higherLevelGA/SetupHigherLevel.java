@@ -1,5 +1,6 @@
 package higherLevelGA;
 
+import interpreter.Functions;
 import lowerLevelGA.BlackBoxTree;
 
 import java.util.Iterator;
@@ -12,6 +13,7 @@ import java.util.List;
 class SetupHigherLevel {
     private String name;
     private List<BlackBoxTree> blackBoxesList;
+    private List<Functions> baseFunctions;
     private SymRegSolverChromosome bestParamGASolverFound = null;
     private List<BestModelCandidate> bestModelFoundList = null;//will hold all the models the best solver found
 
@@ -20,9 +22,24 @@ class SetupHigherLevel {
     /**
      * constuctor of a set up
      */
-    public SetupHigherLevel(String name, List<BlackBoxTree> blackBoxesList){
+    public SetupHigherLevel(String name, List<BlackBoxTree> blackBoxesList, List<Functions> baseFunctions){
         this.name = name;
         this.blackBoxesList = blackBoxesList;
+        this.baseFunctions = baseFunctions;
+    }
+
+
+    /**
+     * this method will run an engine on the boxes
+     */
+    public void runHigherOnTheBlackBoxes(){
+        HigherGAEngine engine = new HigherGAEngine(blackBoxesList, baseFunctions, RunHigherLevel.HIGHER_POPULATION_SIZE);
+        if(RunHigherLevel.PRINT_HIGHER_LEVEL_ITERATIONS)
+            RunHigherLevel.addListener(engine);
+        bestParamGASolverFound = engine.evolve(RunHigherLevel.NUM_GEN_HIGHER_LEVEL);
+        calculateAndPrintBestModelFoundList();
+
+        System.out.println(" bestParamsFound are: "+bestParamGASolverFound.getParamGA() + "\n     with fitness: "+bestParamGASolverFound.getFitness());
     }
 
 
@@ -46,4 +63,14 @@ class SetupHigherLevel {
         //TODO TAL   use a a general method
     }
 
+    /**
+     * returns true if the setup has already been ran
+     * @return
+     */
+    public boolean hasBeenRan() {
+        if(bestParamGASolverFound==null)
+            return false;
+        else
+            return true;
+    }
 }
