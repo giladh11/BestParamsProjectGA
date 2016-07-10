@@ -68,8 +68,8 @@ class SetupHigherLevel {
         s.append("     SetupHigherLevel: name: " + name + "\n");
         if (bestParamGASolverFound != null)
         {
-            s.append("        ParamGA: " + bestParamGASolverFound.getParamGA() +"\n");
-            s.append("        with hFitness: " + bestParamGASolverFound.getFitness() +"\n");
+            s.append("         ParamGA: " + bestParamGASolverFound.getParamGA() +"\n");
+            s.append("          with hFitness: " + bestParamGASolverFound.getFitness() +"\n");
         }
         else{
             s.append("        setup hasn't been ran\n");
@@ -87,8 +87,8 @@ class SetupHigherLevel {
             Iterator<BlackBoxTree> blackBoxTreeIterator = blackBoxesList.iterator();
             Iterator<BestModelCandidate> bestModelCandidateIterator = bestModelFoundList.iterator();
             while(blackBoxTreeIterator.hasNext() && bestModelCandidateIterator.hasNext()){
-                System.out.println("\t        BlackBox: " + blackBoxTreeIterator.next());
-                System.out.println("\t        BestModel: " + bestModelCandidateIterator.next());
+                System.out.println("\t         BlackBox: " + blackBoxTreeIterator.next());
+                System.out.println("\t          BestModel: " + bestModelCandidateIterator.next());
             }
         }
         else if(bestParamGASolverFound == null)
@@ -103,17 +103,15 @@ class SetupHigherLevel {
      * just with black boxes
      */
     public void printSetupWithBlackBoxes(){
-        if(bestParamGASolverFound != null && blackBoxesList.size() == 0) {
+        if(blackBoxesList.size() != 0) {
             System.out.print(this);
             Iterator<BlackBoxTree> blackBoxTreeIterator = blackBoxesList.iterator();
             while(blackBoxTreeIterator.hasNext())
-                System.out.println("\t     BlackBox: " + blackBoxTreeIterator.next());
-
+                System.out.println("	         BlackBox: " + blackBoxTreeIterator.next());
         }
-        else if(bestParamGASolverFound == null)
-            System.out.println("   setup hasn't been ran\n");
         else
-            System.out.println(" setup hasn't been ran, no black boxes\n");
+            System.out.println("   no black boxes\n");
+
 
     }
 
@@ -127,7 +125,7 @@ class SetupHigherLevel {
             System.out.print(this);
             Iterator<BestModelCandidate> bestModelCandidateIterator = bestModelFoundList.iterator();
             while(bestModelCandidateIterator.hasNext())
-                System.out.println("\t     BestModel: " + bestModelCandidateIterator.next());
+                System.out.println("\t         BestModel: " + bestModelCandidateIterator.next());
 
         }
         else if(bestParamGASolverFound == null)

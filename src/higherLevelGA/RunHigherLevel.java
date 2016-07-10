@@ -21,8 +21,8 @@ import static lowerLevelGA.TestFunctions.*;
  public final class RunHigherLevel {
 
 	//*****************************************************************params chosen PARAM in higher level Tester**************************************************************************
-		protected static int NUM_GEN_HIGHER_LEVEL = 3;//should be 100
-		protected static int HIGHER_POPULATION_SIZE = 3; // should be 15
+		protected static int NUM_GEN_HIGHER_LEVEL = 50;//should be 100
+		protected static int HIGHER_POPULATION_SIZE = 10; // should be 15
 		private static double HIGHER_CROSSOVER_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
 
@@ -321,7 +321,7 @@ import static lowerLevelGA.TestFunctions.*;
 	 */
 	private static void printCurrentSetupWithInfo(){
 		if(currentSetup != null)
-            System.out.println(currentSetup);
+            currentSetup.printSetupWithBlackBoxesAndBestModels();
 		else
 			System.out.println("   There is no current setup");
 

@@ -32,7 +32,7 @@ public class BestModelCandidate {
      * @return
      */
     public String toString(){
-        return "Function: " + bestSyntaxTree.print() + "\n" +"           distance: " + distanceFromBlackBox+ " Effort: <" + effortElement + "> higherLvlFitness: " + hFitnessElement;
+        return "Function: " + bestSyntaxTree.print() + "\n" +"                distance: " + distanceFromBlackBox+ " Effort: <" + effortElement + "> higherLvlFitness: " + hFitnessElement;
     }
 
 
