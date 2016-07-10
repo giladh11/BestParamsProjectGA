@@ -21,8 +21,8 @@ import static lowerLevelGA.TestFunctions.*;
  public final class RunHigherLevel {
 
 	//*****************************************************************params chosen PARAM in higher level Tester**************************************************************************
-		protected static int NUM_GEN_HIGHER_LEVEL = 100;
-		protected static int HIGHER_POPULATION_SIZE = 15;
+		protected static int NUM_GEN_HIGHER_LEVEL = 3;//should be 100
+		protected static int HIGHER_POPULATION_SIZE = 3; // should be 15
 		private static double HIGHER_CROSSOVER_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
 
@@ -138,15 +138,21 @@ import static lowerLevelGA.TestFunctions.*;
 				case "printSetups":
 					printAllSetups();
 					break;
+				case "printSetupsInfo":
+					printAllSetupsWithBlackBoxesAndBestModels();
+					break;
 				case "printSetupsModels":
 					printAllSetupsWithBestModels();
+					break;
+				case "printSetupsBoxes":
+					printAllSetupsWithBlackBoxes();
 					break;
 				case "chooseSetup":
 					chooseSetup(Integer.parseInt(arrS[1]));
 					break;
 				case "currentParamGA":
 					if (currentParamGA!=null)
-						System.out.println(currentParamGA);
+						System.out.println("  " + currentParamGA);
 					else
 						System.out.println("   no CurrentParamGA chosen");
 					break;
@@ -207,7 +213,9 @@ import static lowerLevelGA.TestFunctions.*;
 
 		System.out.println("runAll - will make sure all the current setups were run");
 		System.out.println("printSetups - will print all the setups currently on memory");
+		System.out.println("printSetupsInfo - will print all the setups currently on memory, and the black boxes and the bestModels each one of them found");
 		System.out.println("printSetupsModels - will print all the setups currently on memory, and the bestModels each one of them found");
+		System.out.println("printSetupsBoxes - will print all the setups currently on memory, and the black boxes");
 		System.out.println("chooseSetup x - will change to the requested setup index");
 		System.out.println("currentParamGA - will print the current ParamGA used");
 		System.out.println("setParamGA  - to choose 6 new params for currentParamGA");
@@ -294,10 +302,12 @@ import static lowerLevelGA.TestFunctions.*;
 	 * at the end cuurentSetup=null
 	 */
 	private static void printAllSetups(){
-
+		int i = 0;
 		if(setupsLists.size() != 0)
-			for(SetupHigherLevel setupHigherLevel: setupsLists)
-				System.out.println(setupHigherLevel);
+			for(SetupHigherLevel setupHigherLevel: setupsLists) {
+				System.out.println(i + ". " + setupHigherLevel);
+				i++;
+			}
 		else
 			System.out.println("   There are no setups");
 
@@ -342,8 +352,7 @@ import static lowerLevelGA.TestFunctions.*;
      * will print all the setups with black boxes
      */
     private static void printAllSetupsWithBlackBoxes(){
-        //GILAD GOOVER
-        int i = 1;
+        int i = 0;
         if(setupsLists.size() != 0) {
             for (SetupHigherLevel setupHigherLevel : setupsLists) {
                 System.out.println(i + ".");
@@ -360,8 +369,7 @@ import static lowerLevelGA.TestFunctions.*;
      * will print all the setups with black boxes and best models
      */
     private static void printAllSetupsWithBlackBoxesAndBestModels(){
-        //GILAD GOOVER
-        int i = 1;
+        int i = 0;
         if(setupsLists.size() != 0) {
             for (SetupHigherLevel setupHigherLevel : setupsLists) {
                 System.out.println(i + ".");
@@ -435,8 +443,6 @@ import static lowerLevelGA.TestFunctions.*;
 
 
 		System.out.println("   switched to setup "+index+"!\n"+currentSetup);
-
-		//TODO GILAD decide what else should be changed, ParamGA
 
 	}
 

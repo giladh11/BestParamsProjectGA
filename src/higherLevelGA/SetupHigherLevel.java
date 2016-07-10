@@ -30,7 +30,7 @@ class SetupHigherLevel {
     }
 
     /**
-     * constuctor of a set up
+     * constuctor of a set up, will calculate the best models according to the given params
      */
     public SetupHigherLevel(String name, List<BlackBoxTree> blackBoxesList, List<Functions> baseFunctions, ParamGA paramGA){
         this.name = name;
@@ -65,14 +65,14 @@ class SetupHigherLevel {
      */
     public String toString(){
         StringBuilder s = new StringBuilder();
-        s.append("SetupHigherLevel: name: " + name + "\n");
+        s.append("     SetupHigherLevel: name: " + name + "\n");
         if (bestParamGASolverFound != null)
         {
-            s.append("   ParamGA: " + bestParamGASolverFound.getParamGA() +"\n");
-            s.append("   with hFitnessElement: " + bestParamGASolverFound.getFitness() +"\n");
+            s.append("        ParamGA: " + bestParamGASolverFound.getParamGA() +"\n");
+            s.append("        with hFitness: " + bestParamGASolverFound.getFitness() +"\n");
         }
         else{
-            s.append("   setup hasn't been ran\n");
+            s.append("        setup hasn't been ran\n");
         }
         return s.toString();
     }
@@ -81,21 +81,20 @@ class SetupHigherLevel {
      * This method will print the current setup
      * with its results on the blackbox list
      */
-    //GILAD GOOVER
     public void printSetupWithBlackBoxesAndBestModels(){
         if(bestParamGASolverFound != null && bestModelFoundList.size() == blackBoxesList.size()) {
             System.out.print(this);
             Iterator<BlackBoxTree> blackBoxTreeIterator = blackBoxesList.iterator();
             Iterator<BestModelCandidate> bestModelCandidateIterator = bestModelFoundList.iterator();
             while(blackBoxTreeIterator.hasNext() && bestModelCandidateIterator.hasNext()){
-                System.out.println("\tBlackBox: " + blackBoxTreeIterator.next());
-                System.out.println("\tBestModel: " + bestModelCandidateIterator.next());
+                System.out.println("\t        BlackBox: " + blackBoxTreeIterator.next());
+                System.out.println("\t        BestModel: " + bestModelCandidateIterator.next());
             }
         }
         else if(bestParamGASolverFound == null)
             System.out.println("   setup hasn't been ran\n");
         else
-            System.out.println(" setup hasn't been ran, just black boxes and no best models\n");
+            System.out.println(" setup has been ran, just black boxes and no best models\n");
 
     }
 
@@ -103,13 +102,12 @@ class SetupHigherLevel {
      * This method will print the current setup
      * just with black boxes
      */
-    //GILAD GOOVER
     public void printSetupWithBlackBoxes(){
         if(bestParamGASolverFound != null && blackBoxesList.size() == 0) {
             System.out.print(this);
             Iterator<BlackBoxTree> blackBoxTreeIterator = blackBoxesList.iterator();
             while(blackBoxTreeIterator.hasNext())
-                System.out.println("\tBlackBox: " + blackBoxTreeIterator.next());
+                System.out.println("\t     BlackBox: " + blackBoxTreeIterator.next());
 
         }
         else if(bestParamGASolverFound == null)
@@ -123,13 +121,13 @@ class SetupHigherLevel {
      * This method will print the current setup
      * just with black boxes
      */
-    //GILAD GOOVER
+
     public void printSetupWithBestModels(){
         if(bestParamGASolverFound != null && bestModelFoundList.size() != 0) {
             System.out.print(this);
             Iterator<BestModelCandidate> bestModelCandidateIterator = bestModelFoundList.iterator();
             while(bestModelCandidateIterator.hasNext())
-                System.out.println("\tBestModel: " + bestModelCandidateIterator.next());
+                System.out.println("\t     BestModel: " + bestModelCandidateIterator.next());
 
         }
         else if(bestParamGASolverFound == null)
@@ -145,6 +143,7 @@ class SetupHigherLevel {
      * this method will run the solver on the list so we can see how are the best parameters acting for the best ParamGA found.
      */
     public void calculateBestModelFoundList(){
+        double hFitSum = 0;
         if(this.bestParamGASolverFound == null ){
             System.out.println("SetupHigherLevel: bestParamGASolverFound is null, run the setup before calculating");
             return;
@@ -154,10 +153,11 @@ class SetupHigherLevel {
             BestModelCandidate bestModelCandidate;
             for(BlackBoxTree blackBox : this.blackBoxesList){
                 bestModelCandidate = bestParamGASolverFound.trySolving(blackBox, false);
+                hFitSum+=bestModelCandidate.getHFitnessElement();
                 bestModelFoundList.add(bestModelCandidate);
             }
         }
-
+        bestParamGASolverFound.setFitness(hFitSum/blackBoxesList.size());
     }
 
     /**
