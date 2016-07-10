@@ -141,6 +141,14 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     }
 
     /**
+     * prints the ParamGA and the hfitness if its not null
+     * @return
+     */
+    public String toString(){
+        return paramGA + "\n   hFitness = " + hFitness;
+    }
+
+    /**
      * simple context getter
      * @return
      */
@@ -191,4 +199,5 @@ public class SymRegSolverChromosome implements Chromosome<SymRegSolverChromosome
     public static void setMaxNumOfIterationsLowerLevel(int maxNumOfIterationsLowerLevel) {
         MAX_NUM_OF_ITERATIONS_LOWER_LEVEL = maxNumOfIterationsLowerLevel;
     }
+
 }

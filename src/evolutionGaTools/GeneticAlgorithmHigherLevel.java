@@ -15,6 +15,7 @@
  ******************************************************************************/
 package evolutionGaTools;
 
+import higherLevelGA.RunHigherLevel;
 import higherLevelGA.SymRegSolverChromosome;
 
 import java.util.*;
@@ -51,6 +52,14 @@ public class GeneticAlgorithmHigherLevel<C extends Chromosome<C, T>, T extends C
 				hFit =  chr.getFitness();
 				if(hFit==null) {
 					hFit = GeneticAlgorithmHigherLevel.this.higherFitnessFunc.calculate(chr);//in lower level get the functionTreeChromosome
+					chr.setFitness(hFit);
+					if(RunHigherLevel.PRINT_EVERY_H_FITNESS_CALCULATION)
+						System.out.println(" calculated hFitness for " + chr );
+				}
+				else
+				{
+					if(RunHigherLevel.PRINT_EVERY_H_FITNESS_CALCULATION)
+						System.out.println(" saved hFitness calculation");
 				}
 				this.cache.put(chr, hFit);
 				chr.setFitness(hFit);

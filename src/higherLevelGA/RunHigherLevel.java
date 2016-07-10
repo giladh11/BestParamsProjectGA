@@ -21,9 +21,9 @@ import static lowerLevelGA.TestFunctions.*;
  public final class RunHigherLevel {
 
 	//*****************************************************************params chosen PARAM in higher level Tester**************************************************************************
-		protected static int NUM_GEN_HIGHER_LEVEL = 3;
-		protected static int HIGHER_POPULATION_SIZE = 3;
-		private static double HIGHER_CHROMOSOME_RATE = 0.8;
+		protected static int NUM_GEN_HIGHER_LEVEL = 100;
+		protected static int HIGHER_POPULATION_SIZE = 15;
+		private static double HIGHER_CROSSOVER_RATE = 0.8;
 		private static double HIGHER_MUTATUION_RATE = 0.25;
 
 		private static int OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER = PARAMs.OBJECTIVE_NUM_OF_POINTS_FOR_BLACKBOX_DISTANCE_MEASURER;
@@ -41,6 +41,8 @@ import static lowerLevelGA.TestFunctions.*;
 	//*********************************************************************end param chosen***************************************************************************************************
 	//DEBUG prints
 		protected static boolean PRINT_HIGHER_LEVEL_ITERATIONS = true;
+		public static boolean PRINT_EVERY_H_FITNESS_CALCULATION = true;
+		protected static boolean PRINT_EVERY_H_FITNESS_ELEMENT_CALCULATION = true;
 		protected static boolean PRINT_LOWER_LEVEL_ITERATIONS = false;
 		protected static boolean PRINT_EACH_HIGHER_LEVEL_CHROMOSOME_EVALUATION = false;
 
@@ -68,7 +70,7 @@ import static lowerLevelGA.TestFunctions.*;
 			//SymRegSolverChromosome.setEpsilonDistanceForLowerEvolutionToStop(EPSILON_DISTANCE_FOR_LOWER_EVOLUTION_TO_STOP);
 			DataSet.setMaxPointInRange(MAX_POINT_IN_RANGE);
 			DataSet.setMinPointInRange(MIN_POINT_IN_RANGE);
-			GeneticAlgorithmHigherLevel.setHigherChromosomeRate(HIGHER_CHROMOSOME_RATE);
+			GeneticAlgorithmHigherLevel.setHigherChromosomeRate(HIGHER_CROSSOVER_RATE);
 			GeneticAlgorithmHigherLevel.setHigherMutatuionRate(HIGHER_MUTATUION_RATE);
 		//end param setters
 		BlackBoxTree.setContextRegular(new Context(baseFunctions, list("x")));
